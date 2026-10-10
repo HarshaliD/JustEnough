@@ -1,0 +1,22 @@
+================================================================================
+                       STATE BANK OF INDIA - ACCOUNT STATEMENT                  
+================================================================================
+Account Holder Name: Aarav Sharma
+Account Number:      30981245781
+Customer CIF:        CIF88392014
+Registered Mobile:   +91-9845012345
+Communication Addr:  Flat 402 Shanti Vihar Indiranagar Bengaluru 560038
+Branch:              Indiranagar Branch | IFSC: SBIN0004521
+Statement Period:    01-Sep-2026 to 15-Sep-2026
+--------------------------------------------------------------------------------
+Date         Description                        Debit (INR)   Credit (INR)    Balance (INR)
+--------------------------------------------------------------------------------
+2026-09-02   UPI/aarav@okaxis/OPENING_BALANCE               -              -        85000.00
+2026-09-03   UPI/Swiggy Bangalore/food           450.00              -        84550.00
+             Merchant: Swiggy Bangalore
+2026-09-05   UPI-TRANSFER to Priya Patel                   1200.00              -        83350.00
+             Narration: UPI/priya@okicici/dinner_split
+2026-09-08   POS/Merchant: Apollo Pharmacy Indiranagar       620.00              -        82730.00
+2026-09-12   Closing Statement Balance:                                              82730.00
+================================================================================
+END OF STATEMENT - This is a computer generated document and requires no signature.

@@ -1,0 +1,20 @@
+================================================================================
+           APOLLO CLINICAL DIAGNOSTICS & HEALTH INSURANCE SUMMARY REPORT        
+================================================================================
+Health Policy / Member ID:   POL-STAR-8849201
+Patient Full Name:           Harish Venkataraman
+Patient Date of Birth:       1975-04-10
+Emergency Contact Mobile:    +91-9841012345
+National Health / ABHA ID:   ABHA-91-8823-4410
+Doctor in Charge:            Dr. S. K. Ramanathan, MD (Internal Medicine)
+Specimen Collection Date:    05-Sep-2026 | Fasting Specimen: YES
+--------------------------------------------------------------------------------
+CLINICAL LABORATORY FINDINGS:
+Biochemical Profile:         HbA1c: 8.4 percent, Fasting Blood Sugar: 168 mg/dL
+Reference Normal Ranges:     HbA1c < 5.7 percent, Fasting Glucose 70-99 mg/dL
+Diagnostic Clinical Remarks: Uncontrolled Type 2 Diabetes Mellitus with hyperglycemia
+--------------------------------------------------------------------------------
+Total Incurred Investigation Bill:       INR 6500.00
+Policy Insurance Coverage Condition:     Pre-existing conditions for diabetes mellitus are subject to a 24-month waiting period from policy inception date.
+================================================================================
+Apollo Diagnostics Ltd. | Valid for cashless claim adjudication under TPA guidelines.

@@ -1,0 +1,21 @@
+================================================================================
+                       ICICI BANK - ACCOUNT ACTIVITY STATEMENT                  
+================================================================================
+Account Holder:      Ananya Deshmukh
+Account Number:      001205004567
+Account User ID:     ICICI7749201
+Mobile Number:       +91-9723456789
+Residential Address: Flat 14B Palm Grove Bandra West Mumbai 400050
+Branch:              Bandra West Mumbai | IFSC: ICIC0000012
+Statement Date:      15-Sep-2026
+--------------------------------------------------------------------------------
+Date         Description                        Debit (INR)   Credit (INR)    Balance (INR)
+--------------------------------------------------------------------------------
+2026-09-02   NEFT Salary Credit                             -       65000.00        95000.00
+2026-09-05   E-commerce spend: Amazon Retail India             3499.00              -        91501.00
+2026-09-08   UPI payout to Sunil Joshi                   1800.00              -        89701.00
+             Narration: UPI/sunil.joshi@icici/maintenance
+2026-09-11   ATM Cash Withdrawal Bandra           5000.00              -        84701.00
+2026-09-15   Net Effective Ledger Balance:                                          84701.00
+================================================================================
+END OF STATEMENT - ICICI Bank Ltd.

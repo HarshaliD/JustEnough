@@ -1,0 +1,38 @@
+{
+  "_warning": "DUMMY FIXTURE FOR INFRASTRUCTURE SMOKE TESTING ONLY. NEVER USE FOR REAL EXPERIMENTATION.",
+  "labels": {
+    "BS-1-A": {
+      "categories": {
+        "amount": {"required": true, "acceptable_actions": ["KEEP"], "ambiguous": false},
+        "merchant": {"required": true, "acceptable_actions": ["KEEP"], "ambiguous": false},
+        "transaction_date": {"required": true, "acceptable_actions": ["KEEP", "GENERALIZE"], "ambiguous": false},
+        "account_identifier": {"required": false, "acceptable_actions": ["DROP", "MASK_PARTIAL"], "ambiguous": false},
+        "contact": {"required": false, "acceptable_actions": ["DROP"], "ambiguous": false},
+        "person_name": {"required": false, "acceptable_actions": ["DROP"], "ambiguous": false}
+      }
+    },
+    "BS-1-C": {
+      "categories": {
+        "person_name": {"required": true, "acceptable_actions": ["KEEP"], "ambiguous": false},
+        "account_identifier": {"required": true, "acceptable_actions": ["MASK_PARTIAL"], "ambiguous": false},
+        "amount": {"required": false, "acceptable_actions": ["DROP"], "ambiguous": false},
+        "merchant": {"required": false, "acceptable_actions": ["DROP"], "ambiguous": false}
+      }
+    },
+    "CC-1-B": {
+      "categories": {
+        "balance": {"required": true, "acceptable_actions": ["KEEP"], "ambiguous": false},
+        "account_identifier": {"required": false, "acceptable_actions": ["DROP", "MASK_PARTIAL"], "ambiguous": false},
+        "contact": {"required": false, "acceptable_actions": ["DROP"], "ambiguous": false}
+      }
+    },
+    "PS-1-B": {
+      "categories": {
+        "salary_component": {"required": true, "acceptable_actions": ["KEEP"], "ambiguous": false},
+        "amount": {"required": true, "acceptable_actions": ["KEEP"], "ambiguous": false},
+        "employer": {"required": false, "acceptable_actions": ["KEEP", "DROP"], "ambiguous": true},
+        "government_id": {"required": false, "acceptable_actions": ["DROP"], "ambiguous": false}
+      }
+    }
+  }
+}

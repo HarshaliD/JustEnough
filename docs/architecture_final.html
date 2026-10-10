@@ -1,0 +1,1577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JustEnough — Master Architecture Map &amp; Runtime Walkthrough</title>
+<style>
+  :root {
+    --bg-page: #0b1120;
+    --bg-surface: #1e293b;
+    --bg-surface-elevated: #334155;
+    --border-color: #475569;
+    --border-subtle: #334155;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    
+    --color-local: #38bdf8;
+    --color-local-bg: rgba(56, 189, 248, 0.12);
+    --color-local-border: #0284c7;
+
+    --color-llm: #c084fc;
+    --color-llm-bg: rgba(192, 132, 252, 0.12);
+    --color-llm-border: #9333ea;
+
+    --color-disk: #4ade80;
+    --color-disk-bg: rgba(74, 222, 128, 0.12);
+    --color-disk-border: #16a34a;
+
+    --color-human: #fb923c;
+    --color-human-bg: rgba(251, 146, 60, 0.12);
+    --color-human-border: #ea580c;
+
+    --color-danger: #f87171;
+    --color-danger-bg: rgba(248, 113, 113, 0.12);
+    --color-danger-border: #dc2626;
+
+    --color-mock: #eab308;
+    --color-mock-bg: rgba(234, 179, 8, 0.15);
+    --color-mock-border: #ca8a04;
+
+    --color-gap: #ef4444;
+    --color-gap-bg: rgba(239, 68, 68, 0.15);
+    --color-gap-border: #b91c1c;
+
+    --color-active: #38bdf8;
+    --color-active-glow: rgba(56, 189, 248, 0.4);
+
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg-page: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-surface-elevated: #f1f5f9;
+      --border-color: #cbd5e1;
+      --border-subtle: #e2e8f0;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #94a3b8;
+
+      --color-local: #0284c7;
+      --color-local-bg: rgba(2, 132, 199, 0.08);
+      --color-local-border: #38bdf8;
+
+      --color-llm: #7e22ce;
+      --color-llm-bg: rgba(126, 34, 206, 0.08);
+      --color-llm-border: #c084fc;
+
+      --color-disk: #15803d;
+      --color-disk-bg: rgba(21, 128, 61, 0.08);
+      --color-disk-border: #4ade80;
+
+      --color-human: #c2410c;
+      --color-human-bg: rgba(194, 65, 12, 0.08);
+      --color-human-border: #fb923c;
+
+      --color-danger: #b91c1c;
+      --color-danger-bg: rgba(185, 28, 28, 0.08);
+      --color-danger-border: #f87171;
+
+      --color-mock: #a16207;
+      --color-mock-bg: rgba(161, 98, 7, 0.1);
+      --color-mock-border: #eab308;
+
+      --color-gap: #b91c1c;
+      --color-gap-bg: rgba(185, 28, 28, 0.1);
+      --color-gap-border: #ef4444;
+
+      --color-active: #0284c7;
+      --color-active-glow: rgba(2, 132, 199, 0.25);
+    }
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-sans);
+    background: var(--bg-page);
+    color: var(--text-primary);
+    line-height: 1.5;
+    padding: 1.5rem;
+  }
+
+  .container {
+    max-width: 1760px;
+    margin: 0 auto;
+  }
+
+  header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  header h1 {
+    font-size: 2.1rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  header p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    margin-top: 0.4rem;
+  }
+
+  .nav-pills {
+    display: flex;
+    gap: 0.65rem;
+    margin-top: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .nav-pills a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0.35rem 0.85rem;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 9999px;
+    transition: all 0.15s ease;
+  }
+
+  .nav-pills a:hover {
+    color: var(--text-primary);
+    border-color: var(--color-local);
+    background: var(--bg-surface-elevated);
+  }
+
+  .nav-pills a.active-pill {
+    background: var(--color-local-bg);
+    color: var(--color-local);
+    border-color: var(--color-local);
+    font-weight: 600;
+  }
+
+  section {
+    margin-bottom: 3rem;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-primary);
+  }
+
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 1.25rem 0 0.5rem 0;
+    color: var(--text-primary);
+  }
+
+  .card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.15);
+  }
+
+  .legend-bar {
+    display: flex;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background: var(--bg-surface-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 0.825rem;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    border-radius: 0.25rem;
+    letter-spacing: 0.03em;
+  }
+
+  .badge-local { background: var(--color-local-bg); color: var(--color-local); border: 1px solid var(--color-local-border); }
+  .badge-llm { background: var(--color-llm-bg); color: var(--color-llm); border: 1px solid var(--color-llm-border); }
+  .badge-disk { background: var(--color-disk-bg); color: var(--color-disk); border: 1px solid var(--color-disk-border); }
+  .badge-human { background: var(--color-human-bg); color: var(--color-human); border: 1px solid var(--color-human-border); }
+  .badge-mock { background: var(--color-mock-bg); color: var(--color-mock); border: 1px solid var(--color-mock-border); }
+  .badge-gap { background: var(--color-gap-bg); color: var(--color-gap); border: 1px dashed var(--color-gap-border); }
+  .badge-danger { background: var(--color-danger-bg); color: var(--color-danger); border: 1px solid var(--color-danger-border); }
+
+  .svg-scroll-container {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--border-subtle);
+    border-radius: 0.5rem;
+    background: #070d17;
+    padding: 1rem 0.5rem;
+  }
+
+  svg text {
+    font-family: var(--font-sans);
+    user-select: none;
+  }
+
+  /* Node Hover & Interactive Styles */
+  .node-box {
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+  .node-box:hover rect {
+    filter: drop-shadow(0 0 8px var(--color-local));
+  }
+  .node-active rect {
+    stroke: var(--color-active) !important;
+    stroke-width: 3.5px !important;
+    filter: drop-shadow(0 0 12px var(--color-active-glow)) !important;
+  }
+  .arrow-active {
+    stroke: var(--color-active) !important;
+    stroke-width: 3px !important;
+    marker-end: url(#arrow-active) !important;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+  }
+
+  th, td {
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  th {
+    background: var(--bg-surface-elevated);
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  tr:hover td {
+    background: var(--bg-surface-elevated);
+  }
+
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.825rem;
+    padding: 0.12rem 0.35rem;
+    border-radius: 0.25rem;
+    background: var(--bg-surface-elevated);
+    color: var(--color-local);
+  }
+
+  pre {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    padding: 0.85rem;
+    border-radius: 0.5rem;
+    background: #060a12;
+    color: #e2e8f0;
+    overflow-x: auto;
+    line-height: 1.45;
+    border: 1px solid var(--border-subtle);
+  }
+
+  a.file-link {
+    color: var(--color-local);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font-weight: 500;
+  }
+
+  a.file-link:hover {
+    color: var(--text-primary);
+  }
+
+  /* Stepper UI */
+  .stepper-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .stepper-controls {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .btn {
+    padding: 0.45rem 0.9rem;
+    border-radius: 0.375rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid var(--border-color);
+    background: var(--bg-surface-elevated);
+    color: var(--text-primary);
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .btn:hover:not(:disabled) {
+    background: var(--color-local);
+    color: #ffffff;
+    border-color: var(--color-local);
+  }
+
+  .btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  .btn-reset {
+    background: transparent;
+    color: var(--text-muted);
+  }
+
+  .btn-reset:hover {
+    color: var(--text-primary);
+    background: var(--bg-surface-elevated);
+  }
+
+  .step-counter {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--color-local);
+  }
+
+  .progress-bar-container {
+    width: 100%;
+    height: 6px;
+    background: var(--bg-surface-elevated);
+    border-radius: 9999px;
+    overflow: hidden;
+    margin-bottom: 1.25rem;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-local), var(--color-llm));
+    transition: width 0.3s ease;
+  }
+
+  .step-pills {
+    display: flex;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.25rem;
+  }
+
+  .step-pill-btn {
+    padding: 0.28rem 0.65rem;
+    border-radius: 0.375rem;
+    font-size: 0.76rem;
+    font-weight: 600;
+    cursor: pointer;
+    background: var(--bg-surface-elevated);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-subtle);
+    transition: all 0.15s ease;
+  }
+
+  .step-pill-btn:hover {
+    color: var(--text-primary);
+    border-color: var(--color-local);
+  }
+
+  .step-pill-btn.active {
+    background: var(--color-local-bg);
+    color: var(--color-local);
+    border-color: var(--color-local);
+  }
+
+  .step-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .detail-box {
+    background: var(--bg-surface-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: 0.5rem;
+    padding: 1rem;
+  }
+
+  .detail-box h4 {
+    font-size: 0.825rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-local);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .detail-box p {
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    line-height: 1.45;
+  }
+
+  .privacy-safe { border-left: 4px solid var(--color-disk); }
+  .privacy-critical { border-left: 4px solid var(--color-danger); }
+  .mock-notice { border-left: 4px solid var(--color-mock); }
+  .gap-notice { border-left: 4px solid var(--color-gap); }
+
+  /* File Coverage Panel */
+  .coverage-stats {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: 0.75rem 1rem;
+    background: var(--bg-surface-elevated);
+    border-radius: 0.5rem;
+    font-size: 0.85rem;
+  }
+  .stat-badge {
+    font-weight: 700;
+    font-family: var(--font-mono);
+    color: var(--color-disk);
+  }
+  .file-row-highlight {
+    background: rgba(56, 189, 248, 0.15) !important;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <header>
+    <h1>
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+        <line x1="8" y1="21" x2="16" y2="21"/>
+        <line x1="12" y1="17" x2="12" y2="21"/>
+      </svg>
+      JustEnough — Master Architecture Map &amp; Runtime Walkthrough
+    </h1>
+    <p>Unified 6-lane master dataflow diagram, linked interactive execution walkthrough (BS-1-A), complete 47-file coverage audit, and honest mock/GAP boundaries.</p>
+    <div class="nav-pills">
+      <a href="#master-diagram" class="active-pill">1. Connected Master Diagram (6 Lanes)</a>
+      <a href="#interactive-walkthrough">2. Linked Walkthrough (BS-1-A)</a>
+      <a href="#file-coverage">3. Complete File Coverage (47 Files)</a>
+      <a href="#supporting-details">4. Supporting Contracts &amp; Data State</a>
+      <a href="#gaps-audit">5. Honest GAPs &amp; Blockers</a>
+    </div>
+  </header>
+
+  <!-- SECTION 1: MASTER ARCHITECTURE DIAGRAM -->
+  <section id="master-diagram">
+    <h2>1. Connected Master Architecture Diagram (Six Execution Lanes)</h2>
+    <div class="card">
+      <div class="legend-bar">
+        <span style="font-weight:600; margin-right: 0.5rem;">Component Types:</span>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--color-local);"></div> Local Python Code</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--color-llm);"></div> LLM / API Call (Gemini)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--color-disk);"></div> Disk File (Read/Write)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--color-human);"></div> Human Approval Gate</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--color-mock);"></div> Mocked / Stubbed Component</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--color-gap);"></div> Missing / Disconnected (GAP)</div>
+        <span style="margin-left:auto; color:var(--text-secondary); font-size:0.75rem;">Scroll horizontally to inspect all 6 lanes &rarr;</span>
+      </div>
+
+      <div class="svg-scroll-container">
+        <svg id="master-svg" viewBox="0 0 1740 680" width="1740" height="680">
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8" />
+            </marker>
+            <marker id="arrow-active" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8" />
+            </marker>
+            <marker id="arrow-dashed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#ca8a04" />
+            </marker>
+            <pattern id="hatch-gap" width="8" height="8" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
+              <line x1="0" y1="0" x2="0" y2="8" stroke="#ef4444" stroke-width="1.5" />
+            </pattern>
+          </defs>
+
+          <!-- 6 LANE BACKGROUND BOUNDARIES -->
+          <!-- Lane 1: Ingestion -->
+          <rect x="15" y="15" width="260" height="650" rx="8" fill="rgba(30, 41, 59, 0.4)" stroke="#334155" stroke-width="1.5"/>
+          <text x="145" y="40" fill="#94a3b8" font-size="12" font-weight="700" text-anchor="middle" letter-spacing="1">LANE 1: INPUT &amp; EXTRACTION</text>
+
+          <!-- Lane 2: Detection & Skeleton -->
+          <rect x="295" y="15" width="280" height="650" rx="8" fill="rgba(30, 41, 59, 0.4)" stroke="#334155" stroke-width="1.5"/>
+          <text x="435" y="40" fill="#94a3b8" font-size="12" font-weight="700" text-anchor="middle" letter-spacing="1">LANE 2: DETECTION &amp; SKELETON</text>
+
+          <!-- Lane 3: Planning & Policy -->
+          <rect x="595" y="15" width="280" height="650" rx="8" fill="rgba(30, 41, 59, 0.4)" stroke="#334155" stroke-width="1.5"/>
+          <text x="735" y="40" fill="#94a3b8" font-size="12" font-weight="700" text-anchor="middle" letter-spacing="1">LANE 3: PLANNING &amp; POLICY</text>
+
+          <!-- Lane 4: Deterministic Transform -->
+          <rect x="895" y="15" width="260" height="650" rx="8" fill="rgba(30, 41, 59, 0.4)" stroke="#334155" stroke-width="1.5"/>
+          <text x="1025" y="40" fill="#94a3b8" font-size="12" font-weight="700" text-anchor="middle" letter-spacing="1">LANE 4: TRANSFORMATION</text>
+
+          <!-- Lane 5: Task Exec & Equivalence -->
+          <rect x="1175" y="15" width="270" height="650" rx="8" fill="rgba(30, 41, 59, 0.4)" stroke="#334155" stroke-width="1.5"/>
+          <text x="1310" y="40" fill="#94a3b8" font-size="12" font-weight="700" text-anchor="middle" letter-spacing="1">LANE 5: EXECUTION &amp; VERIFY</text>
+
+          <!-- Lane 6: Metrics & Persisted Artifacts -->
+          <rect x="1465" y="15" width="260" height="650" rx="8" fill="rgba(30, 41, 59, 0.4)" stroke="#334155" stroke-width="1.5"/>
+          <text x="1595" y="40" fill="#94a3b8" font-size="12" font-weight="700" text-anchor="middle" letter-spacing="1">LANE 6: METRICS &amp; ARTIFACTS</text>
+
+          <!-- ================= LANE 1 NODES ================= -->
+          <!-- S01: File Ingestion (Corpus) -->
+          <g id="node-S01" class="node-box" onclick="selectStage('S01')">
+            <rect x="35" y="70" width="220" height="90" rx="6" fill="rgba(74, 222, 128, 0.12)" stroke="#16a34a" stroke-width="2"/>
+            <text x="45" y="92" fill="#4ade80" font-size="11" font-weight="700">S01: CORPUS INGESTION</text>
+            <text x="45" y="112" fill="#f8fafc" font-size="10">corpus/BS-1.txt (1,566 B)</text>
+            <text x="45" y="128" fill="#94a3b8" font-size="9">Path: corpus/*.txt (10 docs)</text>
+            <text x="45" y="144" fill="#64748b" font-size="8">eval/smoke_runner.py:open()</text>
+          </g>
+
+          <!-- S02: Task Spec -->
+          <g id="node-S02" class="node-box" onclick="selectStage('S02')">
+            <rect x="35" y="185" width="220" height="85" rx="6" fill="rgba(74, 222, 128, 0.12)" stroke="#16a34a" stroke-width="2"/>
+            <text x="45" y="207" fill="#4ade80" font-size="11" font-weight="700">S02: TASK DEFINITION</text>
+            <text x="45" y="227" fill="#f8fafc" font-size="10">tasks/tasks.json (Case BS-1-A)</text>
+            <text x="45" y="243" fill="#94a3b8" font-size="9">Schema: spending_summary</text>
+            <text x="45" y="257" fill="#64748b" font-size="8">is_trap: false | 30 cases total</text>
+          </g>
+
+          <!-- S01c: Planted Ground Truth -->
+          <g id="node-S01c" class="node-box" onclick="selectStage('S01c')">
+            <rect x="35" y="295" width="220" height="70" rx="6" fill="rgba(74, 222, 128, 0.12)" stroke="#16a34a" stroke-width="2"/>
+            <text x="45" y="317" fill="#4ade80" font-size="11" font-weight="700">S01c: PLANTED SENSITIVE ITEMS</text>
+            <text x="45" y="335" fill="#f8fafc" font-size="10">corpus/planted.json (91 items)</text>
+            <text x="45" y="351" fill="#94a3b8" font-size="9">Fixed seed: 20261009</text>
+          </g>
+
+          <!-- ================= LANE 2 NODES ================= -->
+          <!-- S03: Detection Engine -->
+          <g id="node-S03" class="node-box" onclick="selectStage('S03')">
+            <rect x="315" y="70" width="240" height="150" rx="6" fill="rgba(56, 189, 248, 0.12)" stroke="#0284c7" stroke-width="2"/>
+            <text x="325" y="92" fill="#38bdf8" font-size="11" font-weight="700">S03: SENSITIVE DATA DETECTOR</text>
+            <text x="325" y="112" fill="#f8fafc" font-size="10">experiment/detector.py</text>
+            <text x="325" y="128" fill="#94a3b8" font-size="9">&bull; Presidio Analyzer (spaCy en_core)</text>
+            <text x="325" y="144" fill="#94a3b8" font-size="9">&bull; 4 Custom Indian Regexes (UPI, IFSC, etc.)</text>
+            <text x="325" y="160" fill="#94a3b8" font-size="9">&bull; Contextual ORG mapping</text>
+            <text x="325" y="178" fill="#eab308" font-size="9">Fallback: regex-only if Presidio missing</text>
+            <text x="325" y="196" fill="#64748b" font-size="8">Output: 17 DetectedField objects</text>
+          </g>
+
+          <!-- S04: Skeleton Generator -->
+          <g id="node-S04" class="node-box" onclick="selectStage('S04')">
+            <rect x="315" y="250" width="240" height="95" rx="6" fill="rgba(56, 189, 248, 0.12)" stroke="#0284c7" stroke-width="2"/>
+            <text x="325" y="272" fill="#38bdf8" font-size="11" font-weight="700">S04: SKELETON GENERATOR</text>
+            <text x="325" y="292" fill="#f8fafc" font-size="10">detector.py:build_skeleton()</text>
+            <text x="325" y="308" fill="#94a3b8" font-size="9">Reverse-offset character replacement</text>
+            <text x="325" y="324" fill="#4ade80" font-size="9">Tokens: [ACCT], [PHONE], [IFSC], [UPI]</text>
+            <text x="325" y="338" fill="#64748b" font-size="8">Raw values NEVER sent to planner</text>
+          </g>
+
+          <!-- ================= LANE 3 NODES ================= -->
+          <!-- S05: Minimization Planner (MOCKED) -->
+          <g id="node-S05" class="node-box" onclick="selectStage('S05')">
+            <rect x="615" y="70" width="240" height="110" rx="6" fill="rgba(234, 179, 8, 0.15)" stroke="#ca8a04" stroke-width="2" stroke-dasharray="4 2"/>
+            <text x="625" y="92" fill="#eab308" font-size="11" font-weight="700">S05: PLANNER (MOCKED CLIENT)</text>
+            <text x="625" y="112" fill="#f8fafc" font-size="10">experiment/planner.py</text>
+            <text x="625" y="128" fill="#eab308" font-size="9">MockPlannerClient.plan_minimization()</text>
+            <text x="625" y="144" fill="#94a3b8" font-size="9">Keyword routing ('spending' &rarr; 3 KEEP)</text>
+            <text x="625" y="160" fill="#f87171" font-size="8">GAP: Live Gemini API call commented out</text>
+          </g>
+
+          <!-- S06: Schema Validation -->
+          <g id="node-S06" class="node-box" onclick="selectStage('S06')">
+            <rect x="615" y="200" width="240" height="85" rx="6" fill="rgba(56, 189, 248, 0.12)" stroke="#0284c7" stroke-width="2"/>
+            <text x="625" y="222" fill="#38bdf8" font-size="11" font-weight="700">S06: PLAN SCHEMA VALIDATOR</text>
+            <text x="625" y="242" fill="#f8fafc" font-size="10">schemas/plan.schema.json</text>
+            <text x="625" y="258" fill="#94a3b8" font-size="9">jsonschema.validate()</text>
+            <text x="625" y="274" fill="#eab308" font-size="8">Retry Branch: 1 schema retry on failure</text>
+          </g>
+
+          <!-- S07: Policy Floor -->
+          <g id="node-S07" class="node-box" onclick="selectStage('S07')">
+            <rect x="615" y="305" width="240" height="95" rx="6" fill="rgba(56, 189, 248, 0.12)" stroke="#0284c7" stroke-width="2"/>
+            <text x="625" y="327" fill="#38bdf8" font-size="11" font-weight="700">S07: POLICY FLOOR ENFORCER</text>
+            <text x="625" y="347" fill="#f8fafc" font-size="10">experiment/policy.py</text>
+            <text x="625" y="363" fill="#f87171" font-size="9">Gov ID &amp; Acct &rarr; DROP/MASK_PARTIAL</text>
+            <text x="625" y="379" fill="#94a3b8" font-size="9">Deterministic clamp (Model cannot relax)</text>
+            <text x="625" y="393" fill="#64748b" font-size="8">Violations: [] (0 for BS-1-A)</text>
+          </g>
+
+          <!-- G01: Human Approval Gate -->
+          <g id="node-G01" class="node-box" onclick="selectStage('G01')">
+            <rect x="615" y="420" width="240" height="70" rx="6" fill="rgba(251, 146, 60, 0.15)" stroke="#ea580c" stroke-width="2"/>
+            <text x="625" y="442" fill="#fb923c" font-size="11" font-weight="700">G01: HUMAN APPROVAL GATE</text>
+            <text x="625" y="460" fill="#f8fafc" font-size="10">User Review of Minimization Plan</text>
+            <text x="625" y="476" fill="#94a3b8" font-size="9">User accepts/overrides category actions</text>
+          </g>
+
+          <!-- ================= LANE 4 NODES ================= -->
+          <!-- S08: Deterministic Transform -->
+          <g id="node-S08" class="node-box" onclick="selectStage('S08')">
+            <rect x="915" y="70" width="220" height="150" rx="6" fill="rgba(56, 189, 248, 0.12)" stroke="#0284c7" stroke-width="2"/>
+            <text x="925" y="92" fill="#38bdf8" font-size="11" font-weight="700">S08: DETERMINISTIC TRANSFORM</text>
+            <text x="925" y="112" fill="#f8fafc" font-size="10">experiment/transform.py</text>
+            <text x="925" y="128" fill="#94a3b8" font-size="9">&bull; validate_fields() offset check</text>
+            <text x="925" y="144" fill="#94a3b8" font-size="9">&bull; resolve_field_overlaps()</text>
+            <text x="925" y="160" fill="#94a3b8" font-size="9">&bull; 6 Actions (KEEP, DROP, etc.)</text>
+            <text x="925" y="178" fill="#4ade80" font-size="9">10 DROP fields &rarr; [REDACTED:&lt;CAT&gt;]</text>
+            <text x="925" y="196" fill="#64748b" font-size="8">Output: r1_text, removed_values</text>
+          </g>
+
+          <!-- S09: Invariant Verification -->
+          <g id="node-S09" class="node-box" onclick="selectStage('S09')">
+            <rect x="915" y="245" width="220" height="85" rx="6" fill="rgba(56, 189, 248, 0.12)" stroke="#0284c7" stroke-width="2"/>
+            <text x="925" y="267" fill="#38bdf8" font-size="11" font-weight="700">S09: INVARIANT VERIFIER</text>
+            <text x="925" y="287" fill="#f8fafc" font-size="10">eval/smoke_runner.py:115</text>
+            <text x="925" y="303" fill="#4ade80" font-size="9">assert val not in r1_text</text>
+            <text x="925" y="319" fill="#94a3b8" font-size="8">Guarantees zero raw leakage into R1</text>
+          </g>
+
+          <!-- ================= LANE 5 NODES ================= -->
+          <!-- S10: R0 Baseline Execution (MOCKED) -->
+          <g id="node-S10" class="node-box" onclick="selectStage('S10')">
+            <rect x="1195" y="70" width="230" height="110" rx="6" fill="rgba(234, 179, 8, 0.15)" stroke="#ca8a04" stroke-width="2" stroke-dasharray="4 2"/>
+            <text x="1205" y="92" fill="#eab308" font-size="11" font-weight="700">S10: R0 BASELINE (MOCKED)</text>
+            <text x="1205" y="112" fill="#f8fafc" font-size="10">eval/smoke_runner.py:mock_task_executor</text>
+            <text x="1205" y="128" fill="#94a3b8" font-size="9">Input: original_text (with raw values)</text>
+            <text x="1205" y="144" fill="#eab308" font-size="9">Runs twice &rarr; check stability (r0_a != r0_b)</text>
+            <text x="1205" y="160" fill="#4ade80" font-size="9">r0_a = {"food": 450.0}</text>
+          </g>
+
+          <!-- S11: R1 Minimized Execution (MOCKED) -->
+          <g id="node-S11" class="node-box" onclick="selectStage('S11')">
+            <rect x="1195" y="200" width="230" height="100" rx="6" fill="rgba(234, 179, 8, 0.15)" stroke="#ca8a04" stroke-width="2" stroke-dasharray="4 2"/>
+            <text x="1205" y="222" fill="#eab308" font-size="11" font-weight="700">S11: R1 TREATMENT (MOCKED)</text>
+            <text x="1205" y="242" fill="#f8fafc" font-size="10">eval/smoke_runner.py:mock_task_executor</text>
+            <text x="1205" y="258" fill="#94a3b8" font-size="9">Input: r1_text (minimized ONLY)</text>
+            <text x="1205" y="274" fill="#4ade80" font-size="9">r1 = {"food": 450.0}</text>
+            <text x="1205" y="288" fill="#64748b" font-size="8">GAP: Real model executor not built</text>
+          </g>
+
+          <!-- S12: Equivalence Comparator -->
+          <g id="node-S12" class="node-box" onclick="selectStage('S12')">
+            <rect x="1195" y="325" width="230" height="120" rx="6" fill="rgba(56, 189, 248, 0.12)" stroke="#0284c7" stroke-width="2"/>
+            <text x="1205" y="347" fill="#38bdf8" font-size="11" font-weight="700">S12: ANSWER COMPARATOR</text>
+            <text x="1205" y="367" fill="#f8fafc" font-size="10">eval/comparators.py:compare_answers</text>
+            <text x="1205" y="383" fill="#94a3b8" font-size="9">dict_keys_and_values_matched</text>
+            <text x="1205" y="399" fill="#4ade80" font-size="9">is_preserved: true (tol=1e-4)</text>
+            <text x="1205" y="417" fill="#f87171" font-size="8">GAP: rubrics/rubric_template lacks facts</text>
+          </g>
+
+          <!-- ================= LANE 6 NODES ================= -->
+          <!-- S13: Metric Aggregator -->
+          <g id="node-S13" class="node-box" onclick="selectStage('S13')">
+            <rect x="1485" y="70" width="220" height="120" rx="6" fill="rgba(56, 189, 248, 0.12)" stroke="#0284c7" stroke-width="2"/>
+            <text x="1495" y="92" fill="#38bdf8" font-size="11" font-weight="700">S13: METRICS &amp; ATTRIBUTION</text>
+            <text x="1495" y="112" fill="#f8fafc" font-size="10">eval/metrics.py:compute_metrics</text>
+            <text x="1495" y="128" fill="#94a3b8" font-size="9">Preservation rate, field reduction</text>
+            <text x="1495" y="144" fill="#f87171" font-size="8">GAP: Consistency mocked to 1.0</text>
+            <text x="1495" y="160" fill="#f87171" font-size="8">GAP: ground_truth/labels.json missing</text>
+            <text x="1495" y="176" fill="#64748b" font-size="8">(Uses tests/fixtures/dummy_labels)</text>
+          </g>
+
+          <!-- S14: Artifact Writer -->
+          <g id="node-S14" class="node-box" onclick="selectStage('S14')">
+            <rect x="1485" y="210" width="220" height="110" rx="6" fill="rgba(74, 222, 128, 0.12)" stroke="#16a34a" stroke-width="2"/>
+            <text x="1495" y="232" fill="#4ade80" font-size="11" font-weight="700">S14: ARTIFACT WRITER</text>
+            <text x="1495" y="252" fill="#f8fafc" font-size="10">results/smoke/raw/BS-1-A_smoke.json</text>
+            <text x="1495" y="268" fill="#94a3b8" font-size="9">results/smoke/smoke_results.json</text>
+            <text x="1495" y="284" fill="#94a3b8" font-size="9">results/smoke/smoke_report.md</text>
+            <text x="1495" y="302" fill="#f87171" font-size="8">GAP: eval/eval_runner.py not implemented</text>
+          </g>
+
+          <!-- G02: Missing Human Ground Truth (GAP Node) -->
+          <g id="node-GAP1" class="node-box" onclick="selectStage('GAP1')">
+            <rect x="1485" y="340" width="220" height="85" rx="6" fill="url(#hatch-gap)" stroke="#ef4444" stroke-width="2" stroke-dasharray="4 2"/>
+            <text x="1495" y="362" fill="#ef4444" font-size="11" font-weight="700">[GAP] HUMAN GROUND TRUTH</text>
+            <text x="1495" y="380" fill="#f8fafc" font-size="10">ground_truth/labels.json</text>
+            <text x="1495" y="398" fill="#94a3b8" font-size="8">Status: Awaiting human authoring</text>
+            <text x="1495" y="412" fill="#ef4444" font-size="8">No model may write these labels</text>
+          </g>
+
+          <!-- CONNECTING ARROWS ACROSS LANES -->
+          <!-- L1 -> L2: S01 to S03 (Original text) -->
+          <line id="edge-S01-S03" x1="255" y1="115" x2="315" y2="115" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+          <text x="285" y="107" fill="#94a3b8" font-size="8" text-anchor="middle">text</text>
+
+          <!-- S03 to S04 (Fields in memory) -->
+          <line id="edge-S03-S04" x1="435" y1="220" x2="435" y2="250" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+          <text x="440" y="238" fill="#94a3b8" font-size="8">17 fields (RAM)</text>
+
+          <!-- L2 -> L3: S04 to S05 (Skeleton text) -->
+          <line id="edge-S04-S05" x1="555" y1="280" x2="585" y2="280" stroke="#94a3b8" stroke-width="2"/>
+          <line id="edge-S04-S05-b" x1="585" y1="280" x2="585" y2="125" stroke="#94a3b8" stroke-width="2"/>
+          <line id="edge-S04-S05-c" x1="585" y1="125" x2="615" y2="125" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+          <text x="585" y="195" fill="#94a3b8" font-size="8" text-anchor="middle" transform="rotate(-90 585 195)">skeleton text</text>
+
+          <!-- S02 to S05 (Task prompt) -->
+          <path id="edge-S02-S05" d="M 255 227 L 575 227 L 575 140 L 615 140" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+          <text x="440" y="222" fill="#94a3b8" font-size="8">task text</text>
+
+          <!-- S05 to S06 (Raw Plan JSON) -->
+          <line id="edge-S05-S06" x1="735" y1="180" x2="735" y2="200" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+          <text x="740" y="192" fill="#94a3b8" font-size="8">plan JSON</text>
+
+          <!-- S06 retry branch back to S05 (dashed) -->
+          <path id="edge-S06-retry" d="M 855 235 L 875 235 L 875 125 L 855 125" fill="none" stroke="#ca8a04" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#arrow-dashed)"/>
+          <text x="880" y="180" fill="#ca8a04" font-size="8">retry (max 1)</text>
+
+          <!-- S06 to S07 (Validated Plan) -->
+          <line id="edge-S06-S07" x1="735" y1="285" x2="735" y2="305" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+          <text x="740" y="297" fill="#94a3b8" font-size="8">valid plan</text>
+
+          <!-- S07 to G01 (Clamped Plan) -->
+          <line id="edge-S07-G01" x1="735" y1="400" x2="735" y2="420" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+          <text x="740" y="412" fill="#94a3b8" font-size="8">floor-safe plan</text>
+
+          <!-- L3 -> L4: G01 to S08 (Approved Decisions) -->
+          <path id="edge-G01-S08" d="M 855 455 L 885 455 L 885 145 L 915 145" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+          <text x="885" y="300" fill="#94a3b8" font-size="8" text-anchor="middle" transform="rotate(-90 885 300)">approved plan</text>
+
+          <!-- Original Text directly from S01 to S08 -->
+          <path id="edge-S01-S08" d="M 145 160 L 145 520 L 905 520 L 905 180 L 915 180" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 2" marker-end="url(#arrow)"/>
+          <text x="525" y="515" fill="#94a3b8" font-size="8">original doc text (bypasses planner)</text>
+
+          <!-- S08 to S09 (Minimized r1_text + removed values) -->
+          <line id="edge-S08-S09" x1="1025" y1="220" x2="1025" y2="245" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+          <text x="1030" y="235" fill="#94a3b8" font-size="8">r1_text &amp; removed</text>
+
+          <!-- Original Text to S10 (R0 Baseline) -->
+          <path id="edge-S01-S10" d="M 145 520 L 145 550 L 1180 550 L 1180 125 L 1195 125" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 2" marker-end="url(#arrow)"/>
+          <text x="660" y="545" fill="#94a3b8" font-size="8">original doc to R0 (unminimized baseline)</text>
+
+          <!-- S09 to S11 (R1 Verified Minimized Text) -->
+          <path id="edge-S09-S11" d="M 1135 285 L 1165 285 L 1165 250 L 1195 250" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+          <text x="1165" y="270" fill="#94a3b8" font-size="8">r1_text</text>
+
+          <!-- S10 & S11 to S12 (Answers) -->
+          <line id="edge-S10-S12" x1="1310" y1="180" x2="1310" y2="325" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+          <text x="1315" y="230" fill="#94a3b8" font-size="8">r0 answer</text>
+
+          <!-- S11 to S12 -->
+          <path id="edge-S11-S12" d="M 1310 300 L 1310 325" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+          <text x="1315" y="315" fill="#94a3b8" font-size="8">r1 answer</text>
+
+          <!-- S12 to S13 (Preservation & match reason) -->
+          <path id="edge-S12-S13" d="M 1425 385 L 1455 385 L 1455 130 L 1485 130" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+          <text x="1455" y="250" fill="#94a3b8" font-size="8" text-anchor="middle" transform="rotate(-90 1455 250)">is_preserved, match_reason</text>
+
+          <!-- S13 to S14 (Metrics & Failures) -->
+          <line id="edge-S13-S14" x1="1595" y1="190" x2="1595" y2="210" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+          <text x="1600" y="202" fill="#94a3b8" font-size="8">results &amp; metrics</text>
+
+        </svg>
+      </div>
+      <p style="color:var(--text-secondary); font-size:0.8rem; margin-top:0.75rem;">
+        <strong>Interactive Master Diagram:</strong> Click any stage box to highlight it and view its associated files in the coverage panel below. Active execution steps in the walkthrough below automatically highlight their respective nodes and dataflow arrows.
+      </p>
+    </div>
+  </section>
+
+  <!-- SECTION 2: INTERACTIVE WALKTHROUGH -->
+  <section id="interactive-walkthrough">
+    <h2>2. Linked Step-by-Step Walkthrough (Representative Case: BS-1-A)</h2>
+    <div class="card">
+      <div class="stepper-header">
+        <div>
+          <span class="step-counter" id="step-counter-text">Step 1 of 8</span>
+          <h3 id="step-title" style="margin: 0.25rem 0 0 0; font-size: 1.25rem;">1. Document &amp; Task Ingestion</h3>
+        </div>
+        <div class="stepper-controls">
+          <button class="btn btn-reset" id="btn-reset" onclick="resetStepper()">Reset Walkthrough</button>
+          <button class="btn" id="btn-prev" onclick="prevStep()" disabled>&larr; Previous</button>
+          <button class="btn" id="btn-next" onclick="nextStep()">Next &rarr;</button>
+        </div>
+      </div>
+
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="progress-fill" style="width: 12.5%;"></div>
+      </div>
+
+      <div class="step-pills" id="step-pills-bar">
+        <!-- Rendered by JS -->
+      </div>
+
+      <div id="step-content-container">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: FILE COVERAGE PANEL -->
+  <section id="file-coverage">
+    <h2>3. Complete Repository File Coverage (47 Files Accounted For)</h2>
+    <div class="card">
+      <div class="coverage-stats">
+        <div>Total Files in Repo: <span class="stat-badge">47</span></div>
+        <div>Files Accounted For: <span class="stat-badge">47</span></div>
+        <div>Files Unaccounted For: <span class="stat-badge" style="color:var(--color-disk);">0</span></div>
+        <div style="margin-left:auto;">Filter by Lane: 
+          <select id="lane-filter" onchange="filterCoverageTable(this.value)" style="background:var(--bg-surface); color:var(--text-primary); border:1px solid var(--border-color); border-radius:0.25rem; padding:0.2rem 0.5rem; font-size:0.8rem;">
+            <option value="ALL">All Categories (47 files)</option>
+            <option value="LANE1">Lane 1: Ingestion &amp; Corpus (14)</option>
+            <option value="LANE2">Lane 2: Detection &amp; Skeleton (2)</option>
+            <option value="LANE3">Lane 3: Planning &amp; Policy (3)</option>
+            <option value="LANE4">Lane 4: Transformation (1)</option>
+            <option value="LANE5">Lane 5: Execution &amp; Comparators (3)</option>
+            <option value="LANE6">Lane 6: Metrics &amp; Results (8)</option>
+            <option value="GOV">Governance &amp; Specs (5)</option>
+            <option value="AGENTS">Agent Definitions (4)</option>
+            <option value="TESTS">Test Suite (6)</option>
+            <option value="DOCS">Documentation (1)</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="overflow-x:auto;">
+        <table id="coverage-table">
+          <thead>
+            <tr>
+              <th>File Path</th>
+              <th>Role &amp; Responsibility</th>
+              <th>Category / Lane</th>
+              <th>Runtime Status</th>
+              <th>Primary Imports / Callers</th>
+            </tr>
+          </thead>
+          <tbody id="coverage-tbody">
+            <!-- Rendered by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: SUPPORTING DETAILS -->
+  <section id="supporting-details">
+    <h2>4. Supporting Function Contracts &amp; Data State Inventory</h2>
+    
+    <!-- Function Table -->
+    <div class="card">
+      <h3>Key Function Signatures Across Execution Pipeline</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Module &amp; Function</th>
+            <th>Stage</th>
+            <th>Parameters (Input)</th>
+            <th>Return Value (Output)</th>
+            <th>Exceptions / Edge Cases</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>corpus/generate.py:generate_corpus</code></td>
+            <td>S01</td>
+            <td><code>seed: int = 20261009</code></td>
+            <td><code>Tuple[Dict[str, str], List[Dict]]</code></td>
+            <td>Deterministic RNG; generates 10 docs &amp; 91 planted items</td>
+          </tr>
+          <tr>
+            <td><code>experiment/detector.py:detect_in_text</code></td>
+            <td>S03</td>
+            <td><code>text: str, doc_id: str</code></td>
+            <td><code>Tuple[List[DetectedField], str]</code></td>
+            <td>Falls back to <code>regex-only</code> if Presidio unavailable; no raw logging</td>
+          </tr>
+          <tr>
+            <td><code>experiment/detector.py:build_skeleton</code></td>
+            <td>S04</td>
+            <td><code>text: str, fields: List[DetectedField]</code></td>
+            <td><code>skeleton: str</code></td>
+            <td>Reverse-offset order prevents index drift during substitution</td>
+          </tr>
+          <tr>
+            <td><code>experiment/planner.py:plan</code></td>
+            <td>S05</td>
+            <td><code>case_id: str, task: str, is_trap: bool, skeleton: str</code></td>
+            <td><code>Tuple[Dict[str, Any], int]</code></td>
+            <td>Uses <code>MockPlannerClient</code> in Day 1; retries 1x on schema invalidity</td>
+          </tr>
+          <tr>
+            <td><code>experiment/policy.py:enforce_policy_floor</code></td>
+            <td>S07</td>
+            <td><code>plan: Dict[str, Any], is_trap: bool</code></td>
+            <td><code>Tuple[Dict, List[Dict]]</code></td>
+            <td>Clamps government_id &amp; account_identifier to DROP/MASK_PARTIAL</td>
+          </tr>
+          <tr>
+            <td><code>experiment/transform.py:apply_minimization</code></td>
+            <td>S08</td>
+            <td><code>text: str, fields: List[DetectedField], decisions: Dict</code></td>
+            <td><code>Tuple[str, List[str]]</code></td>
+            <td>Raises <code>ValueError</code> on offset mismatch; discards inner overlaps</td>
+          </tr>
+          <tr>
+            <td><code>eval/smoke_runner.py:mock_task_executor</code></td>
+            <td>S10/S11</td>
+            <td><code>text: str, task: str, schema_id: str</code></td>
+            <td><code>Any (dict)</code></td>
+            <td>String checking for Day 1 offline test; real model executor is a GAP</td>
+          </tr>
+          <tr>
+            <td><code>eval/comparators.py:compare_answers</code></td>
+            <td>S12</td>
+            <td><code>r0: Any, r1: Any, schema_id: str, rubric_path: Optional[Path]</code></td>
+            <td><code>Tuple[bool, str]</code></td>
+            <td>Floats matched within 1e-4 tolerance; free-text requires human rubric</td>
+          </tr>
+          <tr>
+            <td><code>eval/metrics.py:compute_metrics</code></td>
+            <td>S13</td>
+            <td><code>eval_cases: List[Dict], ground_truth: Dict, recall: float</code></td>
+            <td><code>Dict[str, Any]</code></td>
+            <td>Consistency mocked to 1.0; classifies failures into 4 standard buckets</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Data & State Matrix -->
+    <div class="card">
+      <h3>Data &amp; Privacy State Lifecycle</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Lifecycle Stage</th>
+            <th>Data Object Representation</th>
+            <th>Raw Sensitive Values Present?</th>
+            <th>Storage Location</th>
+            <th>External Transmission?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Document Ingestion</td>
+            <td>UTF-8 Text File</td>
+            <td><span class="badge badge-danger">YES (Raw)</span></td>
+            <td>Disk: <code>corpus/*.txt</code></td>
+            <td>NO (Local read)</td>
+          </tr>
+          <tr>
+            <td>Field Detection</td>
+            <td><code>List[DetectedField]</code></td>
+            <td><span class="badge badge-danger">YES (In Memory)</span></td>
+            <td>Volatile RAM only; NEVER logged</td>
+            <td>NO (Presidio runs locally)</td>
+          </tr>
+          <tr>
+            <td>Skeleton Generation</td>
+            <td>Typed Tokens (<code>[ACCT]</code>, etc.)</td>
+            <td><span class="badge badge-disk">NO (Placeholders)</span></td>
+            <td>Volatile RAM</td>
+            <td>NO (Local substitution)</td>
+          </tr>
+          <tr>
+            <td>Minimization Planning</td>
+            <td>Skeleton + Task Prompt</td>
+            <td><span class="badge badge-disk">NO (Zero Raw PII)</span></td>
+            <td>RAM &rarr; Gemini Model context</td>
+            <td><span class="badge badge-llm">YES (Skeleton ONLY)</span></td>
+          </tr>
+          <tr>
+            <td>Policy Enforcement</td>
+            <td>Plan JSON Decisions</td>
+            <td><span class="badge badge-disk">NO</span></td>
+            <td>Volatile RAM</td>
+            <td>NO (Deterministic Python)</td>
+          </tr>
+          <tr>
+            <td>Transformation</td>
+            <td>Minimized Text (<code>r1_text</code>)</td>
+            <td><span class="badge badge-disk">NO (Redacted / Masked)</span></td>
+            <td>Volatile RAM &rarr; Passed to R1</td>
+            <td>NO (Deterministic Python)</td>
+          </tr>
+          <tr>
+            <td>R0 Execution</td>
+            <td>Original Text + Task</td>
+            <td><span class="badge badge-danger">YES (Unminimized)</span></td>
+            <td>RAM &rarr; Gemini Model context</td>
+            <td><span class="badge badge-llm">YES (Full Source Doc)</span></td>
+          </tr>
+          <tr>
+            <td>R1 Execution</td>
+            <td>Minimized Text + Task</td>
+            <td><span class="badge badge-disk">NO (Policy Enforced)</span></td>
+            <td>RAM &rarr; Gemini Model context</td>
+            <td><span class="badge badge-llm">YES (Minimized ONLY)</span></td>
+          </tr>
+          <tr>
+            <td>Results &amp; Logs</td>
+            <td>JSON Summary Artifacts</td>
+            <td><span class="badge badge-disk">NO (Categories &amp; Metrics)</span></td>
+            <td>Disk: <code>results/smoke/raw/*.json</code></td>
+            <td>NO</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Failure & Cost Points -->
+    <div class="card">
+      <h3>Failure Modes, Retries &amp; Cost Boundaries</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Risk / Guardrail</th>
+            <th>Trigger Condition</th>
+            <th>Automatic Recovery / Mitigation</th>
+            <th>Spend &amp; Invariant Protection</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Planner LLM Cost</td>
+            <td>Every task case execution</td>
+            <td><strong>MOCKED in Day 1:</strong> <code>MockPlannerClient</code> routes canned plans; spend cap must be confirmed before live calls</td>
+            <td>Zero spend incurred in Day 1</td>
+          </tr>
+          <tr>
+            <td>Schema Non-Compliance</td>
+            <td>Planner returns malformed JSON</td>
+            <td>Calls <code>validate_plan_schema()</code>; retries exactly 1 time with error feedback</td>
+            <td>Hard failure after 1 retry; prevents unparseable plans</td>
+          </tr>
+          <tr>
+            <td>Policy Floor Breach</td>
+            <td>Planner proposes KEEP for Account or Govt ID</td>
+            <td><code>enforce_policy_floor()</code> automatically clamps to DROP or MASK_PARTIAL</td>
+            <td>Model output cannot relax floor; violation logged in <code>violations</code></td>
+          </tr>
+          <tr>
+            <td>Corrupted Text Offsets</td>
+            <td>Text slice does not match detected value</td>
+            <td><code>validate_fields()</code> raises <code>ValueError</code>, aborting transformation</td>
+            <td>Prevents corrupted text from leaking raw PII</td>
+          </tr>
+          <tr>
+            <td>R1 Leakage Invariant</td>
+            <td>Any removed string appears in <code>r1_text</code></td>
+            <td><code>assert val not in r1_text</code> fires before task execution</td>
+            <td>Hard assertion prevents sending unminimized text to R1</td>
+          </tr>
+          <tr>
+            <td>Baseline Instability</td>
+            <td>R0 execution returns different answers (r0_a != r0_b)</td>
+            <td>Flagged as <code>is_unstable = True</code></td>
+            <td>Unstable cases are excluded or attributed to baseline variance</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SECTION 5: HONEST GAPS AUDIT -->
+  <section id="gaps-audit">
+    <h2>5. Honest Implementation GAPs &amp; Day 1 Limitations</h2>
+    <div class="card">
+      <p style="color:var(--text-secondary); font-size:0.875rem; margin-bottom:1rem;">
+        In strict adherence to project rules, the following 7 items are identified as disconnected, mocked, or awaiting human input.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Component</th>
+            <th>Target Location</th>
+            <th>Current Reality</th>
+            <th>Blocker Classification</th>
+            <th>Required Action for Day 2</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Human Ground Truth</td>
+            <td><code>ground_truth/labels.json</code></td>
+            <td>Directory and file do not exist. Smoke runner uses <code>tests/fixtures/dummy_labels.json</code>.</td>
+            <td><span class="badge badge-gap">AWAITING HUMAN</span></td>
+            <td>Human authoring and digital sign-off of acceptable actions per category.</td>
+          </tr>
+          <tr>
+            <td>Live Gemini Planner</td>
+            <td><code>experiment/planner.py</code></td>
+            <td>Live client call is commented out. Operates strictly via deterministic <code>MockPlannerClient</code>.</td>
+            <td><span class="badge badge-mock">MOCKED</span></td>
+            <td>Connect live Gemini 1.5/2.0 API client once API spend cap is authorized.</td>
+          </tr>
+          <tr>
+            <td>Live Task Executor</td>
+            <td><code>eval/smoke_runner.py</code></td>
+            <td>Operates via <code>mock_task_executor</code> checking for string literals (e.g. '450.00'). Real LLM executor does not exist.</td>
+            <td><span class="badge badge-mock">MOCKED</span></td>
+            <td>Implement Gemini task answering module for R0 and R1 representations.</td>
+          </tr>
+          <tr>
+            <td>Official Evaluation Runner</td>
+            <td><code>eval/eval_runner.py</code></td>
+            <td>Does not exist. Only <code>eval/smoke_runner.py</code> (4 fixed cases) is implemented.</td>
+            <td><span class="badge badge-gap">NOT IMPLEMENTED</span></td>
+            <td>Build full runner executing 30 cases across 3 seeds with temperature 0.</td>
+          </tr>
+          <tr>
+            <td>Task Output Schemas</td>
+            <td><code>schemas/answer_schemas.json</code></td>
+            <td>Only <code>schemas/plan.schema.json</code> exists. The 17 task output schemas lack JSON Schema files.</td>
+            <td><span class="badge badge-gap">MISSING SCHEMAS</span></td>
+            <td>Author JSON Schema files for all 17 task output contracts.</td>
+          </tr>
+          <tr>
+            <td>Human Free-Text Rubrics</td>
+            <td><code>rubrics/rubric_template.json</code></td>
+            <td>Template exists, but all 6 free-text cases have empty facts <code>[]</code> and <code>[HUMAN_REVIEW_REQUIRED]</code>.</td>
+            <td><span class="badge badge-gap">AWAITING HUMAN</span></td>
+            <td>Human authoring of required facts for free-text equivalence comparison.</td>
+          </tr>
+          <tr>
+            <td>Decision Consistency Formula</td>
+            <td><code>eval/metrics.py:135</code></td>
+            <td>Hardcodes <code>"decision_consistency": 1.0</code>. Multi-run comparison formula is not implemented.</td>
+            <td><span class="badge badge-mock">STUBBED</span></td>
+            <td>Implement Jaccard or category-agreement formula across seeds 1, 2, and 3.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  // Complete 47-file inventory data
+  const FILE_INVENTORY = [
+    { path: "AGENTS.md", role: "Core governance rules & frozen contracts", cat: "GOV", status: "Read by agents & human", callers: "Agent System Prompts" },
+    { path: "DAY1_SPEC.md", role: "Pre-registered Day 1 spec & thresholds", cat: "GOV", status: "Read by agents & human", callers: "Specification" },
+    { path: "GEMINI.md", role: "Antigravity operational instructions", cat: "GOV", status: "Read by agents & human", callers: "Operational Guide" },
+    { path: "study_guide.md", role: "Context & evaluation design reference", cat: "GOV", status: "Reference documentation", callers: "Human Reference" },
+    { path: "requirements.txt", role: "Python dependency specification", cat: "GOV", status: "Environment setup", callers: "pip install" },
+    { path: ".agents/agents/detector.md", role: "Detector subagent definition", cat: "AGENTS", status: "Agent config", callers: "Antigravity Runtime" },
+    { path: ".agents/agents/evaluator.md", role: "Evaluator subagent definition", cat: "AGENTS", status: "Agent config", callers: "Antigravity Runtime" },
+    { path: ".agents/agents/minimizer.md", role: "Minimizer subagent definition", cat: "AGENTS", status: "Agent config", callers: "Antigravity Runtime" },
+    { path: ".agents/agents/synthetic-data.md", role: "Synthetic data subagent definition", cat: "AGENTS", status: "Agent config", callers: "Antigravity Runtime" },
+    { path: "corpus/generate.py", role: "Synthetic corpus generator (seed 20261009)", cat: "LANE1", status: "Operational script", callers: "Standalone / test_corpus_validation" },
+    { path: "corpus/BS-1.txt", role: "Bank Statement 1 (Aarav Sharma)", cat: "LANE1", status: "Active in smoke test", callers: "smoke_runner.py, detector.py" },
+    { path: "corpus/BS-2.txt", role: "Bank Statement 2 (Priya Patel)", cat: "LANE1", status: "Read by tests", callers: "test_corpus_validation.py" },
+    { path: "corpus/BS-3.txt", role: "Bank Statement 3 (Rahul Verma)", cat: "LANE1", status: "Read by tests", callers: "test_corpus_validation.py" },
+    { path: "corpus/CC-1.txt", role: "Credit Card Statement 1 (Ananya Iyer)", cat: "LANE1", status: "Active in smoke test", callers: "smoke_runner.py (CC-1-B)" },
+    { path: "corpus/CC-2.txt", role: "Credit Card Statement 2 (Rohan Mehta)", cat: "LANE1", status: "Read by tests", callers: "test_corpus_validation.py" },
+    { path: "corpus/IL-1.txt", role: "Insurance Letter (Siddharth Nair)", cat: "LANE1", status: "Read by tests", callers: "test_corpus_validation.py" },
+    { path: "corpus/PS-1.txt", role: "Payslip 1 (Vikram Malhotra)", cat: "LANE1", status: "Active in smoke test", callers: "smoke_runner.py (PS-1-B)" },
+    { path: "corpus/PS-2.txt", role: "Payslip 2 (Neha Gupta)", cat: "LANE1", status: "Read by tests", callers: "test_corpus_validation.py" },
+    { path: "corpus/RA-1.txt", role: "Rental Agreement (Kavita Reddy)", cat: "LANE1", status: "Read by tests", callers: "test_corpus_validation.py" },
+    { path: "corpus/UB-1.txt", role: "Utility Bill (Aditya Joshi)", cat: "LANE1", status: "Read by tests", callers: "test_corpus_validation.py" },
+    { path: "corpus/planted.json", role: "91 Ground truth planted items", cat: "LANE1", status: "Read by detector recall", callers: "detector.py:evaluate_detection_recall" },
+    { path: "tasks/tasks.json", role: "17 task specs across 30 cases", cat: "LANE1", status: "Active in runtime", callers: "smoke_runner.py, test_tasks.py" },
+    { path: "experiment/detector.py", role: "Presidio + Custom Indian Regexes", cat: "LANE2", status: "Operational module", callers: "smoke_runner.py, test_detector.py" },
+    { path: "schemas/plan.schema.json", role: "JSON Schema for minimization plan", cat: "LANE3", status: "Active schema", callers: "planner.py:validate_plan_schema" },
+    { path: "experiment/planner.py", role: "Minimization planner interface & mock", cat: "LANE3", status: "Mocked (Offline)", callers: "smoke_runner.py, test_minimizer.py" },
+    { path: "experiment/policy.py", role: "Immutable policy floor enforcement", cat: "LANE3", status: "Operational module", callers: "smoke_runner.py, test_minimizer.py" },
+    { path: "experiment/transform.py", role: "Deterministic string transform engine", cat: "LANE4", status: "Operational module", callers: "smoke_runner.py, test_minimizer.py" },
+    { path: "eval/smoke_runner.py", role: "Day 1 isolated smoke runner", cat: "LANE5", status: "Operational script", callers: "Standalone execution" },
+    { path: "eval/comparators.py", role: "Answer comparators (num, set, dict, text)", cat: "LANE5", status: "Operational module", callers: "smoke_runner.py, test_eval.py" },
+    { path: "rubrics/rubric_template.json", role: "Free-text rubric templates", cat: "LANE5", status: "Awaiting human facts", callers: "comparators.py:compare_free_text" },
+    { path: "eval/metrics.py", role: "Metric aggregator & failure attribution", cat: "LANE6", status: "Operational module", callers: "smoke_runner.py, test_eval.py" },
+    { path: "eval/R1_CONTRACT.md", role: "Specification of R1 minimization guarantee", cat: "LANE6", status: "Reference contract", callers: "Documentation" },
+    { path: "results/smoke/smoke_results.json", role: "Aggregated smoke metrics artifact", cat: "LANE6", status: "Persisted artifact", callers: "Written by smoke_runner.py" },
+    { path: "results/smoke/smoke_failures.json", role: "Smoke test failure list artifact", cat: "LANE6", status: "Persisted artifact", callers: "Written by smoke_runner.py" },
+    { path: "results/smoke/smoke_report.md", role: "Human-readable smoke report artifact", cat: "LANE6", status: "Persisted artifact", callers: "Written by smoke_runner.py" },
+    { path: "results/smoke/raw/BS-1-A_smoke.json", role: "Raw smoke artifact for BS-1-A", cat: "LANE6", status: "Persisted artifact", callers: "Written by smoke_runner.py" },
+    { path: "results/smoke/raw/BS-1-C_smoke.json", role: "Raw smoke artifact for BS-1-C", cat: "LANE6", status: "Persisted artifact", callers: "Written by smoke_runner.py" },
+    { path: "results/smoke/raw/CC-1-B_smoke.json", role: "Raw smoke artifact for CC-1-B", cat: "LANE6", status: "Persisted artifact", callers: "Written by smoke_runner.py" },
+    { path: "results/smoke/raw/PS-1-B_smoke.json", role: "Raw smoke artifact for PS-1-B", cat: "LANE6", status: "Persisted artifact", callers: "Written by smoke_runner.py" },
+    { path: "tests/test_corpus_validation.py", role: "Unit test: synthetic corpus & seed", cat: "TESTS", status: "Passing pytest test", callers: "pytest" },
+    { path: "tests/test_detector.py", role: "Unit test: detector, regexes, telemetry", cat: "TESTS", status: "Passing pytest test", callers: "pytest" },
+    { path: "tests/test_eval.py", role: "Unit test: comparators & metrics", cat: "TESTS", status: "Passing pytest test", callers: "pytest" },
+    { path: "tests/test_minimizer.py", role: "Unit test: policy floor & transformer", cat: "TESTS", status: "Passing pytest test", callers: "pytest" },
+    { path: "tests/test_tasks.py", role: "Unit test: task contract validation", cat: "TESTS", status: "Passing pytest test", callers: "pytest" },
+    { path: "tests/fixtures/dummy_labels.json", role: "Test fixture simulating ground truth", cat: "TESTS", status: "Test fixture", callers: "smoke_runner.py, test_eval.py" },
+    { path: "docs/DAYLOG.md", role: "Daily engineering progress log", cat: "DOCS", status: "Updated daily", callers: "Engineering documentation" },
+    { path: "docs/architecture.html", role: "Visual architecture & runtime map", cat: "DOCS", status: "Generated UI artifact", callers: "Human review" }
+  ];
+
+  // Walkthrough step definitions (Case BS-1-A)
+  const WALKTHROUGH_STEPS = [
+    {
+      step: 1,
+      title: "1. Document & Task Ingestion",
+      nodeIds: ["node-S01", "node-S02"],
+      edgeIds: ["edge-S01-S03", "edge-S02-S05"],
+      file: "eval/smoke_runner.py",
+      functionName: "run_smoke_test() (lines 73-97)",
+      enters: "1. Source Document: corpus/BS-1.txt (1,566 bytes UTF-8 text)\n   Account Statement: State Bank of India\n2. Task Specification: tasks/tasks.json -> Case 'BS-1-A':\n   {\n     \"case_id\": \"BS-1-A\",\n     \"doc_id\": \"BS-1\",\n     \"task\": \"Summarize my spending by category\",\n     \"is_trap\": false,\n     \"answer_schema_id\": \"spending_summary\"\n   }",
+      codeRuns: "with open(TASKS_PATH, 'r', encoding='utf-8') as f:\n    tasks_by_id = {t['case_id']: t for t in json.load(f)}\n\ntask_info = tasks_by_id['BS-1-A']\ndoc_file = CORPUS_DIR / f\"{task_info['doc_id']}.txt\"\nwith open(doc_file, 'r', encoding='utf-8') as f:\n    original_text = f.read()",
+      happens: "The runner loads the target synthetic document and task definition into volatile RAM. No mutations or network calls are performed.",
+      comesOut: "original_text: str (1,566 chars)\ntask_text: 'Summarize my spending by category'\nis_trap: False\nschema_id: 'spending_summary'",
+      nextReceives: "original_text and doc_id='BS-1' are passed to detector.detect_in_text().",
+      privacyBoundary: "Local file read on disk. Raw text is kept in volatile RAM only. Zero network exposure.",
+      privacyType: "privacy-safe",
+      codePointers: "eval/smoke_runner.py#L73-L97 verifies that case_id exists in tasks.json and reads UTF-8 bytes cleanly."
+    },
+    {
+      step: 2,
+      title: "2. Sensitive Field Detection & Contextual Mapping",
+      nodeIds: ["node-S03"],
+      edgeIds: ["edge-S03-S04"],
+      file: "experiment/detector.py",
+      functionName: "SensitiveDataDetector.detect_in_text() (lines 100-192)",
+      enters: "text = original_text (1,566 chars)\ndoc_id = 'BS-1'",
+      codeRuns: "fields, skeleton = detector.detect_in_text(original_text, 'BS-1')\n# Internally executes:\n# 1. custom_pattern regexes (UPI, IFSC, Indian phone, Masked account)\n# 2. presidio_analyzer.analyze(text=text, language='en')\n# 3. Contextual ORGANIZATION mapping",
+      happens: "Scans text for sensitive patterns. Custom Indian regexes capture UPI handles (aarav@okaxis, priya@okicici), Indian phone (+91-9845012345), IFSC (SBIN0004521), and account number (30981245781). Presidio captures names and transaction dates. 17 sensitive fields are detected.",
+      comesOut: "Array of 17 DetectedField objects:\n[\n  {\"id\": \"BS-1-det-05\", \"category\": \"account_identifier\", \"detector\": \"custom_pattern:Masked account\", \"conf\": 0.95},\n  {\"id\": \"BS-1-det-04\", \"category\": \"contact\", \"detector\": \"custom_pattern:Indian phone\", \"conf\": 0.95},\n  {\"id\": \"BS-1-det-03\", \"category\": \"internal_id\", \"detector\": \"custom_pattern:IFSC\", \"conf\": 0.95},\n  {\"id\": \"BS-1-det-01\", \"category\": \"contact\", \"detector\": \"custom_pattern:UPI handle\", \"conf\": 0.95},\n  {\"id\": \"BS-1-det-07\", \"category\": \"person_name\", \"detector\": \"presidio:PERSON\", \"conf\": 0.85},\n  ... (12 more fields)\n]",
+      nextReceives: "original_text and the 17 DetectedField objects are passed to build_skeleton().",
+      privacyBoundary: "Field .value attributes reside in RAM only. Per AGENTS.md rule, raw values are NEVER printed or logged to disk.",
+      privacyType: "privacy-critical",
+      codePointers: "experiment/detector.py#L130-L165. Notice custom Indian patterns always execute first and are never suppressed by Presidio thresholds."
+    },
+    {
+      step: 3,
+      title: "3. Typed Skeleton Generation",
+      nodeIds: ["node-S04"],
+      edgeIds: ["edge-S04-S05", "edge-S04-S05-b", "edge-S04-S05-c"],
+      file: "experiment/detector.py",
+      functionName: "SensitiveDataDetector.build_skeleton() (lines 173-192)",
+      enters: "text = original_text\nfields = 17 DetectedField objects",
+      codeRuns: "sorted_fields = sorted(fields, key=lambda f: f.location['start_char'], reverse=True)\nskeleton = text\nfor field in sorted_fields:\n    start = field.location['start_char']\n    end = field.location['end_char']\n    skeleton = skeleton[:start] + field.placeholder + skeleton[end:]",
+      happens: "Substitutes detected spans in reverse offset order with typed placeholders: [ACCT], [PHONE], [IFSC], [UPI], [DATE], [NAME].",
+      comesOut: "Sanitized structural skeleton:\nAccount Number:      [ACCT]\nRegistered Mobile:   [PHONE]\nCommunication [NAME]:  [NAME] Shanti Vihar Bengaluru 560038\nBranch:              Indiranagar Branch | IFSC: [IFSC]\nStatement Period:    [DATE] to [DATE]\n--------------------------------------------------------------------------------\n[DATE]   UPI/[UPI]/[NAME]85000.00\n[DATE]   UPI/[NAME]/food           450.00              -        84550.00\n         Merchant: [NAME]",
+      nextReceives: "skeleton is passed into planner.plan(case_id, task_text, is_trap, skeleton).",
+      privacyBoundary: "CRITICAL PRIVACY GATE: Raw sensitive values have been completely stripped. The downstream planner receives only typed tokens and structural layout.",
+      privacyType: "privacy-safe",
+      codePointers: "experiment/detector.py#L173-L192. Reverse offset ordering prevents substitution character offset drift."
+    },
+    {
+      step: 4,
+      title: "4. Minimization Planning (Mocked Client)",
+      nodeIds: ["node-S05", "node-S06"],
+      edgeIds: ["edge-S05-S06", "edge-S06-S07"],
+      file: "experiment/planner.py",
+      functionName: "MinimizationPlanner.plan() & MockPlannerClient (lines 140-195)",
+      enters: "case_id = 'BS-1-A'\ntask_text = 'Summarize my spending by category'\nis_trap = False\nskeleton = '[Sanitized skeleton text]'",
+      codeRuns: "# DAY 1 REALITY: Mock client routes canned decisions\n# to prevent unexpected API spend:\nraw_plan, retries = planner.plan(case_id, task_text, is_trap, skeleton)\nis_valid, err = validate_plan_schema(raw_plan)\nassert is_valid, f'Schema error: {err}'",
+      happens: "MockPlannerClient routes keyword 'spending' and selects KEEP for merchant, amount, transaction_date; DROP for the other 13 categories. Validates against schemas/plan.schema.json (0 retries).",
+      comesOut: "Plan JSON:\n{\n  \"case_id\": \"BS-1-A\",\n  \"task\": \"Summarize my spending by category\",\n  \"decisions\": {\n    \"merchant\": {\"action\": \"KEEP\", \"reason\": \"Required for spending summary.\", \"confidence\": 0.95},\n    \"amount\": {\"action\": \"KEEP\", \"reason\": \"Required for spending summary.\", \"confidence\": 0.95},\n    \"transaction_date\": {\"action\": \"KEEP\", \"reason\": \"Required for spending summary.\", \"confidence\": 0.95},\n    \"account_identifier\": {\"action\": \"DROP\", \"reason\": \"Not required.\", \"confidence\": 0.9},\n    ... (all 16 categories specified)\n  },\n  \"unsure\": [],\n  \"task_output_schema\": \"spending_summary\"\n}",
+      nextReceives: "raw_plan is passed to enforce_policy_floor(raw_plan, is_trap).",
+      privacyBoundary: "CURRENTLY MOCKED: Operates offline. When live Gemini is connected, it sees ONLY skeleton text with prompt-injection delimiters.",
+      privacyType: "mock-notice",
+      codePointers: "experiment/planner.py#L154-L162 shows MockPlannerClient explicitly routing decisions. Live Gemini call is commented out."
+    },
+    {
+      step: 5,
+      title: "5. Deterministic Policy Floor Enforcement",
+      nodeIds: ["node-S07", "node-G01"],
+      edgeIds: ["edge-S07-G01", "edge-G01-S08"],
+      file: "experiment/policy.py",
+      functionName: "enforce_policy_floor() (lines 35-78)",
+      enters: "plan = raw_plan dict\nis_trap = False",
+      codeRuns: "enforced_plan, violations = enforce_policy_floor(raw_plan, is_trap)\n# Frozen Policy Floor:\n# government_id -> ['DROP', 'MASK_PARTIAL']\n# account_identifier -> ['DROP', 'MASK_PARTIAL']",
+      happens: "Asserts that high-risk categories (government IDs, accounts) are DROP or MASK_PARTIAL. For BS-1-A, account_identifier was already proposed DROP, resulting in 0 violations.",
+      comesOut: "enforced_plan: dict (verified compliant)\nviolations: [] (0 violations)",
+      nextReceives: "original_text, fields, and enforced_plan['decisions'] are passed to apply_minimization().",
+      privacyBoundary: "Deterministic Python code. The model is never permitted to relax the policy floor.",
+      privacyType: "privacy-safe",
+      codePointers: "experiment/policy.py#L40-L60 defines FROZEN_POLICY_FLOOR. Any KEEP decision for account or ID is forcibly clamped."
+    },
+    {
+      step: 6,
+      title: "6. Deterministic Transformation & Invariant Check",
+      nodeIds: ["node-S08", "node-S09"],
+      edgeIds: ["edge-S08-S09", "edge-S09-S11"],
+      file: "experiment/transform.py",
+      functionName: "apply_minimization() & validate_fields()",
+      enters: "text = original_text\nfields = 17 DetectedField objects\ndecisions = enforced_plan['decisions']",
+      codeRuns: "r1_text, removed_values = apply_minimization(original_text, fields, enforced_plan['decisions'])\n\n# HARD INVARIANT ASSERTION:\nfor val in removed_values:\n    assert val not in r1_text, f'Contract violation: removed value leaked into R1!'",
+      happens: "Validates offsets, replaces 10 DROP fields with [REDACTED:<CAT>], and preserves 7 dates. Evaluates hard invariant: none of the 10 removed strings remain in r1_text.",
+      comesOut: "r1_text excerpt:\nAccount Holder Name: Aarav Sharma\nAccount Number:      [REDACTED:ACCOUNT_IDENTIFIER]\nCustomer CIF:        CIF88392014\nRegistered Mobile:   [REDACTED:CONTACT]\nCommunication [REDACTED:PERSON_NAME]:  [REDACTED:PERSON_NAME] Shanti Vihar ...\nBranch:              Indiranagar Branch | IFSC: [REDACTED:INTERNAL_ID]\nStatement Period:    01-Sep-2026 to 15-Sep-2026\n--------------------------------------------------------------------------------\n2026-09-02   UPI/[REDACTED:CONTACT]/[REDACTED:PERSON_NAME]85000.00\n2026-09-03   UPI/[REDACTED:PERSON_NAME]/food           450.00              -        84550.00\n             Merchant: [REDACTED:PERSON_NAME]",
+      nextReceives: "r1_text is passed as the sole document input to the R1 task executor.",
+      privacyBoundary: "Pure deterministic substitution. Zero LLM rewriting. Leakage assertion prevents leaking unminimized text.",
+      privacyType: "privacy-safe",
+      codePointers: "eval/smoke_runner.py#L115-L117 asserts val not in r1_text for all 10 removed values."
+    },
+    {
+      step: 7,
+      title: "7. Dual Task Execution (R0 vs R1)",
+      nodeIds: ["node-S10", "node-S11"],
+      edgeIds: ["edge-S10-S12", "edge-S11-S12"],
+      file: "eval/smoke_runner.py",
+      functionName: "mock_task_executor() (lines 42-67)",
+      enters: "R0: original_text, task='Summarize my spending by category', schema_id='spending_summary'\nR1: r1_text,        task='Summarize my spending by category', schema_id='spending_summary'",
+      codeRuns: "# Run R0 twice to check baseline stability:\nr0_a = mock_task_executor(original_text, task_text, schema_id)\nr0_b = mock_task_executor(original_text, task_text, schema_id)\nis_unstable = (r0_a != r0_b)\n\n# Run R1 on minimized text:\nr1 = mock_task_executor(r1_text, task_text, schema_id)",
+      happens: "mock_task_executor scans text for food debit '450.00'. Both original and minimized texts contain '450.00', returning {'food': 450.0}.",
+      comesOut: "r0_a = {\"food\": 450.0}\nr0_b = {\"food\": 450.0}\nis_unstable = False\nr1   = {\"food\": 450.0}",
+      nextReceives: "r0_a, r1, and schema_id are passed to compare_answers().",
+      privacyBoundary: "CURRENTLY MOCKED: In production, R1 execution sends only r1_text (stripped of account, phone, and names) to Gemini.",
+      privacyType: "mock-notice",
+      codePointers: "eval/smoke_runner.py#L42-L67 shows mock_task_executor string checking. Real model task executor is a Day 1 GAP."
+    },
+    {
+      step: 8,
+      title: "8. Equivalence Verification & Metric Reporting",
+      nodeIds: ["node-S12", "node-S13", "node-S14"],
+      edgeIds: ["edge-S12-S13", "edge-S13-S14"],
+      file: "eval/comparators.py",
+      functionName: "compare_answers() & compute_metrics()",
+      enters: "r0 = {\"food\": 450.0}\nr1 = {\"food\": 450.0}\nschema_id = 'spending_summary'",
+      codeRuns: "is_preserved, match_reason = compare_answers(r0_a, r1, schema_id)\n# Compares dictionary keys and floats within 1e-4 tolerance\n# Writes artifact to results/smoke/raw/BS-1-A_smoke.json",
+      happens: "Keys and values match exactly within floating-point tolerance (1e-4). is_preserved is marked True with reason 'dict_keys_and_values_matched'. Runner writes artifact to disk.",
+      comesOut: "Saved Artifact results/smoke/raw/BS-1-A_smoke.json:\n{\n  \"case_id\": \"BS-1-A\",\n  \"doc_id\": \"BS-1\",\n  \"is_trap\": false,\n  \"is_unstable\": false,\n  \"is_preserved\": true,\n  \"match_reason\": \"dict_keys_and_values_matched\",\n  \"policy_violations\": [],\n  \"r0\": {\"food\": 450.0},\n  \"r1\": {\"food\": 450.0},\n  \"retries\": 0\n}",
+      nextReceives: "Pipeline complete for BS-1-A. Results aggregated into results/smoke/smoke_results.json.",
+      privacyBoundary: "The persisted JSON artifact contains only field categories, decisions, and schema output. No raw sensitive values written to disk.",
+      privacyType: "privacy-safe",
+      codePointers: "eval/comparators.py#L25-L60 evaluates numerical tolerance (1e-4); eval/metrics.py classifies failures."
+    }
+  ];
+
+  let currentStep = 1;
+
+  function renderStepPills() {
+    const container = document.getElementById("step-pills-bar");
+    container.innerHTML = "";
+    WALKTHROUGH_STEPS.forEach((s) => {
+      const btn = document.createElement("button");
+      btn.className = `step-pill-btn ${s.step === currentStep ? "active" : ""}`;
+      btn.innerText = `Step ${s.step}: ${s.title.split(". ")[1]}`;
+      btn.onclick = () => goToStep(s.step);
+      container.appendChild(btn);
+    });
+  }
+
+  function updateMasterSvgHighlights(step) {
+    // Reset all nodes
+    document.querySelectorAll(".node-box").forEach(el => el.classList.remove("node-active"));
+    document.querySelectorAll("#master-svg line, #master-svg path").forEach(el => el.classList.remove("arrow-active"));
+
+    const data = WALKTHROUGH_STEPS.find(s => s.step === step);
+    if (!data) return;
+
+    // Highlight active nodes
+    data.nodeIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.classList.add("node-active");
+    });
+
+    // Highlight active edges
+    data.edgeIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.classList.add("arrow-active");
+    });
+  }
+
+  function renderStepContent(step) {
+    const data = WALKTHROUGH_STEPS.find(s => s.step === step);
+    if (!data) return;
+
+    document.getElementById("step-counter-text").innerText = `Step ${data.step} of 8`;
+    document.getElementById("step-title").innerText = data.title;
+    document.getElementById("progress-fill").style.width = `${(data.step / 8) * 100}%`;
+
+    document.getElementById("btn-prev").disabled = (data.step === 1);
+    document.getElementById("btn-next").disabled = (data.step === 8);
+
+    const container = document.getElementById("step-content-container");
+    container.innerHTML = `
+      <div class="step-details-grid">
+        
+        <!-- 1. Enters -->
+        <div class="detail-box">
+          <h4>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M10 14L21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+            1. What Enters This Stage
+          </h4>
+          <pre>${escapeHtml(data.enters)}</pre>
+        </div>
+
+        <!-- 2. Code Runs -->
+        <div class="detail-box">
+          <h4>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6M8 6 2 12 8 18"/></svg>
+            2. Which Code Runs
+          </h4>
+          <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:0.4rem;">Function: <code>${data.functionName}</code></p>
+          <pre>${escapeHtml(data.codeRuns)}</pre>
+        </div>
+
+        <!-- 3. What Happens -->
+        <div class="detail-box">
+          <h4>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            3. What Happens
+          </h4>
+          <p>${data.happens}</p>
+        </div>
+
+        <!-- 4. What Comes Out -->
+        <div class="detail-box">
+          <h4>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            4. What Comes Out
+          </h4>
+          <pre>${escapeHtml(data.comesOut)}</pre>
+        </div>
+
+        <!-- 5. Next Receives -->
+        <div class="detail-box">
+          <h4>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            5. What Next Stage Receives
+          </h4>
+          <p>${data.nextReceives}</p>
+        </div>
+
+        <!-- 6. Privacy Boundary -->
+        <div class="detail-box ${data.privacyType}">
+          <h4>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            6. Privacy Boundary
+          </h4>
+          <p>${data.privacyBoundary}</p>
+        </div>
+
+        <!-- 7. Pointers in Code -->
+        <div class="detail-box" style="grid-column: 1 / -1;">
+          <h4>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            7. What to Look for in Code
+          </h4>
+          <p>${data.codePointers}</p>
+        </div>
+
+      </div>
+    `;
+
+    renderStepPills();
+    updateMasterSvgHighlights(step);
+  }
+
+  function escapeHtml(text) {
+    if (!text) return "";
+    return text
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  function goToStep(s) {
+    if (s < 1 || s > 8) return;
+    currentStep = s;
+    renderStepContent(currentStep);
+  }
+
+  function nextStep() {
+    if (currentStep < 8) goToStep(currentStep + 1);
+  }
+
+  function prevStep() {
+    if (currentStep > 1) goToStep(currentStep - 1);
+  }
+
+  function resetStepper() {
+    goToStep(1);
+  }
+
+  function selectStage(stageId) {
+    // Jump walkthrough or highlight files
+    if (stageId === "S01" || stageId === "S02") goToStep(1);
+    else if (stageId === "S03") goToStep(2);
+    else if (stageId === "S04") goToStep(3);
+    else if (stageId === "S05" || stageId === "S06") goToStep(4);
+    else if (stageId === "S07" || stageId === "G01") goToStep(5);
+    else if (stageId === "S08" || stageId === "S09") goToStep(6);
+    else if (stageId === "S10" || stageId === "S11") goToStep(7);
+    else if (stageId === "S12" || stageId === "S13" || stageId === "S14") goToStep(8);
+  }
+
+  // Render coverage table
+  function renderCoverageTable(filter = "ALL") {
+    const tbody = document.getElementById("coverage-tbody");
+    tbody.innerHTML = "";
+    
+    const filtered = FILE_INVENTORY.filter(item => {
+      if (filter === "ALL") return true;
+      return item.cat === filter;
+    });
+
+    filtered.forEach(file => {
+      const tr = document.createElement("tr");
+      tr.id = `row-${file.path.replace(/[\/\.]/g, '_')}`;
+      tr.innerHTML = `
+        <td><a class="file-link" href="../${file.path}">${file.path}</a></td>
+        <td>${file.role}</td>
+        <td><span class="badge badge-local">${file.cat}</span></td>
+        <td>${file.status}</td>
+        <td><code>${file.callers}</code></td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function filterCoverageTable(val) {
+    renderCoverageTable(val);
+  }
+
+  // Keyboard navigation support
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowRight") nextStep();
+    if (e.key === "ArrowLeft") prevStep();
+  });
+
+  // Initialization
+  document.addEventListener("DOMContentLoaded", () => {
+    renderCoverageTable("ALL");
+    goToStep(1);
+  });
+</script>
+
+</body>
+</html>

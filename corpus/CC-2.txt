@@ -1,0 +1,20 @@
+================================================================================
+                          SBI CARD - MONTHLY CREDIT STATEMENT                   
+================================================================================
+Name of Cardholder:  Rajesh Kulkarni
+Credit Card Number:  5241-7600-1122-3344
+Reference ID:        SBICUST881923
+Mobile Phone:        +91-9822012345
+Billing Residence:   Flat 303 Kothrud Heights Pune Maharashtra 411038
+Card Variant:        SBI Card Elite Signature
+Billing Cycle:       18-Aug-2026 to 17-Sep-2026
+--------------------------------------------------------------------------------
+Date         Description                                       Amount (INR)
+--------------------------------------------------------------------------------
+2026-08-25   TRAVEL BOOKING - MAKEMYTRIP                          14500.00
+             Merchant Name: MakeMyTrip India Pvt Ltd
+2026-09-02   ELECTRONICS STORE PUNE                           7800.00
+2026-09-17   CLOSING TOTAL AMOUNT PAYABLE:                    28900.50
+2026-09-17   Payment Due Date: 07-Oct-2026
+================================================================================
+SBI Cards & Payment Services Ltd.

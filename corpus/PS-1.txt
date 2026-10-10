@@ -1,0 +1,22 @@
+================================================================================
+                     INFOSYS TECHNOLOGIES - MONTHLY SALARY PAYSLIP              
+================================================================================
+Company / Employer:  Infosys Technologies Ltd
+Employee Full Name:  Deepak Srinivasan
+Employee Code:       EMP104928
+Income Tax PAN:      ABCPS1234F
+Date of Birth:       1992-06-15
+Phone Contact:       +91-9840123456
+Disbursement Bank Ac:62019482019
+Designation:         Lead Systems Engineer | Pay Period: August 2026
+--------------------------------------------------------------------------------
+Earnings Header                         Amount (INR)   Deductions Header               Amount (INR)
+--------------------------------------------------------------------------------
+Basic Salary Component:                  55000.00   Provident Fund Deduction:        6600.00
+House Rent Allowance (HRA):              22000.00   Professional Tax:                 200.00
+Special Allowance:                       20000.00   Income Tax Withheld:             2750.00
+--------------------------------------------------------------------------------
+Gross Earnings:                          97000.00   Total Deductions:                9550.00
+NET TAKE-HOME REMUNERATION:              87450.00
+================================================================================
+Corporate Address: Electronics City, Hosur Road, Bengaluru 560100

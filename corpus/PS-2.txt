@@ -1,0 +1,22 @@
+================================================================================
+               TATA CONSULTANCY SERVICES - SALARY SLIP (FORM 16 STYLE)          
+================================================================================
+Organization Name:   Tata Consultancy Services Ltd
+Staff Member:        Meera Sundaram
+Staff Identification:TCS784910
+Permanent Account No:XYZPM5678K
+Birth Date:          1988-11-23
+Official Contact No: +91-9820012345
+Salary Credit Ac No: 912010045678901
+Grade:               Consultant | Location: Mumbai | Pay Cycle: August 2026
+--------------------------------------------------------------------------------
+Allowance Description                   Amount (INR)   Statutory Deductions            Amount (INR)
+--------------------------------------------------------------------------------
+Basic Pay Structure:                     60000.00   Employee PF Contribution:        7200.00
+HRA Salary Component:                    28000.00   Tax Deducted at Source (TDS):    4200.00
+Performance Incentive:                   20000.00   Statutory Gratuity Provision:     400.00
+--------------------------------------------------------------------------------
+Total Monthly Earnings:                 108000.00   Total Statutory Deductions:     11800.00
+DISBURSED NET SALARY AMOUNT:             96200.00
+================================================================================
+TCS House, Raveline Street, Fort, Mumbai 400001.

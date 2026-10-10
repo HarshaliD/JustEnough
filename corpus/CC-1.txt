@@ -1,0 +1,20 @@
+================================================================================
+                         AXIS BANK - CREDIT CARD STATEMENT                      
+================================================================================
+Primary Cardholder:  Kavita Nair
+Card Number:         4532-8901-2345-6789
+Card Account ID:     AXISCC902341
+Contact Phone:       +91-9849012345
+Billing Address:     Plot 56 Jubilee Hills Hyderabad Telangana 500033
+Card Type:           Axis Bank Titanium Privilege
+Statement Period:    15-Aug-2026 to 14-Sep-2026
+--------------------------------------------------------------------------------
+Date         Transaction Description                           Amount (INR)
+--------------------------------------------------------------------------------
+2026-08-20   DOMESTIC ONLINE PURCHASE - FLIPKART                   8990.00
+             Vendor: Flipkart Internet Pvt Ltd
+2026-08-28   GROCERY RETAIL STORE HYDERABAD                   4320.00
+2026-09-14   TOTAL STATEMENT OUTSTANDING DUE:                 32450.00
+2026-09-14   Minimum Amount Due:                              3245.00
+================================================================================
+Payment Due Date: 04-Oct-2026 | Axis Bank Credit Card Division

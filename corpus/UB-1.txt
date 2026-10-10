@@ -1,0 +1,17 @@
+================================================================================
+         BANGALORE ELECTRICITY SUPPLY COMPANY LIMITED (BESCOM) - UTILITY BILL   
+================================================================================
+Consumer Account ID:    CA-5409182341
+Consumer / Customer Name:Naveen Ranganathan
+Registered Mobile:      +91-9448012345
+Premises Service Address:No 88 5th Cross Malleshwaram Bengaluru 560003
+Electric Meter Number:  MTR-KA-778201
+Sub-Division:           Malleshwaram C-4 | Tariff Category: LT-2(a) Domestic
+Billing Period:         01-Aug-2026 to 31-Aug-2026 | Meter Constant: 1.0
+Previous Reading: 4120 units | Current Reading: 4540 units | Billed Consumption: 420 kWh
+--------------------------------------------------------------------------------
+Total Current Bill Payable Amount:        INR 4180.00
+Due Date for Payment:                         2026-09-25
+Regulatory Clause: Failure to pay before the due date will attract a surcharge of 2 percent per month and immediate disconnection without further notice.
+================================================================================
+For grievances call BESCOM 24x7 Helpline: 1912 | Save Electricity for a Greener Tomorrow

@@ -1,0 +1,41 @@
+{
+  "_comment": "Free-text rubric template for Day 1 equivalence checking. Rubric content must be written by a human. Do not invent rubric content.",
+  "cases": {
+    "BS-1-B": {
+      "task": "Find suspicious transactions",
+      "required_facts": [],
+      "unacceptable_hallucinations": [],
+      "scoring_rubric": "[HUMAN_REVIEW_REQUIRED]"
+    },
+    "BS-3-B": {
+      "task": "Which transactions look unusual and why?",
+      "required_facts": [],
+      "unacceptable_hallucinations": [],
+      "scoring_rubric": "[HUMAN_REVIEW_REQUIRED]"
+    },
+    "PS-1-A": {
+      "task": "Explain why my take-home pay changed",
+      "required_facts": [],
+      "unacceptable_hallucinations": [],
+      "scoring_rubric": "[HUMAN_REVIEW_REQUIRED]"
+    },
+    "PS-2-A": {
+      "task": "What changed between my gross salary and take-home pay?",
+      "required_facts": [],
+      "unacceptable_hallucinations": [],
+      "scoring_rubric": "[HUMAN_REVIEW_REQUIRED]"
+    },
+    "RA-1-A": {
+      "task": "Summarize the key terms of my rent agreement",
+      "required_facts": [],
+      "unacceptable_hallucinations": [],
+      "scoring_rubric": "[HUMAN_REVIEW_REQUIRED]"
+    },
+    "IL-1-A": {
+      "task": "Summarize the important information in this document",
+      "required_facts": [],
+      "unacceptable_hallucinations": [],
+      "scoring_rubric": "[HUMAN_REVIEW_REQUIRED]"
+    }
+  }
+}

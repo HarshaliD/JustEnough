@@ -1,0 +1,1003 @@
+[
+  {
+    "id": "BS-1-01",
+    "doc_id": "BS-1",
+    "category": "person_name",
+    "value": "Aarav Sharma",
+    "location": {
+      "line": 4,
+      "start_char": 264,
+      "end_char": 276
+    }
+  },
+  {
+    "id": "BS-1-02",
+    "doc_id": "BS-1",
+    "category": "account_identifier",
+    "value": "30981245781",
+    "location": {
+      "line": 5,
+      "start_char": 298,
+      "end_char": 309
+    }
+  },
+  {
+    "id": "BS-1-03",
+    "doc_id": "BS-1",
+    "category": "internal_id",
+    "value": "CIF88392014",
+    "location": {
+      "line": 6,
+      "start_char": 331,
+      "end_char": 342
+    }
+  },
+  {
+    "id": "BS-1-04",
+    "doc_id": "BS-1",
+    "category": "contact",
+    "value": "+91-9845012345",
+    "location": {
+      "line": 7,
+      "start_char": 364,
+      "end_char": 378
+    }
+  },
+  {
+    "id": "BS-1-05",
+    "doc_id": "BS-1",
+    "category": "address",
+    "value": "Flat 402 Shanti Vihar Indiranagar Bengaluru 560038",
+    "location": {
+      "line": 8,
+      "start_char": 400,
+      "end_char": 450
+    }
+  },
+  {
+    "id": "BS-1-06",
+    "doc_id": "BS-1",
+    "category": "transaction_date",
+    "value": "2026-09-02",
+    "location": {
+      "line": 14,
+      "start_char": 813,
+      "end_char": 823
+    }
+  },
+  {
+    "id": "BS-1-07",
+    "doc_id": "BS-1",
+    "category": "amount",
+    "value": "450.00",
+    "location": {
+      "line": 15,
+      "start_char": 955,
+      "end_char": 961
+    }
+  },
+  {
+    "id": "BS-1-08",
+    "doc_id": "BS-1",
+    "category": "counterparty_name",
+    "value": "Priya Patel",
+    "location": {
+      "line": 17,
+      "start_char": 1062,
+      "end_char": 1073
+    }
+  },
+  {
+    "id": "BS-1-09",
+    "doc_id": "BS-1",
+    "category": "merchant",
+    "value": "Apollo Pharmacy Indiranagar",
+    "location": {
+      "line": 19,
+      "start_char": 1213,
+      "end_char": 1240
+    }
+  },
+  {
+    "id": "BS-1-10",
+    "doc_id": "BS-1",
+    "category": "balance",
+    "value": "82730.00",
+    "location": {
+      "line": 20,
+      "start_char": 1370,
+      "end_char": 1378
+    }
+  },
+  {
+    "id": "BS-2-01",
+    "doc_id": "BS-2",
+    "category": "person_name",
+    "value": "Vikram Malhotra",
+    "location": {
+      "line": 4,
+      "start_char": 264,
+      "end_char": 279
+    }
+  },
+  {
+    "id": "BS-2-02",
+    "doc_id": "BS-2",
+    "category": "account_identifier",
+    "value": "50100432891234",
+    "location": {
+      "line": 5,
+      "start_char": 301,
+      "end_char": 315
+    }
+  },
+  {
+    "id": "BS-2-03",
+    "doc_id": "BS-2",
+    "category": "internal_id",
+    "value": "CUST91028345",
+    "location": {
+      "line": 6,
+      "start_char": 337,
+      "end_char": 349
+    }
+  },
+  {
+    "id": "BS-2-04",
+    "doc_id": "BS-2",
+    "category": "contact",
+    "value": "+91-9811234567",
+    "location": {
+      "line": 7,
+      "start_char": 371,
+      "end_char": 385
+    }
+  },
+  {
+    "id": "BS-2-05",
+    "doc_id": "BS-2",
+    "category": "address",
+    "value": "A-12 Sector 62 Noida Uttar Pradesh 201309",
+    "location": {
+      "line": 8,
+      "start_char": 407,
+      "end_char": 448
+    }
+  },
+  {
+    "id": "BS-2-06",
+    "doc_id": "BS-2",
+    "category": "transaction_date",
+    "value": "2026-09-01",
+    "location": {
+      "line": 14,
+      "start_char": 808,
+      "end_char": 818
+    }
+  },
+  {
+    "id": "BS-2-07",
+    "doc_id": "BS-2",
+    "category": "counterparty_name",
+    "value": "Rohan Verma",
+    "location": {
+      "line": 15,
+      "start_char": 929,
+      "end_char": 940
+    }
+  },
+  {
+    "id": "BS-2-08",
+    "doc_id": "BS-2",
+    "category": "merchant",
+    "value": "Zomato Media Pvt Ltd",
+    "location": {
+      "line": 17,
+      "start_char": 1080,
+      "end_char": 1100
+    }
+  },
+  {
+    "id": "BS-2-09",
+    "doc_id": "BS-2",
+    "category": "amount",
+    "value": "3450.00",
+    "location": {
+      "line": 18,
+      "start_char": 1200,
+      "end_char": 1207
+    }
+  },
+  {
+    "id": "BS-2-10",
+    "doc_id": "BS-2",
+    "category": "balance",
+    "value": "137770.00",
+    "location": {
+      "line": 19,
+      "start_char": 1323,
+      "end_char": 1332
+    }
+  },
+  {
+    "id": "BS-3-01",
+    "doc_id": "BS-3",
+    "category": "person_name",
+    "value": "Ananya Deshmukh",
+    "location": {
+      "line": 4,
+      "start_char": 264,
+      "end_char": 279
+    }
+  },
+  {
+    "id": "BS-3-02",
+    "doc_id": "BS-3",
+    "category": "account_identifier",
+    "value": "001205004567",
+    "location": {
+      "line": 5,
+      "start_char": 301,
+      "end_char": 313
+    }
+  },
+  {
+    "id": "BS-3-03",
+    "doc_id": "BS-3",
+    "category": "internal_id",
+    "value": "ICICI7749201",
+    "location": {
+      "line": 6,
+      "start_char": 335,
+      "end_char": 347
+    }
+  },
+  {
+    "id": "BS-3-04",
+    "doc_id": "BS-3",
+    "category": "contact",
+    "value": "+91-9723456789",
+    "location": {
+      "line": 7,
+      "start_char": 369,
+      "end_char": 383
+    }
+  },
+  {
+    "id": "BS-3-05",
+    "doc_id": "BS-3",
+    "category": "address",
+    "value": "Flat 14B Palm Grove Bandra West Mumbai 400050",
+    "location": {
+      "line": 8,
+      "start_char": 405,
+      "end_char": 450
+    }
+  },
+  {
+    "id": "BS-3-06",
+    "doc_id": "BS-3",
+    "category": "transaction_date",
+    "value": "2026-09-02",
+    "location": {
+      "line": 14,
+      "start_char": 798,
+      "end_char": 808
+    }
+  },
+  {
+    "id": "BS-3-07",
+    "doc_id": "BS-3",
+    "category": "merchant",
+    "value": "Amazon Retail India",
+    "location": {
+      "line": 15,
+      "start_char": 922,
+      "end_char": 941
+    }
+  },
+  {
+    "id": "BS-3-08",
+    "doc_id": "BS-3",
+    "category": "counterparty_name",
+    "value": "Sunil Joshi",
+    "location": {
+      "line": 16,
+      "start_char": 1020,
+      "end_char": 1031
+    }
+  },
+  {
+    "id": "BS-3-09",
+    "doc_id": "BS-3",
+    "category": "amount",
+    "value": "5000.00",
+    "location": {
+      "line": 18,
+      "start_char": 1197,
+      "end_char": 1204
+    }
+  },
+  {
+    "id": "BS-3-10",
+    "doc_id": "BS-3",
+    "category": "balance",
+    "value": "84701.00",
+    "location": {
+      "line": 19,
+      "start_char": 1320,
+      "end_char": 1328
+    }
+  },
+  {
+    "id": "CC-1-01",
+    "doc_id": "CC-1",
+    "category": "person_name",
+    "value": "Kavita Nair",
+    "location": {
+      "line": 4,
+      "start_char": 264,
+      "end_char": 275
+    }
+  },
+  {
+    "id": "CC-1-02",
+    "doc_id": "CC-1",
+    "category": "account_identifier",
+    "value": "4532-8901-2345-6789",
+    "location": {
+      "line": 5,
+      "start_char": 297,
+      "end_char": 316
+    }
+  },
+  {
+    "id": "CC-1-03",
+    "doc_id": "CC-1",
+    "category": "internal_id",
+    "value": "AXISCC902341",
+    "location": {
+      "line": 6,
+      "start_char": 338,
+      "end_char": 350
+    }
+  },
+  {
+    "id": "CC-1-04",
+    "doc_id": "CC-1",
+    "category": "contact",
+    "value": "+91-9849012345",
+    "location": {
+      "line": 7,
+      "start_char": 372,
+      "end_char": 386
+    }
+  },
+  {
+    "id": "CC-1-05",
+    "doc_id": "CC-1",
+    "category": "address",
+    "value": "Plot 56 Jubilee Hills Hyderabad Telangana 500033",
+    "location": {
+      "line": 8,
+      "start_char": 408,
+      "end_char": 456
+    }
+  },
+  {
+    "id": "CC-1-06",
+    "doc_id": "CC-1",
+    "category": "transaction_date",
+    "value": "2026-08-20",
+    "location": {
+      "line": 14,
+      "start_char": 793,
+      "end_char": 803
+    }
+  },
+  {
+    "id": "CC-1-07",
+    "doc_id": "CC-1",
+    "category": "merchant",
+    "value": "Flipkart Internet Pvt Ltd",
+    "location": {
+      "line": 15,
+      "start_char": 889,
+      "end_char": 914
+    }
+  },
+  {
+    "id": "CC-1-08",
+    "doc_id": "CC-1",
+    "category": "amount",
+    "value": "4320.00",
+    "location": {
+      "line": 16,
+      "start_char": 977,
+      "end_char": 984
+    }
+  },
+  {
+    "id": "CC-1-09",
+    "doc_id": "CC-1",
+    "category": "balance",
+    "value": "32450.00",
+    "location": {
+      "line": 17,
+      "start_char": 1047,
+      "end_char": 1055
+    }
+  },
+  {
+    "id": "CC-2-01",
+    "doc_id": "CC-2",
+    "category": "person_name",
+    "value": "Rajesh Kulkarni",
+    "location": {
+      "line": 4,
+      "start_char": 264,
+      "end_char": 279
+    }
+  },
+  {
+    "id": "CC-2-02",
+    "doc_id": "CC-2",
+    "category": "account_identifier",
+    "value": "5241-7600-1122-3344",
+    "location": {
+      "line": 5,
+      "start_char": 301,
+      "end_char": 320
+    }
+  },
+  {
+    "id": "CC-2-03",
+    "doc_id": "CC-2",
+    "category": "internal_id",
+    "value": "SBICUST881923",
+    "location": {
+      "line": 6,
+      "start_char": 342,
+      "end_char": 355
+    }
+  },
+  {
+    "id": "CC-2-04",
+    "doc_id": "CC-2",
+    "category": "contact",
+    "value": "+91-9822012345",
+    "location": {
+      "line": 7,
+      "start_char": 377,
+      "end_char": 391
+    }
+  },
+  {
+    "id": "CC-2-05",
+    "doc_id": "CC-2",
+    "category": "address",
+    "value": "Flat 303 Kothrud Heights Pune Maharashtra 411038",
+    "location": {
+      "line": 8,
+      "start_char": 413,
+      "end_char": 461
+    }
+  },
+  {
+    "id": "CC-2-06",
+    "doc_id": "CC-2",
+    "category": "transaction_date",
+    "value": "2026-08-25",
+    "location": {
+      "line": 14,
+      "start_char": 794,
+      "end_char": 804
+    }
+  },
+  {
+    "id": "CC-2-07",
+    "doc_id": "CC-2",
+    "category": "merchant",
+    "value": "MakeMyTrip India Pvt Ltd",
+    "location": {
+      "line": 15,
+      "start_char": 897,
+      "end_char": 921
+    }
+  },
+  {
+    "id": "CC-2-08",
+    "doc_id": "CC-2",
+    "category": "amount",
+    "value": "7800.00",
+    "location": {
+      "line": 16,
+      "start_char": 984,
+      "end_char": 991
+    }
+  },
+  {
+    "id": "CC-2-09",
+    "doc_id": "CC-2",
+    "category": "balance",
+    "value": "28900.50",
+    "location": {
+      "line": 17,
+      "start_char": 1054,
+      "end_char": 1062
+    }
+  },
+  {
+    "id": "PS-1-01",
+    "doc_id": "PS-1",
+    "category": "employer",
+    "value": "Infosys Technologies Ltd",
+    "location": {
+      "line": 4,
+      "start_char": 264,
+      "end_char": 288
+    }
+  },
+  {
+    "id": "PS-1-02",
+    "doc_id": "PS-1",
+    "category": "person_name",
+    "value": "Deepak Srinivasan",
+    "location": {
+      "line": 5,
+      "start_char": 310,
+      "end_char": 327
+    }
+  },
+  {
+    "id": "PS-1-03",
+    "doc_id": "PS-1",
+    "category": "internal_id",
+    "value": "EMP104928",
+    "location": {
+      "line": 6,
+      "start_char": 349,
+      "end_char": 358
+    }
+  },
+  {
+    "id": "PS-1-04",
+    "doc_id": "PS-1",
+    "category": "government_id",
+    "value": "ABCPS1234F",
+    "location": {
+      "line": 7,
+      "start_char": 380,
+      "end_char": 390
+    }
+  },
+  {
+    "id": "PS-1-05",
+    "doc_id": "PS-1",
+    "category": "date_of_birth",
+    "value": "1992-06-15",
+    "location": {
+      "line": 8,
+      "start_char": 412,
+      "end_char": 422
+    }
+  },
+  {
+    "id": "PS-1-06",
+    "doc_id": "PS-1",
+    "category": "contact",
+    "value": "+91-9840123456",
+    "location": {
+      "line": 9,
+      "start_char": 444,
+      "end_char": 458
+    }
+  },
+  {
+    "id": "PS-1-07",
+    "doc_id": "PS-1",
+    "category": "account_identifier",
+    "value": "62019482019",
+    "location": {
+      "line": 10,
+      "start_char": 480,
+      "end_char": 491
+    }
+  },
+  {
+    "id": "PS-1-08",
+    "doc_id": "PS-1",
+    "category": "salary_component",
+    "value": "55000.00",
+    "location": {
+      "line": 15,
+      "start_char": 864,
+      "end_char": 872
+    }
+  },
+  {
+    "id": "PS-1-09",
+    "doc_id": "PS-1",
+    "category": "amount",
+    "value": "87450.00",
+    "location": {
+      "line": 20,
+      "start_char": 1317,
+      "end_char": 1325
+    }
+  },
+  {
+    "id": "PS-2-01",
+    "doc_id": "PS-2",
+    "category": "employer",
+    "value": "Tata Consultancy Services Ltd",
+    "location": {
+      "line": 4,
+      "start_char": 264,
+      "end_char": 293
+    }
+  },
+  {
+    "id": "PS-2-02",
+    "doc_id": "PS-2",
+    "category": "person_name",
+    "value": "Meera Sundaram",
+    "location": {
+      "line": 5,
+      "start_char": 315,
+      "end_char": 329
+    }
+  },
+  {
+    "id": "PS-2-03",
+    "doc_id": "PS-2",
+    "category": "internal_id",
+    "value": "TCS784910",
+    "location": {
+      "line": 6,
+      "start_char": 351,
+      "end_char": 360
+    }
+  },
+  {
+    "id": "PS-2-04",
+    "doc_id": "PS-2",
+    "category": "government_id",
+    "value": "XYZPM5678K",
+    "location": {
+      "line": 7,
+      "start_char": 382,
+      "end_char": 392
+    }
+  },
+  {
+    "id": "PS-2-05",
+    "doc_id": "PS-2",
+    "category": "date_of_birth",
+    "value": "1988-11-23",
+    "location": {
+      "line": 8,
+      "start_char": 414,
+      "end_char": 424
+    }
+  },
+  {
+    "id": "PS-2-06",
+    "doc_id": "PS-2",
+    "category": "contact",
+    "value": "+91-9820012345",
+    "location": {
+      "line": 9,
+      "start_char": 446,
+      "end_char": 460
+    }
+  },
+  {
+    "id": "PS-2-07",
+    "doc_id": "PS-2",
+    "category": "account_identifier",
+    "value": "912010045678901",
+    "location": {
+      "line": 10,
+      "start_char": 482,
+      "end_char": 497
+    }
+  },
+  {
+    "id": "PS-2-08",
+    "doc_id": "PS-2",
+    "category": "salary_component",
+    "value": "28000.00",
+    "location": {
+      "line": 16,
+      "start_char": 970,
+      "end_char": 978
+    }
+  },
+  {
+    "id": "PS-2-09",
+    "doc_id": "PS-2",
+    "category": "amount",
+    "value": "96200.00",
+    "location": {
+      "line": 20,
+      "start_char": 1330,
+      "end_char": 1338
+    }
+  },
+  {
+    "id": "RA-1-01",
+    "doc_id": "RA-1",
+    "category": "person_name",
+    "value": "Suresh Chandra Gupta",
+    "location": {
+      "line": 5,
+      "start_char": 349,
+      "end_char": 369
+    }
+  },
+  {
+    "id": "RA-1-02",
+    "doc_id": "RA-1",
+    "category": "government_id",
+    "value": "ABCPG4321D",
+    "location": {
+      "line": 6,
+      "start_char": 418,
+      "end_char": 428
+    }
+  },
+  {
+    "id": "RA-1-03",
+    "doc_id": "RA-1",
+    "category": "contact",
+    "value": "+91-9810012345",
+    "location": {
+      "line": 7,
+      "start_char": 453,
+      "end_char": 467
+    }
+  },
+  {
+    "id": "RA-1-04",
+    "doc_id": "RA-1",
+    "category": "counterparty_name",
+    "value": "Aditya Nambiar",
+    "location": {
+      "line": 9,
+      "start_char": 496,
+      "end_char": 510
+    }
+  },
+  {
+    "id": "RA-1-05",
+    "doc_id": "RA-1",
+    "category": "address",
+    "value": "House No 24 Defence Colony New Delhi 110024",
+    "location": {
+      "line": 10,
+      "start_char": 556,
+      "end_char": 599
+    }
+  },
+  {
+    "id": "RA-1-06",
+    "doc_id": "RA-1",
+    "category": "internal_id",
+    "value": "REG-DL-2026-9041",
+    "location": {
+      "line": 11,
+      "start_char": 624,
+      "end_char": 640
+    }
+  },
+  {
+    "id": "RA-1-07",
+    "doc_id": "RA-1",
+    "category": "transaction_date",
+    "value": "2026-08-01",
+    "location": {
+      "line": 12,
+      "start_char": 665,
+      "end_char": 675
+    }
+  },
+  {
+    "id": "RA-1-08",
+    "doc_id": "RA-1",
+    "category": "amount",
+    "value": "38000.00",
+    "location": {
+      "line": 15,
+      "start_char": 836,
+      "end_char": 844
+    }
+  },
+  {
+    "id": "RA-1-09",
+    "doc_id": "RA-1",
+    "category": "clause_text",
+    "value": "The tenant shall pay a refundable security deposit of Rupees 114000 and the lock-in period shall be eleven months.",
+    "location": {
+      "line": 16,
+      "start_char": 914,
+      "end_char": 1028
+    }
+  },
+  {
+    "id": "UB-1-01",
+    "doc_id": "UB-1",
+    "category": "account_identifier",
+    "value": "CA-5409182341",
+    "location": {
+      "line": 4,
+      "start_char": 267,
+      "end_char": 280
+    }
+  },
+  {
+    "id": "UB-1-02",
+    "doc_id": "UB-1",
+    "category": "person_name",
+    "value": "Naveen Ranganathan",
+    "location": {
+      "line": 5,
+      "start_char": 306,
+      "end_char": 324
+    }
+  },
+  {
+    "id": "UB-1-03",
+    "doc_id": "UB-1",
+    "category": "contact",
+    "value": "+91-9448012345",
+    "location": {
+      "line": 6,
+      "start_char": 349,
+      "end_char": 363
+    }
+  },
+  {
+    "id": "UB-1-04",
+    "doc_id": "UB-1",
+    "category": "address",
+    "value": "No 88 5th Cross Malleshwaram Bengaluru 560003",
+    "location": {
+      "line": 7,
+      "start_char": 389,
+      "end_char": 434
+    }
+  },
+  {
+    "id": "UB-1-05",
+    "doc_id": "UB-1",
+    "category": "internal_id",
+    "value": "MTR-KA-778201",
+    "location": {
+      "line": 8,
+      "start_char": 459,
+      "end_char": 472
+    }
+  },
+  {
+    "id": "UB-1-06",
+    "doc_id": "UB-1",
+    "category": "amount",
+    "value": "4180.00",
+    "location": {
+      "line": 13,
+      "start_char": 839,
+      "end_char": 846
+    }
+  },
+  {
+    "id": "UB-1-07",
+    "doc_id": "UB-1",
+    "category": "transaction_date",
+    "value": "2026-09-25",
+    "location": {
+      "line": 14,
+      "start_char": 893,
+      "end_char": 903
+    }
+  },
+  {
+    "id": "UB-1-08",
+    "doc_id": "UB-1",
+    "category": "clause_text",
+    "value": "Failure to pay before the due date will attract a surcharge of 2 percent per month and immediate disconnection without further notice.",
+    "location": {
+      "line": 15,
+      "start_char": 923,
+      "end_char": 1057
+    }
+  },
+  {
+    "id": "IL-1-01",
+    "doc_id": "IL-1",
+    "category": "internal_id",
+    "value": "POL-STAR-8849201",
+    "location": {
+      "line": 4,
+      "start_char": 272,
+      "end_char": 288
+    }
+  },
+  {
+    "id": "IL-1-02",
+    "doc_id": "IL-1",
+    "category": "person_name",
+    "value": "Harish Venkataraman",
+    "location": {
+      "line": 5,
+      "start_char": 318,
+      "end_char": 337
+    }
+  },
+  {
+    "id": "IL-1-03",
+    "doc_id": "IL-1",
+    "category": "date_of_birth",
+    "value": "1975-04-10",
+    "location": {
+      "line": 6,
+      "start_char": 367,
+      "end_char": 377
+    }
+  },
+  {
+    "id": "IL-1-04",
+    "doc_id": "IL-1",
+    "category": "contact",
+    "value": "+91-9841012345",
+    "location": {
+      "line": 7,
+      "start_char": 407,
+      "end_char": 421
+    }
+  },
+  {
+    "id": "IL-1-05",
+    "doc_id": "IL-1",
+    "category": "government_id",
+    "value": "ABHA-91-8823-4410",
+    "location": {
+      "line": 8,
+      "start_char": 451,
+      "end_char": 468
+    }
+  },
+  {
+    "id": "IL-1-06",
+    "doc_id": "IL-1",
+    "category": "medical_value",
+    "value": "HbA1c: 8.4 percent, Fasting Blood Sugar: 168 mg/dL",
+    "location": {
+      "line": 13,
+      "start_char": 748,
+      "end_char": 798
+    }
+  },
+  {
+    "id": "IL-1-07",
+    "doc_id": "IL-1",
+    "category": "amount",
+    "value": "6500.00",
+    "location": {
+      "line": 17,
+      "start_char": 1089,
+      "end_char": 1096
+    }
+  },
+  {
+    "id": "IL-1-08",
+    "doc_id": "IL-1",
+    "category": "clause_text",
+    "value": "Pre-existing conditions for diabetes mellitus are subject to a 24-month waiting period from policy inception date.",
+    "location": {
+      "line": 18,
+      "start_char": 1138,
+      "end_char": 1252
+    }
+  }
+]

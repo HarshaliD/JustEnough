@@ -1,0 +1,21 @@
+================================================================================
+                           HDFC BANK - SAVINGS ACCOUNT STATEMENT                
+================================================================================
+Customer Name:       Vikram Malhotra
+Savings Account No:  50100432891234
+Customer ID:         CUST91028345
+Registered Contact:  +91-9811234567
+Mailing Address:     A-12 Sector 62 Noida Uttar Pradesh 201309
+Branch:              Noida Sector 62 | IFSC: HDFC0001204
+Period:              01-Sep-2026 to 15-Sep-2026
+--------------------------------------------------------------------------------
+Date         Description                        Debit (INR)   Credit (INR)    Balance (INR)
+--------------------------------------------------------------------------------
+2026-09-01   OPENING BALANCE FOR SEPTEMBER                  -              -       145000.00
+2026-09-04   UPI payment to Rohan Verma                    2500.00              -       142500.00
+             UPI Reference: rohan.verma@okhdfcbank
+2026-09-07   Card purchase at Zomato Media Pvt Ltd            1280.00              -       141220.00
+2026-09-10   Online Utility Bill payment         3450.00              -       137770.00
+2026-09-15   Closing Available Balance:                                             137770.00
+================================================================================
+END OF STATEMENT - HDFC Bank Limited.

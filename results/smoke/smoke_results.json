@@ -1,0 +1,425 @@
+{
+  "smoke_cases": [
+    "BS-1-A",
+    "BS-1-C",
+    "CC-1-B",
+    "PS-1-B"
+  ],
+  "metrics": {
+    "total_cases_evaluated": 4,
+    "preserved_cases": 4,
+    "unstable_cases": 0,
+    "answer_preservation": 1.0,
+    "sensitive_field_reduction": 0.8281,
+    "detection_recall": 0.3214,
+    "trap_check_rate": 1.0,
+    "decision_consistency": 1.0,
+    "over_redaction_rate": 0.0,
+    "under_redaction_rate": 0.1111,
+    "label_agreement_rate": 1.0,
+    "ambiguous_labels_count": 1,
+    "failures": []
+  },
+  "eval_cases": [
+    {
+      "case_id": "BS-1-A",
+      "doc_id": "BS-1",
+      "task": "Summarize my spending by category",
+      "is_trap": false,
+      "is_unstable": false,
+      "is_preserved": true,
+      "match_reason": "dict_keys_and_values_matched",
+      "plan_decisions": {
+        "account_identifier": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "government_id": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "person_name": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "counterparty_name": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "address": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "contact": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "date_of_birth": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "internal_id": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "employer": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "merchant": {
+          "action": "KEEP",
+          "reason": "Required for spending summary.",
+          "confidence": 0.95
+        },
+        "amount": {
+          "action": "KEEP",
+          "reason": "Required for spending summary.",
+          "confidence": 0.95
+        },
+        "balance": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "transaction_date": {
+          "action": "KEEP",
+          "reason": "Required for spending summary.",
+          "confidence": 0.95
+        },
+        "salary_component": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "medical_value": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "clause_text": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        }
+      },
+      "policy_violations": [],
+      "r0": {
+        "food": 450.0
+      },
+      "r1": {
+        "food": 450.0
+      },
+      "retries": 0
+    },
+    {
+      "case_id": "BS-1-C",
+      "doc_id": "BS-1",
+      "task": "Is this statement mine?",
+      "is_trap": true,
+      "is_unstable": false,
+      "is_preserved": true,
+      "match_reason": "boolean_verdict_match",
+      "plan_decisions": {
+        "account_identifier": {
+          "action": "MASK_PARTIAL",
+          "reason": "Verifying account ownership via last digits.",
+          "confidence": 0.9
+        },
+        "government_id": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "person_name": {
+          "action": "KEEP",
+          "reason": "Task requires identity matching.",
+          "confidence": 0.95
+        },
+        "counterparty_name": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "address": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "contact": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "date_of_birth": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "internal_id": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "employer": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "merchant": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "amount": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "balance": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "transaction_date": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "salary_component": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "medical_value": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "clause_text": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        }
+      },
+      "policy_violations": [],
+      "r0": {
+        "is_mine": true,
+        "matches_owner": true
+      },
+      "r1": {
+        "is_mine": true,
+        "matches_owner": true
+      },
+      "retries": 0
+    },
+    {
+      "case_id": "CC-1-B",
+      "doc_id": "CC-1",
+      "task": "What is my total outstanding balance?",
+      "is_trap": false,
+      "is_unstable": false,
+      "is_preserved": true,
+      "match_reason": "field_balance_match",
+      "plan_decisions": {
+        "account_identifier": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        },
+        "government_id": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        },
+        "person_name": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        },
+        "counterparty_name": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        },
+        "address": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        },
+        "contact": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        },
+        "date_of_birth": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        },
+        "internal_id": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        },
+        "employer": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        },
+        "merchant": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        },
+        "amount": {
+          "action": "KEEP",
+          "reason": "Required for balance calculation.",
+          "confidence": 0.95
+        },
+        "balance": {
+          "action": "KEEP",
+          "reason": "Required for balance calculation.",
+          "confidence": 0.95
+        },
+        "transaction_date": {
+          "action": "KEEP",
+          "reason": "Required for balance calculation.",
+          "confidence": 0.95
+        },
+        "salary_component": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        },
+        "medical_value": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        },
+        "clause_text": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        }
+      },
+      "policy_violations": [],
+      "r0": {
+        "balance": 32450.0
+      },
+      "r1": {
+        "balance": 32450.0
+      },
+      "retries": 0
+    },
+    {
+      "case_id": "PS-1-B",
+      "doc_id": "PS-1",
+      "task": "Summarize my salary components and deductions",
+      "is_trap": false,
+      "is_unstable": false,
+      "is_preserved": true,
+      "match_reason": "dict_keys_and_values_matched",
+      "plan_decisions": {
+        "account_identifier": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "government_id": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "person_name": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "counterparty_name": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "address": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "contact": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "date_of_birth": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "internal_id": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "employer": {
+          "action": "KEEP",
+          "reason": "Required for salary breakdown.",
+          "confidence": 0.95
+        },
+        "merchant": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "amount": {
+          "action": "KEEP",
+          "reason": "Required for salary breakdown.",
+          "confidence": 0.95
+        },
+        "balance": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "transaction_date": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "salary_component": {
+          "action": "KEEP",
+          "reason": "Required for salary breakdown.",
+          "confidence": 0.95
+        },
+        "medical_value": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "clause_text": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        }
+      },
+      "policy_violations": [],
+      "r0": {
+        "basic": 55000.0,
+        "net": 87450.0
+      },
+      "r1": {
+        "basic": 55000.0,
+        "net": 87450.0
+      },
+      "retries": 0
+    }
+  ]
+}

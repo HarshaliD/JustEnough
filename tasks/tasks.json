@@ -1,0 +1,212 @@
+[
+  {
+    "case_id": "BS-1-A",
+    "doc_id": "BS-1",
+    "task": "Summarize my spending by category",
+    "is_trap": false,
+    "answer_schema_id": "spending_summary"
+  },
+  {
+    "case_id": "BS-1-B",
+    "doc_id": "BS-1",
+    "task": "Find suspicious transactions",
+    "is_trap": false,
+    "answer_schema_id": "suspicious_transactions"
+  },
+  {
+    "case_id": "BS-1-C",
+    "doc_id": "BS-1",
+    "task": "Is this statement mine?",
+    "is_trap": true,
+    "answer_schema_id": "identity_check"
+  },
+  {
+    "case_id": "BS-2-A",
+    "doc_id": "BS-2",
+    "task": "What were my three largest expenses?",
+    "is_trap": false,
+    "answer_schema_id": "top_transactions"
+  },
+  {
+    "case_id": "BS-2-B",
+    "doc_id": "BS-2",
+    "task": "How much did I spend on UPI transactions?",
+    "is_trap": false,
+    "answer_schema_id": "transaction_total"
+  },
+  {
+    "case_id": "BS-2-C",
+    "doc_id": "BS-2",
+    "task": "Is this statement associated with my account?",
+    "is_trap": true,
+    "answer_schema_id": "identity_check"
+  },
+  {
+    "case_id": "BS-3-A",
+    "doc_id": "BS-3",
+    "task": "Summarize my monthly inflow and outflow",
+    "is_trap": false,
+    "answer_schema_id": "cashflow_summary"
+  },
+  {
+    "case_id": "BS-3-B",
+    "doc_id": "BS-3",
+    "task": "Which transactions look unusual and why?",
+    "is_trap": false,
+    "answer_schema_id": "suspicious_transactions"
+  },
+  {
+    "case_id": "BS-3-C",
+    "doc_id": "BS-3",
+    "task": "Does the account holder name match the stated owner?",
+    "is_trap": true,
+    "answer_schema_id": "identity_check"
+  },
+  {
+    "case_id": "CC-1-A",
+    "doc_id": "CC-1",
+    "task": "Summarize my credit-card spending by category",
+    "is_trap": false,
+    "answer_schema_id": "spending_summary"
+  },
+  {
+    "case_id": "CC-1-B",
+    "doc_id": "CC-1",
+    "task": "What is my total outstanding balance?",
+    "is_trap": false,
+    "answer_schema_id": "balance_summary"
+  },
+  {
+    "case_id": "CC-1-C",
+    "doc_id": "CC-1",
+    "task": "Is this credit-card statement mine?",
+    "is_trap": true,
+    "answer_schema_id": "identity_check"
+  },
+  {
+    "case_id": "CC-2-A",
+    "doc_id": "CC-2",
+    "task": "Identify my largest purchases this period",
+    "is_trap": false,
+    "answer_schema_id": "top_transactions"
+  },
+  {
+    "case_id": "CC-2-B",
+    "doc_id": "CC-2",
+    "task": "How much do I need to pay and by when?",
+    "is_trap": false,
+    "answer_schema_id": "payment_due"
+  },
+  {
+    "case_id": "CC-2-C",
+    "doc_id": "CC-2",
+    "task": "Does the cardholder information match the owner?",
+    "is_trap": true,
+    "answer_schema_id": "identity_check"
+  },
+  {
+    "case_id": "PS-1-A",
+    "doc_id": "PS-1",
+    "task": "Explain why my take-home pay changed",
+    "is_trap": false,
+    "answer_schema_id": "salary_explanation"
+  },
+  {
+    "case_id": "PS-1-B",
+    "doc_id": "PS-1",
+    "task": "Summarize my salary components and deductions",
+    "is_trap": false,
+    "answer_schema_id": "salary_summary"
+  },
+  {
+    "case_id": "PS-1-C",
+    "doc_id": "PS-1",
+    "task": "Is this payslip associated with me?",
+    "is_trap": true,
+    "answer_schema_id": "identity_check"
+  },
+  {
+    "case_id": "PS-2-A",
+    "doc_id": "PS-2",
+    "task": "What changed between my gross salary and take-home pay?",
+    "is_trap": false,
+    "answer_schema_id": "salary_explanation"
+  },
+  {
+    "case_id": "PS-2-B",
+    "doc_id": "PS-2",
+    "task": "What were my total deductions?",
+    "is_trap": false,
+    "answer_schema_id": "deduction_summary"
+  },
+  {
+    "case_id": "PS-2-C",
+    "doc_id": "PS-2",
+    "task": "Does the employee information identify me as the employee?",
+    "is_trap": true,
+    "answer_schema_id": "identity_check"
+  },
+  {
+    "case_id": "RA-1-A",
+    "doc_id": "RA-1",
+    "task": "Summarize the key terms of my rent agreement",
+    "is_trap": false,
+    "answer_schema_id": "clause_summary"
+  },
+  {
+    "case_id": "RA-1-B",
+    "doc_id": "RA-1",
+    "task": "What is the rent amount, deposit, and notice period?",
+    "is_trap": false,
+    "answer_schema_id": "agreement_terms"
+  },
+  {
+    "case_id": "RA-1-C",
+    "doc_id": "RA-1",
+    "task": "Is this agreement between me and the stated landlord?",
+    "is_trap": true,
+    "answer_schema_id": "identity_check"
+  },
+  {
+    "case_id": "UB-1-A",
+    "doc_id": "UB-1",
+    "task": "What is my total bill amount and due date?",
+    "is_trap": false,
+    "answer_schema_id": "bill_summary"
+  },
+  {
+    "case_id": "UB-1-B",
+    "doc_id": "UB-1",
+    "task": "Summarize my usage and charges",
+    "is_trap": false,
+    "answer_schema_id": "usage_summary"
+  },
+  {
+    "case_id": "UB-1-C",
+    "doc_id": "UB-1",
+    "task": "Is this utility bill associated with my address/account?",
+    "is_trap": true,
+    "answer_schema_id": "identity_check"
+  },
+  {
+    "case_id": "IL-1-A",
+    "doc_id": "IL-1",
+    "task": "Summarize the important information in this document",
+    "is_trap": false,
+    "answer_schema_id": "document_summary"
+  },
+  {
+    "case_id": "IL-1-B",
+    "doc_id": "IL-1",
+    "task": "What are the main values, amounts, or coverage/details I should know?",
+    "is_trap": false,
+    "answer_schema_id": "key_values_summary"
+  },
+  {
+    "case_id": "IL-1-C",
+    "doc_id": "IL-1",
+    "task": "Is this document associated with me?",
+    "is_trap": true,
+    "answer_schema_id": "identity_check"
+  }
+]

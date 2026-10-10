@@ -1,0 +1,4755 @@
+{
+  "version": "0.1-draft",
+  "labeling_status": "DRAFT_NOT_HUMAN_APPROVED",
+  "created_from": {
+    "task_source": "tasks.json",
+    "presence_source": "planted.json",
+    "presence_warning": "present=true means category appears in the planted inventory. planted.json is not complete privacy ground truth; verify presence against each source document."
+  },
+  "labeling_notes": [
+    "All entries are assistant-proposed drafts, not human-approved ground truth. The user supplied initial preferences for BS-1-A; those were simplified where needed.",
+    "For BS-1-A spending_summary, amount is KEEP rather than AGGREGATE because the current simple path should preserve transaction values and aggregation behavior is not assumed.",
+    "For BS-1-A spending_summary, merchant is KEEP rather than GENERALIZE because the current semantics do not guarantee semantic merchant-to-category mapping.",
+    "For BS-1-A spending_summary, balance and transaction_date are DROP; account identifier and internal/personal contact details are DROP unless the policy floor permits DROP or MASK_PARTIAL.",
+    "Absent-category labels are placeholders and should not be included in action-agreement scoring.",
+    "Identity-check cases and entries marked ambiguous require explicit human review of the task criterion.",
+    "Government IDs and full account/card identifiers are restricted to DROP or MASK_PARTIAL by policy."
+  ],
+  "categories": [
+    "account_identifier",
+    "government_id",
+    "person_name",
+    "counterparty_name",
+    "address",
+    "contact",
+    "date_of_birth",
+    "internal_id",
+    "employer",
+    "merchant",
+    "amount",
+    "balance",
+    "transaction_date",
+    "salary_component",
+    "medical_value",
+    "clause_text"
+  ],
+  "actions": [
+    "KEEP",
+    "DROP",
+    "MASK_PARTIAL",
+    "GENERALIZE",
+    "PSEUDONYMIZE",
+    "AGGREGATE"
+  ],
+  "cases": {
+    "BS-1-A": {
+      "doc_id": "BS-1",
+      "task": "Summarize my spending by category",
+      "answer_schema_id": "spending_summary",
+      "labels": {
+        "account_identifier": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "government_id": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "person_name": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not needed for category-level spending totals."
+        },
+        "counterparty_name": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not needed for category-level spending totals."
+        },
+        "address": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not needed for category-level spending totals."
+        },
+        "contact": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not needed for category-level spending totals."
+        },
+        "date_of_birth": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "internal_id": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not needed for category-level spending totals."
+        },
+        "employer": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "merchant": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Merchant/context helps infer spending categories; do not assume GENERALIZE maps merchants to semantic categories."
+        },
+        "amount": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Exact transaction amounts are needed for category totals; using KEEP avoids implementing aggregation in the labels."
+        },
+        "balance": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Balance is not needed for spending by category."
+        },
+        "transaction_date": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Exact dates are not requested."
+        },
+        "salary_component": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "medical_value": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "clause_text": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        }
+      }
+    },
+    "BS-1-B": {
+      "doc_id": "BS-1",
+      "task": "Find suspicious transactions",
+      "answer_schema_id": "suspicious_transactions",
+      "labels": {
+        "account_identifier": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "government_id": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "person_name": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "counterparty_name": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Identity is not inherently needed; pseudonymization can preserve linkage."
+        },
+        "address": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "contact": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "date_of_birth": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "internal_id": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "employer": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "merchant": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Useful for assessing and explaining unusual transactions."
+        },
+        "amount": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Useful for assessing and explaining unusual transactions."
+        },
+        "balance": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "transaction_date": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Useful for assessing and explaining unusual transactions."
+        },
+        "salary_component": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "medical_value": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "clause_text": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        }
+      }
+    },
+    "BS-1-C": {
+      "doc_id": "BS-1",
+      "task": "Is this statement mine?",
+      "answer_schema_id": "identity_check",
+      "labels": {
+        "account_identifier": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "government_id": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "person_name": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Identity comparison may require a stable name token; exact comparison criteria need human review."
+        },
+        "counterparty_name": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "address": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Need depends on which identity attributes are intended to be compared."
+        },
+        "contact": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Need depends on which identity attributes are intended to be compared."
+        },
+        "date_of_birth": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "internal_id": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Need depends on which identity attributes are intended to be compared."
+        },
+        "employer": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "merchant": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "amount": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "balance": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "transaction_date": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "salary_component": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "medical_value": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "clause_text": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        }
+      }
+    },
+    "BS-2-A": {
+      "doc_id": "BS-2",
+      "task": "What were my three largest expenses?",
+      "answer_schema_id": "top_transactions",
+      "labels": {
+        "account_identifier": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "government_id": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "person_name": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "counterparty_name": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Counterparty identity is not generally required to rank expenses."
+        },
+        "address": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "contact": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "date_of_birth": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "internal_id": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "employer": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "merchant": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Amounts and transaction context support ranking and identifying purchases."
+        },
+        "amount": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Amounts and transaction context support ranking and identifying purchases."
+        },
+        "balance": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "transaction_date": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Amounts and transaction context support ranking and identifying purchases."
+        },
+        "salary_component": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "medical_value": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "clause_text": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        }
+      }
+    },
+    "BS-2-B": {
+      "doc_id": "BS-2",
+      "task": "How much did I spend on UPI transactions?",
+      "answer_schema_id": "transaction_total",
+      "labels": {
+        "account_identifier": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "government_id": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "person_name": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "counterparty_name": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "address": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "contact": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "date_of_birth": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "internal_id": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "employer": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "merchant": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP",
+            "DROP"
+          ],
+          "ambiguous": true,
+          "reason": "May help identify the UPI subset depending on document structure."
+        },
+        "amount": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Needed to calculate the requested total."
+        },
+        "balance": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "transaction_date": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "salary_component": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "medical_value": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "clause_text": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        }
+      }
+    },
+    "BS-2-C": {
+      "doc_id": "BS-2",
+      "task": "Is this statement associated with my account?",
+      "answer_schema_id": "identity_check",
+      "labels": {
+        "account_identifier": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "government_id": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "person_name": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Identity comparison may require a stable name token; exact comparison criteria need human review."
+        },
+        "counterparty_name": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "address": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Need depends on which identity attributes are intended to be compared."
+        },
+        "contact": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Need depends on which identity attributes are intended to be compared."
+        },
+        "date_of_birth": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "internal_id": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Need depends on which identity attributes are intended to be compared."
+        },
+        "employer": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "merchant": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "amount": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "balance": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "transaction_date": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "salary_component": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "medical_value": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "clause_text": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        }
+      }
+    },
+    "BS-3-A": {
+      "doc_id": "BS-3",
+      "task": "Summarize my monthly inflow and outflow",
+      "answer_schema_id": "cashflow_summary",
+      "labels": {
+        "account_identifier": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "government_id": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "person_name": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "counterparty_name": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Names are not inherently required for aggregate cashflow."
+        },
+        "address": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "contact": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "date_of_birth": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "internal_id": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "employer": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "merchant": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Names are not inherently required for aggregate cashflow."
+        },
+        "amount": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Supports inflow/outflow totals and period interpretation."
+        },
+        "balance": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "transaction_date": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Supports inflow/outflow totals and period interpretation."
+        },
+        "salary_component": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "medical_value": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "clause_text": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        }
+      }
+    },
+    "BS-3-B": {
+      "doc_id": "BS-3",
+      "task": "Which transactions look unusual and why?",
+      "answer_schema_id": "suspicious_transactions",
+      "labels": {
+        "account_identifier": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "government_id": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "person_name": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "counterparty_name": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Identity is not inherently needed; pseudonymization can preserve linkage."
+        },
+        "address": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "contact": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "date_of_birth": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "internal_id": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "employer": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "merchant": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Useful for assessing and explaining unusual transactions."
+        },
+        "amount": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Useful for assessing and explaining unusual transactions."
+        },
+        "balance": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "transaction_date": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Useful for assessing and explaining unusual transactions."
+        },
+        "salary_component": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "medical_value": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "clause_text": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        }
+      }
+    },
+    "BS-3-C": {
+      "doc_id": "BS-3",
+      "task": "Does the account holder name match the stated owner?",
+      "answer_schema_id": "identity_check",
+      "labels": {
+        "account_identifier": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "government_id": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "person_name": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Identity comparison may require a stable name token; exact comparison criteria need human review."
+        },
+        "counterparty_name": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "address": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Need depends on which identity attributes are intended to be compared."
+        },
+        "contact": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Need depends on which identity attributes are intended to be compared."
+        },
+        "date_of_birth": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "internal_id": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Need depends on which identity attributes are intended to be compared."
+        },
+        "employer": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "merchant": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "amount": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "balance": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "transaction_date": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "salary_component": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "medical_value": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "clause_text": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        }
+      }
+    },
+    "CC-1-A": {
+      "doc_id": "CC-1",
+      "task": "Summarize my credit-card spending by category",
+      "answer_schema_id": "spending_summary",
+      "labels": {
+        "account_identifier": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "government_id": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "person_name": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not needed for category-level spending totals."
+        },
+        "counterparty_name": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "address": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not needed for category-level spending totals."
+        },
+        "contact": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not needed for category-level spending totals."
+        },
+        "date_of_birth": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "internal_id": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not needed for category-level spending totals."
+        },
+        "employer": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "merchant": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Merchant/context helps infer spending categories; do not assume GENERALIZE maps merchants to semantic categories."
+        },
+        "amount": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Exact transaction amounts are needed for category totals; using KEEP avoids implementing aggregation in the labels."
+        },
+        "balance": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Balance is not needed for spending by category."
+        },
+        "transaction_date": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Exact dates are not requested."
+        },
+        "salary_component": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "medical_value": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "clause_text": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        }
+      }
+    },
+    "CC-1-B": {
+      "doc_id": "CC-1",
+      "task": "What is my total outstanding balance?",
+      "answer_schema_id": "balance_summary",
+      "labels": {
+        "account_identifier": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "government_id": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "person_name": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "counterparty_name": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "address": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "contact": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "date_of_birth": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "internal_id": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "employer": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "merchant": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "amount": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "KEEP"
+          ],
+          "ambiguous": true,
+          "reason": "Individual amounts may be unnecessary if the stated balance is available."
+        },
+        "balance": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "The requested output is the outstanding balance."
+        },
+        "transaction_date": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "salary_component": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "medical_value": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "clause_text": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        }
+      }
+    },
+    "CC-1-C": {
+      "doc_id": "CC-1",
+      "task": "Is this credit-card statement mine?",
+      "answer_schema_id": "identity_check",
+      "labels": {
+        "account_identifier": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "government_id": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "person_name": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Identity comparison may require a stable name token; exact comparison criteria need human review."
+        },
+        "counterparty_name": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "address": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Need depends on which identity attributes are intended to be compared."
+        },
+        "contact": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Need depends on which identity attributes are intended to be compared."
+        },
+        "date_of_birth": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "internal_id": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Need depends on which identity attributes are intended to be compared."
+        },
+        "employer": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "merchant": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "amount": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "balance": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "transaction_date": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "salary_component": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "medical_value": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "clause_text": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        }
+      }
+    },
+    "CC-2-A": {
+      "doc_id": "CC-2",
+      "task": "Identify my largest purchases this period",
+      "answer_schema_id": "top_transactions",
+      "labels": {
+        "account_identifier": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "government_id": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "person_name": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "counterparty_name": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "address": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "contact": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "date_of_birth": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "internal_id": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "employer": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "merchant": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Amounts and transaction context support ranking and identifying purchases."
+        },
+        "amount": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Amounts and transaction context support ranking and identifying purchases."
+        },
+        "balance": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "transaction_date": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Amounts and transaction context support ranking and identifying purchases."
+        },
+        "salary_component": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "medical_value": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "clause_text": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        }
+      }
+    },
+    "CC-2-B": {
+      "doc_id": "CC-2",
+      "task": "How much do I need to pay and by when?",
+      "answer_schema_id": "payment_due",
+      "labels": {
+        "account_identifier": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "government_id": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "person_name": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "counterparty_name": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "address": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "contact": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "date_of_birth": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "internal_id": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "employer": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "merchant": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "amount": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Needed to report payment amount and due date."
+        },
+        "balance": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Needed to report payment amount and due date."
+        },
+        "transaction_date": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Needed to report payment amount and due date."
+        },
+        "salary_component": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "medical_value": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "clause_text": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        }
+      }
+    },
+    "CC-2-C": {
+      "doc_id": "CC-2",
+      "task": "Does the cardholder information match the owner?",
+      "answer_schema_id": "identity_check",
+      "labels": {
+        "account_identifier": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "government_id": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "person_name": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Identity comparison may require a stable name token; exact comparison criteria need human review."
+        },
+        "counterparty_name": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "address": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Need depends on which identity attributes are intended to be compared."
+        },
+        "contact": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Need depends on which identity attributes are intended to be compared."
+        },
+        "date_of_birth": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "internal_id": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Need depends on which identity attributes are intended to be compared."
+        },
+        "employer": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "merchant": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "amount": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "balance": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "transaction_date": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "salary_component": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "medical_value": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "clause_text": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        }
+      }
+    },
+    "PS-1-A": {
+      "doc_id": "PS-1",
+      "task": "Explain why my take-home pay changed",
+      "answer_schema_id": "salary_explanation",
+      "labels": {
+        "account_identifier": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "government_id": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "person_name": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "counterparty_name": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "address": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "contact": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "date_of_birth": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "internal_id": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "employer": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Employer identity is not inherently required for the calculations."
+        },
+        "merchant": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "amount": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Needed to explain salary, components, or deductions."
+        },
+        "balance": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "transaction_date": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "salary_component": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Needed to explain salary, components, or deductions."
+        },
+        "medical_value": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "clause_text": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        }
+      }
+    },
+    "PS-1-B": {
+      "doc_id": "PS-1",
+      "task": "Summarize my salary components and deductions",
+      "answer_schema_id": "salary_summary",
+      "labels": {
+        "account_identifier": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "government_id": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "person_name": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "counterparty_name": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "address": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "contact": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "date_of_birth": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "internal_id": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "employer": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Employer identity is not inherently required for the calculations."
+        },
+        "merchant": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "amount": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Needed to explain salary, components, or deductions."
+        },
+        "balance": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "transaction_date": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "salary_component": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Needed to explain salary, components, or deductions."
+        },
+        "medical_value": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "clause_text": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        }
+      }
+    },
+    "PS-1-C": {
+      "doc_id": "PS-1",
+      "task": "Is this payslip associated with me?",
+      "answer_schema_id": "identity_check",
+      "labels": {
+        "account_identifier": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "government_id": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "person_name": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Identity comparison may require a stable name token; exact comparison criteria need human review."
+        },
+        "counterparty_name": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "address": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "contact": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Need depends on which identity attributes are intended to be compared."
+        },
+        "date_of_birth": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "internal_id": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Need depends on which identity attributes are intended to be compared."
+        },
+        "employer": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "merchant": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "amount": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "balance": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "transaction_date": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "salary_component": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "medical_value": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "clause_text": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        }
+      }
+    },
+    "PS-2-A": {
+      "doc_id": "PS-2",
+      "task": "What changed between my gross salary and take-home pay?",
+      "answer_schema_id": "salary_explanation",
+      "labels": {
+        "account_identifier": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "government_id": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "person_name": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "counterparty_name": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "address": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "contact": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "date_of_birth": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "internal_id": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "employer": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Employer identity is not inherently required for the calculations."
+        },
+        "merchant": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "amount": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Needed to explain salary, components, or deductions."
+        },
+        "balance": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "transaction_date": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "salary_component": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Needed to explain salary, components, or deductions."
+        },
+        "medical_value": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "clause_text": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        }
+      }
+    },
+    "PS-2-B": {
+      "doc_id": "PS-2",
+      "task": "What were my total deductions?",
+      "answer_schema_id": "deduction_summary",
+      "labels": {
+        "account_identifier": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "government_id": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "person_name": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "counterparty_name": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "address": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "contact": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "date_of_birth": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "internal_id": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "employer": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Employer identity is not inherently required for the calculations."
+        },
+        "merchant": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "amount": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Needed to explain salary, components, or deductions."
+        },
+        "balance": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "transaction_date": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "salary_component": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Needed to explain salary, components, or deductions."
+        },
+        "medical_value": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "clause_text": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        }
+      }
+    },
+    "PS-2-C": {
+      "doc_id": "PS-2",
+      "task": "Does the employee information identify me as the employee?",
+      "answer_schema_id": "identity_check",
+      "labels": {
+        "account_identifier": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "government_id": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "person_name": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Identity comparison may require a stable name token; exact comparison criteria need human review."
+        },
+        "counterparty_name": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "address": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "contact": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Need depends on which identity attributes are intended to be compared."
+        },
+        "date_of_birth": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "internal_id": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Need depends on which identity attributes are intended to be compared."
+        },
+        "employer": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "merchant": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "amount": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "balance": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "transaction_date": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "salary_component": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "medical_value": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "clause_text": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        }
+      }
+    },
+    "RA-1-A": {
+      "doc_id": "RA-1",
+      "task": "Summarize the key terms of my rent agreement",
+      "answer_schema_id": "clause_summary",
+      "labels": {
+        "account_identifier": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "government_id": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "person_name": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Names can generally be removed while preserving the terms."
+        },
+        "counterparty_name": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "address": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "contact": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "date_of_birth": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "internal_id": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "employer": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "merchant": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "amount": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Rent, deposit, and other monetary terms are requested."
+        },
+        "balance": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "transaction_date": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "salary_component": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "medical_value": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "clause_text": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Relevant clauses are needed to summarize agreement terms."
+        }
+      }
+    },
+    "RA-1-B": {
+      "doc_id": "RA-1",
+      "task": "What is the rent amount, deposit, and notice period?",
+      "answer_schema_id": "agreement_terms",
+      "labels": {
+        "account_identifier": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "government_id": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "person_name": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Names can generally be removed while preserving the terms."
+        },
+        "counterparty_name": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "address": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "contact": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "date_of_birth": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "internal_id": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "employer": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "merchant": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "amount": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Rent, deposit, and other monetary terms are requested."
+        },
+        "balance": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "transaction_date": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "salary_component": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "medical_value": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "clause_text": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Relevant clauses are needed to summarize agreement terms."
+        }
+      }
+    },
+    "RA-1-C": {
+      "doc_id": "RA-1",
+      "task": "Is this agreement between me and the stated landlord?",
+      "answer_schema_id": "identity_check",
+      "labels": {
+        "account_identifier": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "government_id": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "person_name": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Identity comparison may require a stable name token; exact comparison criteria need human review."
+        },
+        "counterparty_name": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "address": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Need depends on which identity attributes are intended to be compared."
+        },
+        "contact": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Need depends on which identity attributes are intended to be compared."
+        },
+        "date_of_birth": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "internal_id": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Need depends on which identity attributes are intended to be compared."
+        },
+        "employer": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "merchant": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "amount": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "balance": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "transaction_date": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "salary_component": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "medical_value": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "clause_text": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        }
+      }
+    },
+    "UB-1-A": {
+      "doc_id": "UB-1",
+      "task": "What is my total bill amount and due date?",
+      "answer_schema_id": "bill_summary",
+      "labels": {
+        "account_identifier": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "government_id": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "person_name": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "counterparty_name": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "address": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "contact": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "date_of_birth": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "internal_id": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "employer": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "merchant": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "amount": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Needed for bill totals, charges, or due dates."
+        },
+        "balance": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "transaction_date": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Needed for bill totals, charges, or due dates."
+        },
+        "salary_component": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "medical_value": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "clause_text": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        }
+      }
+    },
+    "UB-1-B": {
+      "doc_id": "UB-1",
+      "task": "Summarize my usage and charges",
+      "answer_schema_id": "usage_summary",
+      "labels": {
+        "account_identifier": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "government_id": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "person_name": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "counterparty_name": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "address": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "contact": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "date_of_birth": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "internal_id": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "employer": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "merchant": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "amount": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Needed for bill totals, charges, or due dates."
+        },
+        "balance": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "transaction_date": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "Needed for bill totals, charges, or due dates."
+        },
+        "salary_component": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "medical_value": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "clause_text": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        }
+      }
+    },
+    "UB-1-C": {
+      "doc_id": "UB-1",
+      "task": "Is this utility bill associated with my address/account?",
+      "answer_schema_id": "identity_check",
+      "labels": {
+        "account_identifier": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "government_id": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "person_name": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Identity comparison may require a stable name token; exact comparison criteria need human review."
+        },
+        "counterparty_name": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "address": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Need depends on which identity attributes are intended to be compared."
+        },
+        "contact": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Need depends on which identity attributes are intended to be compared."
+        },
+        "date_of_birth": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "internal_id": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Need depends on which identity attributes are intended to be compared."
+        },
+        "employer": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "merchant": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "amount": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "balance": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "transaction_date": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "salary_component": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "medical_value": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "clause_text": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        }
+      }
+    },
+    "IL-1-A": {
+      "doc_id": "IL-1",
+      "task": "Summarize the important information in this document",
+      "answer_schema_id": "document_summary",
+      "labels": {
+        "account_identifier": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "government_id": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "person_name": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "counterparty_name": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "address": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "contact": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "date_of_birth": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "internal_id": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "employer": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "merchant": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "amount": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "May be a central value or term in the requested summary."
+        },
+        "balance": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "transaction_date": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "salary_component": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "medical_value": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "May be a central value or term in the requested summary."
+        },
+        "clause_text": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "May be a central value or term in the requested summary."
+        }
+      }
+    },
+    "IL-1-B": {
+      "doc_id": "IL-1",
+      "task": "What are the main values, amounts, or coverage/details I should know?",
+      "answer_schema_id": "key_values_summary",
+      "labels": {
+        "account_identifier": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "government_id": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "person_name": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "counterparty_name": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "address": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "contact": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "date_of_birth": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "internal_id": {
+          "present": true,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "Not required for the requested output under this conservative draft interpretation."
+        },
+        "employer": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "merchant": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "amount": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "May be a central value or term in the requested summary."
+        },
+        "balance": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "transaction_date": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "salary_component": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "medical_value": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "May be a central value or term in the requested summary."
+        },
+        "clause_text": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP"
+          ],
+          "ambiguous": false,
+          "reason": "May be a central value or term in the requested summary."
+        }
+      }
+    },
+    "IL-1-C": {
+      "doc_id": "IL-1",
+      "task": "Is this document associated with me?",
+      "answer_schema_id": "identity_check",
+      "labels": {
+        "account_identifier": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "government_id": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL"
+          ],
+          "ambiguous": false,
+          "reason": "Policy floor: do not retain the full identifier."
+        },
+        "person_name": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "KEEP",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Identity comparison may require a stable name token; exact comparison criteria need human review."
+        },
+        "counterparty_name": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "address": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "contact": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Need depends on which identity attributes are intended to be compared."
+        },
+        "date_of_birth": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "internal_id": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "MASK_PARTIAL",
+            "PSEUDONYMIZE"
+          ],
+          "ambiguous": true,
+          "reason": "Need depends on which identity attributes are intended to be compared."
+        },
+        "employer": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "merchant": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "amount": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "balance": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "transaction_date": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "salary_component": {
+          "present": false,
+          "required": false,
+          "acceptable_actions": [
+            "DROP"
+          ],
+          "ambiguous": false,
+          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+        },
+        "medical_value": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        },
+        "clause_text": {
+          "present": true,
+          "required": true,
+          "acceptable_actions": [
+            "DROP",
+            "GENERALIZE"
+          ],
+          "ambiguous": false,
+          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+        }
+      }
+    }
+  }
+}
