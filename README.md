@@ -197,58 +197,6 @@ JustEnough/
 
 ---
 
-## Quickstart
-
-### Prerequisites
-- Python 3.12+
-- Virtual environment (`.venv`)
-
-### 1. Setup
-```bash
-git clone https://github.com/HarshaliD/JustEnough.git
-cd JustEnough
-python -m venv .venv
-# Windows:
-.venv\Scripts\activate
-# Linux/macOS:
-source .venv/bin/activate
-
-pip install -r requirements.txt
-python -m spacy download en_core_web_sm
-```
-
-### 2. Run Test Suite
-```bash
-pytest
-```
-*All 25 tests run mocked with zero external API calls or spend.*
-
-### 3. Run a Live Minimization Case
-Add your `GEMINI_API_KEY` to `.env`, then run:
-```bash
-python experiment/run_single_case.py --case-id BS-1-A --live
-```
-
----
-
-## Pre-Registered Benchmark Status
-
-| Metric | Target | Current Measured Result |
-|---|---|---|
-| **Answer Preservation ($R_1 \equiv R_0$)** | $\ge 75\%$ | **100% (Smoke Suite)** |
-| **Detection Recall (Span)** | $\ge 60\%$ | **63.74% (58 / 91 hits)** |
-| **Detection Recall (Category)** | $\ge 50\%$ | **51.65% (47 / 91 hits)** |
-| **Policy Floor Violations Clamped** | 0 allowed | **0 violations** |
-| **Automated Test Suite** | 100% pass | **25 / 25 passed** |
-
----
-
-## Honest Limitations
-
-Necessity is measured for a chosen model and task. **This is NOT anonymization and NOT a zero-leakage guarantee.** Task-conditional minimization exists in research; JustEnough's contribution is the practical application layer, deterministic verifier, and reproducible measurement protocol.
-
----
-
 ## License & Attribution
 
 Built with:
