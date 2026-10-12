@@ -43,7 +43,7 @@ class DetectedField:
     placeholder: str
 
 
-# Strictly the 4 custom Indian patterns specified in DAY1_SPEC.md Section 7
+# Custom Indian patterns and contextual banking patterns
 CUSTOM_PATTERNS = [
     # 1. UPI handle
     (
@@ -72,6 +72,43 @@ CUSTOM_PATTERNS = [
         re.compile(r"\b(?:\d{4}[\s\-]?){2}\*{4}[\s\-]?\d{4}\b|\b\*{4,8}\d{4}\b|\bXXXX[\-\s]?XXXX[\-\s]?\d{4}\b|\b\d{4}[\-\s]?\d{4}[\-\s]?\d{4}[\-\s]?\d{4}\b|\b\d{9,18}\b"),
         "account_identifier",
         "[ACCT]",
+    ),
+    # 5. Banking CIF / Customer ID / Account User ID
+    (
+        "Banking CIF / Customer ID",
+        re.compile(r"\b(?:CIF|CUST|SBICUST|AXISCC|ICICI)\d{6,11}\b", re.IGNORECASE),
+        "internal_id",
+        "[INTERNAL_ID]",
+    ),
+    # 6. Account Holder / Customer Name in statement and bill headers
+    (
+        "Account Holder / Subject Name",
+        re.compile(
+            r"(?:Account Holder(?: Name)?|Customer Name|Primary Cardholder|Name of Cardholder|"
+            r"Employee Full Name|Staff Member|Consumer / Customer Name|Patient Full Name|"
+            r"TENANT \(Second Party\)|LANDLORD \(First Party\))[ \t]*:[ \t]*([A-Z][a-zA-Z]+(?:[ \t]+[A-Z][a-zA-Z]+){1,3})"
+        ),
+        "person_name",
+        "[NAME]",
+    ),
+    # 7. Counterparty in payment narration
+    (
+        "Counterparty transfer recipient",
+        re.compile(
+            r"(?:UPI(?:-TRANSFER| payment| payout)? to|TRANSFER to|paid to|Paid to)[ \t]+([A-Z][a-zA-Z]+(?:[ \t]+[A-Z][a-zA-Z]+){1,2})"
+        ),
+        "counterparty_name",
+        "[COUNTERPARTY]",
+    ),
+    # 8. Merchant context in statements
+    (
+        "Statement Merchant",
+        re.compile(
+            r"(?:(?:Merchant(?: Name)?|POS/Merchant|Vendor)[ \t]*:[ \t]*([A-Za-z0-9\.,&\-\'\s]+?)(?=[ \t]{2,}|\n|\r|$)|"
+            r"\bUPI/(?!.*@)([A-Za-z0-9\.,&\-\'\s]+?)/)"
+        ),
+        "merchant",
+        "[MERCHANT]",
     ),
 ]
 
@@ -139,36 +176,30 @@ class SensitiveDataDetector:
         - 'counterparty_name' for rent / utility / insurance contractual contexts
         - Returns None if role cannot be reliably established (ambiguous).
         """
-        doc_upper = doc_id.upper()
         window_start = max(0, start - 60)
         window_end = min(len(text), end + 60)
         window = text[window_start:window_end].lower()
 
         # 1. Employment context (payslip / Form 16)
-        if doc_upper.startswith("PS-") or any(
+        if any(
             kw in window for kw in ["employer", "company", "organization", "organisation", "issued by", "pvt ltd", "limited"]
         ):
             return "employer", "[EMPLOYER]", "presidio:ORGANIZATION[employer]"
 
         # 2. Transaction / merchant context (bank / credit-card statements)
-        if doc_upper.startswith("BS-") or doc_upper.startswith("CC-") or any(
+        if any(
             kw in window for kw in ["txn", "transaction", "narration", "description", "debit", "credit", "dr", "cr", "pos", "upi/"]
         ):
             return "merchant", "[MERCHANT]", "presidio:ORGANIZATION[merchant]"
 
         # 3. Contractual counterparty context (rent agreement, utility bill, insurance/lab)
-        if (
-            doc_upper.startswith("RA-")
-            or doc_upper.startswith("UB-")
-            or doc_upper.startswith("IL-")
-            or any(
-                kw in window
-                for kw in [
-                    "landlord", "tenant", "lessor", "lessee", "provider", "board",
-                    "insurer", "insured", "hospital", "lab", "diagnostics", "utility",
-                    "beneficiary", "party"
-                ]
-            )
+        if any(
+            kw in window
+            for kw in [
+                "landlord", "tenant", "lessor", "lessee", "provider", "board",
+                "insurer", "insured", "hospital", "lab", "diagnostics", "utility",
+                "beneficiary", "party"
+            ]
         ):
             return "counterparty_name", "[COUNTERPARTY]", "presidio:ORGANIZATION[counterparty_name]"
 
@@ -210,8 +241,15 @@ class SensitiveDataDetector:
         if active_mode in ("presidio+regex", "regex-only", "combined"):
             for pattern_name, regex, category, placeholder in CUSTOM_PATTERNS:
                 for match in regex.finditer(text):
-                    start, end = match.span()
-                    val = match.group()
+                    group_idx = match.lastindex if match.lastindex else 0
+                    raw_val = match.group(group_idx)
+                    if not raw_val or not raw_val.strip():
+                        continue
+                    l_strip = len(raw_val) - len(raw_val.lstrip())
+                    r_strip = len(raw_val) - len(raw_val.rstrip())
+                    start = match.start(group_idx) + l_strip
+                    end = match.end(group_idx) - r_strip
+                    val = text[start:end]
                     field_counter += 1
                     fid = f"{doc_id}-det-{field_counter:02d}"
                     custom_fields.append(
@@ -258,8 +296,22 @@ class SensitiveDataDetector:
                     detector_label: str = f"presidio:{entity_type}"
 
                     if entity_type == "PERSON":
-                        cat = "person_name"
-                        placeholder = "[NAME]"
+                        v_clean = val.strip()
+                        v_lower = v_clean.lower()
+                        # Filter out common false positives from SpaCy on bank/bill headers and tables
+                        if (
+                            v_lower in ("addr", "address", "communication addr", "flat", "flat 402", "premises service address")
+                            or "_" in v_clean
+                            or re.search(r"\s{3,}", val)
+                        ):
+                            continue
+                        if any(m in v_lower for m in ("swiggy", "zomato", "amazon", "flipkart", "makemytrip")):
+                            cat = "merchant"
+                            placeholder = "[MERCHANT]"
+                            detector_label = "presidio:PERSON[merchant_correction]"
+                        else:
+                            cat = "person_name"
+                            placeholder = "[NAME]"
                     elif entity_type == "LOCATION":
                         cat = "address"
                         placeholder = "[ADDR]"

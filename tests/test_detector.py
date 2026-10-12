@@ -203,6 +203,88 @@ def test_independent_detection_benchmarks():
     print(f"  Combined: span recall={combined_metrics['span_recall']*100:.1f}%, cat recall={combined_metrics['category_recall']*100:.1f}%, precision={combined_metrics['precision']*100:.1f}%")
 
 
+
+def test_organization_classification_independent_of_doc_id():
+    detector = SensitiveDataDetector()
+    if detector.mode != "presidio+regex":
+        print("\nPresidio not installed; skipping test_organization_classification_independent_of_doc_id.")
+        return
+
+    # 1. Text with explicit employer keyword context: must classify identically across different doc IDs
+    employer_text = "Salary statement for employee John Doe. Employer: Tech Mahindra Limited. Paid in full."
+    fields_ps, _ = detector.detect_in_text(employer_text, "PS-101")
+    fields_bs, _ = detector.detect_in_text(employer_text, "BS-999")
+    fields_unknown, _ = detector.detect_in_text(employer_text, "CUSTOM-XYZ")
+
+    org_ps = [f.category for f in fields_ps if "ORGANIZATION" in f.detector]
+    org_bs = [f.category for f in fields_bs if "ORGANIZATION" in f.detector]
+    org_unknown = [f.category for f in fields_unknown if "ORGANIZATION" in f.detector]
+    assert org_ps == org_bs == org_unknown, f"Mismatch across doc IDs: {org_ps} vs {org_bs} vs {org_unknown}"
+    if org_ps:
+        assert org_ps[0] == "employer"
+
+    # 2. Text with insufficient context: must remain ambiguous regardless of document ID prefix
+    insufficient_text = "The document was reviewed by Horizon Global yesterday."
+
+    det_ps = SensitiveDataDetector()
+    fields_amb_ps, _ = det_ps.detect_in_text(insufficient_text, "PS-01")
+
+    det_bs = SensitiveDataDetector()
+    fields_amb_bs, _ = det_bs.detect_in_text(insufficient_text, "BS-01")
+
+    det_ra = SensitiveDataDetector()
+    fields_amb_ra, _ = det_ra.detect_in_text(insufficient_text, "RA-01")
+
+    org_cats_ps = [f.category for f in fields_amb_ps if "ORGANIZATION" in f.detector]
+    org_cats_bs = [f.category for f in fields_amb_bs if "ORGANIZATION" in f.detector]
+    org_cats_ra = [f.category for f in fields_amb_ra if "ORGANIZATION" in f.detector]
+
+    assert org_cats_ps == [], f"Expected no mapped organization for PS-01 without context, got {org_cats_ps}"
+    assert org_cats_bs == [], f"Expected no mapped organization for BS-01 without context, got {org_cats_bs}"
+    assert org_cats_ra == [], f"Expected no mapped organization for RA-01 without context, got {org_cats_ra}"
+    assert len(det_ps.ambiguous_orgs) == len(det_bs.ambiguous_orgs) == len(det_ra.ambiguous_orgs)
+
+
+def test_cif_and_enhanced_patterns():
+    detector = SensitiveDataDetector(force_fallback=True)
+    sample_text = (
+        "Account Holder Name: Aarav Sharma\n"
+        "Customer CIF: CIF88392014\n"
+        "Customer ID: CUST91028345\n"
+        "User ID: ICICI7749201\n"
+        "Reference ID: SBICUST881923\n"
+        "Card Account ID: AXISCC902341\n"
+        "UPI-TRANSFER to Priya Patel\n"
+        "Merchant: Swiggy Bangalore\n"
+        "POS/Merchant: Apollo Pharmacy Indiranagar\n"
+        "2026-09-03   UPI/Swiggy Bangalore/food   450.00\n"
+    )
+    fields, skeleton = detector.detect_in_text(sample_text, "DOC-1")
+    cat_vals = [(f.category, f.value) for f in fields]
+
+    # Internal IDs
+    assert ("internal_id", "CIF88392014") in cat_vals
+    assert ("internal_id", "CUST91028345") in cat_vals
+    assert ("internal_id", "ICICI7749201") in cat_vals
+    assert ("internal_id", "SBICUST881923") in cat_vals
+    assert ("internal_id", "AXISCC902341") in cat_vals
+
+    # Account holder & counterparty
+    assert ("person_name", "Aarav Sharma") in cat_vals
+    assert ("counterparty_name", "Priya Patel") in cat_vals
+
+    # Merchant
+    merchants = [f.value for f in fields if f.category == "merchant"]
+    assert "Swiggy Bangalore" in merchants
+    assert "Apollo Pharmacy Indiranagar" in merchants
+
+    # Skeletons do not leak sensitive raw values
+    assert "CIF88392014" not in skeleton
+    assert "CUST91028345" not in skeleton
+    assert "Aarav Sharma" not in skeleton
+    assert "Priya Patel" not in skeleton
+
+
 if __name__ == "__main__":
     test_detector_scope_and_patterns()
     test_detector_recall_on_corpus()
@@ -211,4 +293,7 @@ if __name__ == "__main__":
     test_detector_observability()
     test_subset_denominator_correction()
     test_independent_detection_benchmarks()
+    test_organization_classification_independent_of_doc_id()
+    test_cif_and_enhanced_patterns()
     print("\nAll detector tests and benchmarks passed successfully.")
+

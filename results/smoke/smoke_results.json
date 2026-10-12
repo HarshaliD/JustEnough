@@ -11,7 +11,7 @@
     "unstable_cases": 0,
     "answer_preservation": 1.0,
     "sensitive_field_reduction": 0.8281,
-    "detection_recall": 0.3214,
+    "detection_recall": 0.5714,
     "trap_check_rate": 1.0,
     "decision_consistency": 1.0,
     "over_redaction_rate": 0.0,
@@ -141,7 +141,7 @@
         },
         "person_name": {
           "action": "KEEP",
-          "reason": "Task requires identity matching.",
+          "reason": "Task requires verifying identity against document.",
           "confidence": 0.95
         },
         "counterparty_name": {

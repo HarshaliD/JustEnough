@@ -14,7 +14,7 @@
 - Sensitive Field Reduction: 82.8%
 - Trap Check Pass Rate: 100.0%
 - Detection Mode: presidio+regex
-- Detection Recall (on smoke docs): 32.1%
+- Detection Recall (on smoke docs): 57.1%
 
 ## Output Isolation
 All smoke outputs are isolated under `results/smoke/`.

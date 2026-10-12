@@ -19,7 +19,7 @@
     },
     "person_name": {
       "action": "KEEP",
-      "reason": "Task requires identity matching.",
+      "reason": "Task requires verifying identity against document.",
       "confidence": 0.95
     },
     "counterparty_name": {

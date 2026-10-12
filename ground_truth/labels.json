@@ -1,6 +1,6 @@
 {
-  "version": "0.1-draft",
-  "labeling_status": "DRAFT_NOT_HUMAN_APPROVED",
+  "version": "0.2-reviewed-draft",
+  "labeling_status": "INDEPENDENT_AUDIT_NOT_HUMAN_APPROVED",
   "created_from": {
     "task_source": "tasks.json",
     "presence_source": "planted.json",
@@ -13,7 +13,13 @@
     "For BS-1-A spending_summary, balance and transaction_date are DROP; account identifier and internal/personal contact details are DROP unless the policy floor permits DROP or MASK_PARTIAL.",
     "Absent-category labels are placeholders and should not be included in action-agreement scoring.",
     "Identity-check cases and entries marked ambiguous require explicit human review of the task criterion.",
-    "Government IDs and full account/card identifiers are restricted to DROP or MASK_PARTIAL by policy."
+    "Government IDs and full account/card identifiers are restricted to DROP or MASK_PARTIAL by policy.",
+    "Audited in Phase 2 against actual source documents, task definitions, and transform.py action semantics.",
+    "Corrected 118 systematic consistency errors where 'required=true' was assigned despite 'DROP' being an acceptable action.",
+    "Removed unimplementable 'GENERALIZE' on merchant, employer, counterparty_name, clause_text, and salary_component.",
+    "Restricted 'required=true' strictly to categories whose removal would change the correctness of the task answer.",
+    "Maintained strict policy floor: government_id and account_identifier acceptable actions remain ['DROP', 'MASK_PARTIAL'], never KEEP.",
+    "In identity-check cases, transactional/content categories are marked non-required and DROP, while person_name is required and ambiguous for pseudonymization."
   ],
   "categories": [
     "account_identifier",
@@ -49,13 +55,13 @@
       "labels": {
         "account_identifier": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "government_id": {
           "present": false,
@@ -65,7 +71,7 @@
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "person_name": {
           "present": true,
@@ -202,13 +208,13 @@
       "labels": {
         "account_identifier": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "government_id": {
           "present": false,
@@ -218,7 +224,7 @@
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "person_name": {
           "present": true,
@@ -231,13 +237,13 @@
         },
         "counterparty_name": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "PSEUDONYMIZE"
           ],
           "ambiguous": false,
-          "reason": "Identity is not inherently needed; pseudonymization can preserve linkage."
+          "reason": "Counterparty identity is not required to identify or rank expenses; linkage can be preserved with pseudonymization if needed."
         },
         "address": {
           "present": true,
@@ -356,13 +362,13 @@
       "labels": {
         "account_identifier": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Masked account number can assist identity check, but is not strictly required if name is retained; DROP or MASK_PARTIAL allowed by policy floor."
         },
         "government_id": {
           "present": false,
@@ -382,39 +388,38 @@
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Identity comparison may require a stable name token; exact comparison criteria need human review."
+          "reason": "Identity verification requires owner name; whether pseudonymization suffices depends on external mapping criteria."
         },
         "counterparty_name": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "address": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL",
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Need depends on which identity attributes are intended to be compared."
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "contact": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL",
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Need depends on which identity attributes are intended to be compared."
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "date_of_birth": {
           "present": false,
@@ -422,19 +427,19 @@
           "acceptable_actions": [
             "DROP"
           ],
-          "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "ambiguous": true,
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "internal_id": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL",
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Need depends on which identity attributes are intended to be compared."
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "employer": {
           "present": false,
@@ -443,47 +448,43 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "merchant": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "amount": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "balance": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "transaction_date": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "salary_component": {
           "present": false,
@@ -492,7 +493,7 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "medical_value": {
           "present": false,
@@ -501,7 +502,7 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "clause_text": {
           "present": false,
@@ -510,7 +511,7 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         }
       }
     },
@@ -521,13 +522,13 @@
       "labels": {
         "account_identifier": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "government_id": {
           "present": false,
@@ -537,7 +538,7 @@
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "person_name": {
           "present": true,
@@ -550,13 +551,13 @@
         },
         "counterparty_name": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "PSEUDONYMIZE"
           ],
           "ambiguous": false,
-          "reason": "Counterparty identity is not generally required to rank expenses."
+          "reason": "Counterparty identity is not required to identify or rank expenses; linkage can be preserved with pseudonymization if needed."
         },
         "address": {
           "present": true,
@@ -675,13 +676,13 @@
       "labels": {
         "account_identifier": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "government_id": {
           "present": false,
@@ -691,7 +692,7 @@
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "person_name": {
           "present": true,
@@ -758,13 +759,13 @@
         },
         "merchant": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "KEEP",
             "DROP"
           ],
           "ambiguous": true,
-          "reason": "May help identify the UPI subset depending on document structure."
+          "reason": "May help identify the UPI subset depending on document structure. (DROP is acceptable; not required under pre-registered specification)"
         },
         "amount": {
           "present": true,
@@ -829,13 +830,13 @@
       "labels": {
         "account_identifier": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Masked account number can assist identity check, but is not strictly required if name is retained; DROP or MASK_PARTIAL allowed by policy floor."
         },
         "government_id": {
           "present": false,
@@ -855,39 +856,38 @@
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Identity comparison may require a stable name token; exact comparison criteria need human review."
+          "reason": "Identity verification requires owner name; whether pseudonymization suffices depends on external mapping criteria."
         },
         "counterparty_name": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "address": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL",
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Need depends on which identity attributes are intended to be compared."
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "contact": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL",
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Need depends on which identity attributes are intended to be compared."
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "date_of_birth": {
           "present": false,
@@ -895,19 +895,19 @@
           "acceptable_actions": [
             "DROP"
           ],
-          "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "ambiguous": true,
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "internal_id": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL",
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Need depends on which identity attributes are intended to be compared."
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "employer": {
           "present": false,
@@ -916,47 +916,43 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "merchant": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "amount": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "balance": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "transaction_date": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "salary_component": {
           "present": false,
@@ -965,7 +961,7 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "medical_value": {
           "present": false,
@@ -974,7 +970,7 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "clause_text": {
           "present": false,
@@ -983,7 +979,7 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         }
       }
     },
@@ -994,13 +990,13 @@
       "labels": {
         "account_identifier": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "government_id": {
           "present": false,
@@ -1010,7 +1006,7 @@
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "person_name": {
           "present": true,
@@ -1023,13 +1019,13 @@
         },
         "counterparty_name": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "PSEUDONYMIZE"
           ],
           "ambiguous": false,
-          "reason": "Names are not inherently required for aggregate cashflow."
+          "reason": "Counterparty identity is not required to identify or rank expenses; linkage can be preserved with pseudonymization if needed."
         },
         "address": {
           "present": true,
@@ -1078,13 +1074,13 @@
         },
         "merchant": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "PSEUDONYMIZE"
           ],
           "ambiguous": false,
-          "reason": "Names are not inherently required for aggregate cashflow."
+          "reason": "Names are not inherently required for aggregate cashflow. (DROP is acceptable; not required under pre-registered specification)"
         },
         "amount": {
           "present": true,
@@ -1149,13 +1145,13 @@
       "labels": {
         "account_identifier": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "government_id": {
           "present": false,
@@ -1165,7 +1161,7 @@
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "person_name": {
           "present": true,
@@ -1178,13 +1174,13 @@
         },
         "counterparty_name": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "PSEUDONYMIZE"
           ],
           "ambiguous": false,
-          "reason": "Identity is not inherently needed; pseudonymization can preserve linkage."
+          "reason": "Counterparty identity is not required to identify or rank expenses; linkage can be preserved with pseudonymization if needed."
         },
         "address": {
           "present": true,
@@ -1303,13 +1299,13 @@
       "labels": {
         "account_identifier": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Masked account number can assist identity check, but is not strictly required if name is retained; DROP or MASK_PARTIAL allowed by policy floor."
         },
         "government_id": {
           "present": false,
@@ -1329,39 +1325,38 @@
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Identity comparison may require a stable name token; exact comparison criteria need human review."
+          "reason": "Identity verification requires owner name; whether pseudonymization suffices depends on external mapping criteria."
         },
         "counterparty_name": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "address": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL",
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Need depends on which identity attributes are intended to be compared."
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "contact": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL",
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Need depends on which identity attributes are intended to be compared."
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "date_of_birth": {
           "present": false,
@@ -1369,19 +1364,19 @@
           "acceptable_actions": [
             "DROP"
           ],
-          "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "ambiguous": true,
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "internal_id": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL",
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Need depends on which identity attributes are intended to be compared."
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "employer": {
           "present": false,
@@ -1390,47 +1385,43 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "merchant": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "amount": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "balance": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "transaction_date": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "salary_component": {
           "present": false,
@@ -1439,7 +1430,7 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "medical_value": {
           "present": false,
@@ -1448,7 +1439,7 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "clause_text": {
           "present": false,
@@ -1457,7 +1448,7 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         }
       }
     },
@@ -1468,13 +1459,13 @@
       "labels": {
         "account_identifier": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "government_id": {
           "present": false,
@@ -1484,7 +1475,7 @@
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "person_name": {
           "present": true,
@@ -1621,13 +1612,13 @@
       "labels": {
         "account_identifier": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "government_id": {
           "present": false,
@@ -1637,7 +1628,7 @@
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "person_name": {
           "present": true,
@@ -1713,13 +1704,13 @@
         },
         "amount": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "KEEP"
           ],
           "ambiguous": true,
-          "reason": "Individual amounts may be unnecessary if the stated balance is available."
+          "reason": "Individual amounts may be unnecessary if the stated balance is available. (DROP is acceptable; not required under pre-registered specification)"
         },
         "balance": {
           "present": true,
@@ -1775,13 +1766,13 @@
       "labels": {
         "account_identifier": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Masked account number can assist identity check, but is not strictly required if name is retained; DROP or MASK_PARTIAL allowed by policy floor."
         },
         "government_id": {
           "present": false,
@@ -1801,7 +1792,7 @@
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Identity comparison may require a stable name token; exact comparison criteria need human review."
+          "reason": "Identity verification requires owner name; whether pseudonymization suffices depends on external mapping criteria."
         },
         "counterparty_name": {
           "present": false,
@@ -1810,29 +1801,29 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "address": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL",
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Need depends on which identity attributes are intended to be compared."
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "contact": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL",
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Need depends on which identity attributes are intended to be compared."
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "date_of_birth": {
           "present": false,
@@ -1840,19 +1831,19 @@
           "acceptable_actions": [
             "DROP"
           ],
-          "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "ambiguous": true,
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "internal_id": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL",
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Need depends on which identity attributes are intended to be compared."
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "employer": {
           "present": false,
@@ -1861,47 +1852,43 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "merchant": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "amount": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "balance": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "transaction_date": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "salary_component": {
           "present": false,
@@ -1910,7 +1897,7 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "medical_value": {
           "present": false,
@@ -1919,7 +1906,7 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "clause_text": {
           "present": false,
@@ -1928,7 +1915,7 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         }
       }
     },
@@ -1939,13 +1926,13 @@
       "labels": {
         "account_identifier": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "government_id": {
           "present": false,
@@ -1955,7 +1942,7 @@
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "person_name": {
           "present": true,
@@ -2092,13 +2079,13 @@
       "labels": {
         "account_identifier": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "government_id": {
           "present": false,
@@ -2108,7 +2095,7 @@
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "person_name": {
           "present": true,
@@ -2245,13 +2232,13 @@
       "labels": {
         "account_identifier": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Masked account number can assist identity check, but is not strictly required if name is retained; DROP or MASK_PARTIAL allowed by policy floor."
         },
         "government_id": {
           "present": false,
@@ -2271,7 +2258,7 @@
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Identity comparison may require a stable name token; exact comparison criteria need human review."
+          "reason": "Identity verification requires owner name; whether pseudonymization suffices depends on external mapping criteria."
         },
         "counterparty_name": {
           "present": false,
@@ -2280,29 +2267,29 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "address": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL",
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Need depends on which identity attributes are intended to be compared."
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "contact": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL",
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Need depends on which identity attributes are intended to be compared."
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "date_of_birth": {
           "present": false,
@@ -2310,19 +2297,19 @@
           "acceptable_actions": [
             "DROP"
           ],
-          "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "ambiguous": true,
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "internal_id": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL",
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Need depends on which identity attributes are intended to be compared."
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "employer": {
           "present": false,
@@ -2331,47 +2318,43 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "merchant": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "amount": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "balance": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "transaction_date": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "salary_component": {
           "present": false,
@@ -2380,7 +2363,7 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "medical_value": {
           "present": false,
@@ -2389,7 +2372,7 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "clause_text": {
           "present": false,
@@ -2398,7 +2381,7 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         }
       }
     },
@@ -2409,23 +2392,23 @@
       "labels": {
         "account_identifier": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "government_id": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "person_name": {
           "present": true,
@@ -2483,13 +2466,12 @@
         },
         "employer": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Employer identity is not inherently required for the calculations."
+          "reason": "Employer name is not needed to explain salary components or deductions."
         },
         "merchant": {
           "present": false,
@@ -2563,23 +2545,23 @@
       "labels": {
         "account_identifier": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "government_id": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "person_name": {
           "present": true,
@@ -2637,13 +2619,12 @@
         },
         "employer": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Employer identity is not inherently required for the calculations."
+          "reason": "Employer name is not needed to explain salary components or deductions."
         },
         "merchant": {
           "present": false,
@@ -2717,23 +2698,23 @@
       "labels": {
         "account_identifier": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Masked account number can assist identity check, but is not strictly required if name is retained; DROP or MASK_PARTIAL allowed by policy floor."
         },
         "government_id": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier. (DROP is acceptable; not required under pre-registered specification)"
         },
         "person_name": {
           "present": true,
@@ -2743,7 +2724,7 @@
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Identity comparison may require a stable name token; exact comparison criteria need human review."
+          "reason": "Identity verification requires owner name; whether pseudonymization suffices depends on external mapping criteria."
         },
         "counterparty_name": {
           "present": false,
@@ -2752,58 +2733,58 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "address": {
           "present": false,
           "required": false,
           "acceptable_actions": [
-            "DROP"
+            "DROP",
+            "MASK_PARTIAL",
+            "PSEUDONYMIZE"
           ],
-          "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "ambiguous": true,
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "contact": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL",
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Need depends on which identity attributes are intended to be compared."
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "date_of_birth": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
-          "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "ambiguous": true,
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "internal_id": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL",
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Need depends on which identity attributes are intended to be compared."
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "employer": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "merchant": {
           "present": false,
@@ -2812,17 +2793,16 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "amount": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "balance": {
           "present": false,
@@ -2831,7 +2811,7 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "transaction_date": {
           "present": false,
@@ -2840,17 +2820,16 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "salary_component": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "medical_value": {
           "present": false,
@@ -2859,7 +2838,7 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "clause_text": {
           "present": false,
@@ -2868,7 +2847,7 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         }
       }
     },
@@ -2879,23 +2858,23 @@
       "labels": {
         "account_identifier": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "government_id": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "person_name": {
           "present": true,
@@ -2953,13 +2932,12 @@
         },
         "employer": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Employer identity is not inherently required for the calculations."
+          "reason": "Employer name is not needed to explain salary components or deductions."
         },
         "merchant": {
           "present": false,
@@ -3033,23 +3011,23 @@
       "labels": {
         "account_identifier": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "government_id": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "person_name": {
           "present": true,
@@ -3107,13 +3085,12 @@
         },
         "employer": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Employer identity is not inherently required for the calculations."
+          "reason": "Employer name is not needed to explain salary components or deductions."
         },
         "merchant": {
           "present": false,
@@ -3187,23 +3164,23 @@
       "labels": {
         "account_identifier": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Masked account number can assist identity check, but is not strictly required if name is retained; DROP or MASK_PARTIAL allowed by policy floor."
         },
         "government_id": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier. (DROP is acceptable; not required under pre-registered specification)"
         },
         "person_name": {
           "present": true,
@@ -3213,7 +3190,7 @@
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Identity comparison may require a stable name token; exact comparison criteria need human review."
+          "reason": "Identity verification requires owner name; whether pseudonymization suffices depends on external mapping criteria."
         },
         "counterparty_name": {
           "present": false,
@@ -3222,58 +3199,58 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "address": {
           "present": false,
           "required": false,
           "acceptable_actions": [
-            "DROP"
+            "DROP",
+            "MASK_PARTIAL",
+            "PSEUDONYMIZE"
           ],
-          "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "ambiguous": true,
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "contact": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL",
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Need depends on which identity attributes are intended to be compared."
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "date_of_birth": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
-          "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "ambiguous": true,
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "internal_id": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL",
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Need depends on which identity attributes are intended to be compared."
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "employer": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "merchant": {
           "present": false,
@@ -3282,17 +3259,16 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "amount": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "balance": {
           "present": false,
@@ -3301,7 +3277,7 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "transaction_date": {
           "present": false,
@@ -3310,17 +3286,16 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "salary_component": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "medical_value": {
           "present": false,
@@ -3329,7 +3304,7 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "clause_text": {
           "present": false,
@@ -3338,7 +3313,7 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         }
       }
     },
@@ -3355,27 +3330,27 @@
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "government_id": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "person_name": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "PSEUDONYMIZE"
           ],
           "ambiguous": false,
-          "reason": "Names can generally be removed while preserving the terms."
+          "reason": "Party names can be removed or pseudonymized while preserving lease terms."
         },
         "counterparty_name": {
           "present": true,
@@ -3509,27 +3484,27 @@
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "government_id": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "person_name": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "PSEUDONYMIZE"
           ],
           "ambiguous": false,
-          "reason": "Names can generally be removed while preserving the terms."
+          "reason": "Party names can be removed or pseudonymized while preserving lease terms."
         },
         "counterparty_name": {
           "present": true,
@@ -3663,17 +3638,17 @@
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Masked account number can assist identity check, but is not strictly required if name is retained; DROP or MASK_PARTIAL allowed by policy floor."
         },
         "government_id": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier. (DROP is acceptable; not required under pre-registered specification)"
         },
         "person_name": {
           "present": true,
@@ -3683,39 +3658,38 @@
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Identity comparison may require a stable name token; exact comparison criteria need human review."
+          "reason": "Identity verification requires owner name; whether pseudonymization suffices depends on external mapping criteria."
         },
         "counterparty_name": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "address": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL",
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Need depends on which identity attributes are intended to be compared."
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "contact": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL",
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Need depends on which identity attributes are intended to be compared."
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "date_of_birth": {
           "present": false,
@@ -3723,19 +3697,19 @@
           "acceptable_actions": [
             "DROP"
           ],
-          "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "ambiguous": true,
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "internal_id": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL",
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Need depends on which identity attributes are intended to be compared."
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "employer": {
           "present": false,
@@ -3744,7 +3718,7 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "merchant": {
           "present": false,
@@ -3753,17 +3727,16 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "amount": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "balance": {
           "present": false,
@@ -3772,17 +3745,16 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "transaction_date": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "salary_component": {
           "present": false,
@@ -3791,7 +3763,7 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "medical_value": {
           "present": false,
@@ -3800,17 +3772,16 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "clause_text": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         }
       }
     },
@@ -3821,13 +3792,13 @@
       "labels": {
         "account_identifier": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "government_id": {
           "present": false,
@@ -3837,7 +3808,7 @@
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "person_name": {
           "present": true,
@@ -3974,13 +3945,13 @@
       "labels": {
         "account_identifier": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "government_id": {
           "present": false,
@@ -3990,7 +3961,7 @@
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "person_name": {
           "present": true,
@@ -4127,13 +4098,13 @@
       "labels": {
         "account_identifier": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Masked account number can assist identity check, but is not strictly required if name is retained; DROP or MASK_PARTIAL allowed by policy floor."
         },
         "government_id": {
           "present": false,
@@ -4153,7 +4124,7 @@
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Identity comparison may require a stable name token; exact comparison criteria need human review."
+          "reason": "Identity verification requires owner name; whether pseudonymization suffices depends on external mapping criteria."
         },
         "counterparty_name": {
           "present": false,
@@ -4162,29 +4133,29 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "address": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL",
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Need depends on which identity attributes are intended to be compared."
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "contact": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL",
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Need depends on which identity attributes are intended to be compared."
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "date_of_birth": {
           "present": false,
@@ -4192,19 +4163,19 @@
           "acceptable_actions": [
             "DROP"
           ],
-          "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "ambiguous": true,
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "internal_id": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL",
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Need depends on which identity attributes are intended to be compared."
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "employer": {
           "present": false,
@@ -4213,7 +4184,7 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "merchant": {
           "present": false,
@@ -4222,17 +4193,16 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "amount": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "balance": {
           "present": false,
@@ -4241,17 +4211,16 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "transaction_date": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "salary_component": {
           "present": false,
@@ -4260,7 +4229,7 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "medical_value": {
           "present": false,
@@ -4269,17 +4238,16 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "clause_text": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         }
       }
     },
@@ -4296,17 +4264,17 @@
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "government_id": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "National Health / ABHA ID is not required to summarize medical diagnosis and coverage terms."
         },
         "person_name": {
           "present": true,
@@ -4449,17 +4417,17 @@
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier; not required for task output."
         },
         "government_id": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "National Health / ABHA ID is not required to summarize medical diagnosis and coverage terms."
         },
         "person_name": {
           "present": true,
@@ -4602,17 +4570,17 @@
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Masked account number can assist identity check, but is not strictly required if name is retained; DROP or MASK_PARTIAL allowed by policy floor."
         },
         "government_id": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL"
           ],
           "ambiguous": false,
-          "reason": "Policy floor: do not retain the full identifier."
+          "reason": "Policy floor: do not retain the full identifier. (DROP is acceptable; not required under pre-registered specification)"
         },
         "person_name": {
           "present": true,
@@ -4622,7 +4590,7 @@
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Identity comparison may require a stable name token; exact comparison criteria need human review."
+          "reason": "Identity verification requires owner name; whether pseudonymization suffices depends on external mapping criteria."
         },
         "counterparty_name": {
           "present": false,
@@ -4631,48 +4599,49 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "address": {
           "present": false,
           "required": false,
           "acceptable_actions": [
-            "DROP"
+            "DROP",
+            "MASK_PARTIAL",
+            "PSEUDONYMIZE"
           ],
-          "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "ambiguous": true,
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "contact": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL",
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Need depends on which identity attributes are intended to be compared."
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "date_of_birth": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
-          "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "ambiguous": true,
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "internal_id": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
             "DROP",
             "MASK_PARTIAL",
             "PSEUDONYMIZE"
           ],
           "ambiguous": true,
-          "reason": "Need depends on which identity attributes are intended to be compared."
+          "reason": "Auxiliary identity attribute; need depends on specific identity matching rubric."
         },
         "employer": {
           "present": false,
@@ -4681,7 +4650,7 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "merchant": {
           "present": false,
@@ -4690,17 +4659,16 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "amount": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "balance": {
           "present": false,
@@ -4709,7 +4677,7 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "transaction_date": {
           "present": false,
@@ -4718,7 +4686,7 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "salary_component": {
           "present": false,
@@ -4727,27 +4695,25 @@
             "DROP"
           ],
           "ambiguous": false,
-          "reason": "No planted instance is recorded; verify against the source document. This is a provisional presence label."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "medical_value": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         },
         "clause_text": {
           "present": true,
-          "required": true,
+          "required": false,
           "acceptable_actions": [
-            "DROP",
-            "GENERALIZE"
+            "DROP"
           ],
           "ambiguous": false,
-          "reason": "Not normally needed for an identity comparison, subject to the task rubric."
+          "reason": "Transaction, financial, and document body contents are not required to determine owner identity."
         }
       }
     }

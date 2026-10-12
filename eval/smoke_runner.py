@@ -102,8 +102,8 @@ def run_smoke_test() -> Dict[str, Any]:
         else:
             fields, skeleton = detected_cache[doc_id]
 
-        # Planner
-        raw_plan, retries = planner.plan(case_id, task_text, is_trap, skeleton)
+        # Planner (task and skeleton only; no evaluator trap flags)
+        raw_plan, retries = planner.plan(case_id, task_text, skeleton, answer_schema_id=schema_id)
 
         # Policy Floor
         enforced_plan, violations = enforce_policy_floor(raw_plan, is_trap)
