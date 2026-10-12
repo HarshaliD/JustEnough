@@ -316,6 +316,93 @@ def test_prompt_debug_privacy_and_activation(monkeypatch, capsys):
     assert "Unmasked PAN pattern detected" in str(exc_pan.value)
 
 
+def test_repeated_sensitive_value_single_span_detection():
+    """
+    Test 1: Investigates repeated sensitive value where only one span was detected.
+    Scenario:
+    - Text: 'Account holder: Aarav Sharma. Transfer to Aarav Sharma.'
+    - Detected fields: only the first occurrence at [16:28].
+    - Plan: person_name -> DROP.
+    """
+    original_text = "Account holder: Aarav Sharma. Transfer to Aarav Sharma."
+    first_field = DetectedField(
+        id="DOC-1-01",
+        category="person_name",
+        value="Aarav Sharma",
+        location={"line": 1, "start_char": 16, "end_char": 28},
+        detector="test",
+        confidence=0.95,
+        placeholder="[NAME]",
+    )
+    plan_decisions = {
+        "person_name": {"action": "DROP", "reason": "Not needed for task", "confidence": 1.0}
+    }
+
+    minimized, removed_values = apply_minimization(
+        original_text, [first_field], plan_decisions, strict=True
+    )
+
+    # 1. First occurrence is replaced
+    assert "[REDACTED:PERSON_NAME]" in minimized
+    assert minimized.startswith("Account holder: [REDACTED:PERSON_NAME].")
+
+    # 2. Second occurrence remains intact in minimized text
+    assert minimized.endswith("Transfer to Aarav Sharma.")
+
+    # 3. removed_values records what was transformed
+    assert removed_values == ["Aarav Sharma"]
+
+    # 4. Invariant check: Notice that removed_values contains "Aarav Sharma",
+    # but "Aarav Sharma" is STILL present in minimized text due to the undetected second occurrence.
+    value_leaked_into_output = any(val in minimized for val in removed_values)
+    assert value_leaked_into_output is True
+
+
+def test_invalid_field_discarded_during_overlap_resolution():
+    """
+    Test 2: Investigates whether an invalid detected field can be discarded by
+    resolve_span_overlaps() before validate_fields() checks it.
+    Scenario:
+    - Field A: Valid span, custom_pattern detector (wins overlap).
+    - Field B: Invalid span / text mismatch, lower priority detector (loses overlap).
+    """
+    original_text = "Customer Account: 30981245781"
+    valid_winner = DetectedField(
+        id="FIELD-VALID",
+        category="account_identifier",
+        value="30981245781",
+        location={"line": 1, "start_char": 18, "end_char": 29},
+        detector="custom_pattern:account",
+        confidence=0.95,
+        placeholder="[ACCT]",
+    )
+    # Field B has overlapping span [18:29] but value does NOT match original_text[18:29]
+    invalid_loser = DetectedField(
+        id="FIELD-INVALID",
+        category="account_identifier",
+        value="CORRUPTED_TEXT_MISMATCH",
+        location={"line": 1, "start_char": 18, "end_char": 29},
+        detector="presidio:NER",
+        confidence=0.50,
+        placeholder="[ACCT]",
+    )
+    plan_decisions = {
+        "account_identifier": {"action": "DROP", "reason": "Redact", "confidence": 1.0}
+    }
+
+    # Because resolve_span_overlaps runs first, invalid_loser is discarded before validation
+    try:
+        minimized, removed = apply_minimization(
+            original_text, [valid_winner, invalid_loser], plan_decisions, strict=True
+        )
+        silently_proceeded = True
+    except ValueError:
+        silently_proceeded = False
+
+    assert silently_proceeded is True, "Expected invalid loser to be discarded before validate_fields"
+    assert "[REDACTED:ACCOUNT_IDENTIFIER]" in minimized
+
+
 if __name__ == "__main__":
     test_policy_floor()
     test_all_six_actions_normal_and_edge_cases()
@@ -328,4 +415,7 @@ if __name__ == "__main__":
     test_mock_mode_no_evaluator_leakage()
     test_live_mode_dispatch_and_mocked_gemini()
     test_live_mode_api_failure_no_silent_mock_fallback()
+    test_repeated_sensitive_value_single_span_detection()
+    test_invalid_field_discarded_during_overlap_resolution()
     print("\nAll minimizer and transformer safety tests passed successfully.")
+

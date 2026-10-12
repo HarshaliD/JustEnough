@@ -33,6 +33,7 @@ All modifications to repository files are logged chronologically below, structur
 
 ### `tests/test_minimizer.py`
 - `[2026-10-13 01:45:00 IST]` Updated default model test assertions to reflect `gemini-flash-latest`.
+- `[2026-10-13 04:38:00 IST]` Added `test_repeated_sensitive_value_single_span_detection()` and `test_invalid_field_discarded_during_overlap_resolution()` to investigate transformer edge cases without modifying production code.
 
 ### `docs/images/justenough_overview.png`
 - `[2026-10-13 01:45:00 IST]` Generated and saved 16:9 architecture and "Why JustEnough?" infographic banner illustrating blind redaction vs. unprotected upload vs. task-aware minimization.
