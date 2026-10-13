@@ -30,6 +30,7 @@ All modifications to repository files are logged chronologically below, structur
 
 ### `tests/test_detector.py`
 - `[2026-10-13 01:45:00 IST]` Added `test_cif_and_enhanced_patterns()` covering CIFs, header names, counterparty transfers, merchants, and skeleton placeholder masking.
+- `[2026-10-13 04:55:39 IST]` Added `test_repeated_name_both_occurrences_detected()` and `test_repeated_name_transformer_integration_with_actual_detector()` verifying end-to-end detection and minimization of repeated sensitive values.
 
 ### `tests/test_minimizer.py`
 - `[2026-10-13 01:45:00 IST]` Updated default model test assertions to reflect `gemini-flash-latest`.

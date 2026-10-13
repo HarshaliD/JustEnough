@@ -285,6 +285,85 @@ def test_cif_and_enhanced_patterns():
     assert "Priya Patel" not in skeleton
 
 
+def test_repeated_name_both_occurrences_detected():
+    """
+    Test A (Detector): Verifies that presidio+regex mode detects BOTH occurrences
+    of a repeated person name as separate, non-overlapping spans with correct offsets.
+
+    Root cause context: regex-only mode only captures names via header-anchored patterns
+    (e.g. 'Account Holder Name:'). Free-standing repeated names are detected by SpaCy/Presidio.
+    This test confirms the default combined mode correctly finds both spans.
+    """
+    doc = "Account holder: Aarav Sharma. Transfer to Aarav Sharma."
+
+    detector = SensitiveDataDetector()  # default: presidio+regex
+    fields, skeleton = detector.detect_in_text(doc, "REPRO-REPEAT")
+
+    name_fields = [f for f in fields if f.category == "person_name"]
+    spans = [(f.location["start_char"], f.location["end_char"]) for f in name_fields]
+
+    # Both occurrences must be detected
+    assert len(name_fields) == 2, (
+        f"Expected 2 person_name fields, got {len(name_fields)}. "
+        f"Spans detected: {spans}"
+    )
+
+    # Verify exact values and correct categories (no raw values in failure messages)
+    for f in name_fields:
+        assert f.category == "person_name"
+        # Verify offset correctness against original text
+        actual = doc[f.location["start_char"]:f.location["end_char"]]
+        assert actual == f.value, (
+            f"Offset mismatch for field {f.id}: doc slice len={len(actual)}, "
+            f"field value len={len(f.value)}"
+        )
+
+    # Spans must not overlap
+    spans_sorted = sorted(spans)
+    assert spans_sorted[0][1] <= spans_sorted[1][0], (
+        f"Detected spans overlap: {spans_sorted[0]} and {spans_sorted[1]}"
+    )
+
+    # Both occurrences must be replaced in skeleton
+    assert "Aarav Sharma" not in skeleton
+    assert skeleton.count("[NAME]") == 2
+
+
+def test_repeated_name_transformer_integration_with_actual_detector():
+    """
+    Test B (Transformer Integration): Uses the detector's actual output (not manually
+    constructed spans) and verifies that apply_minimization() replaces BOTH occurrences
+    when the detector correctly identifies both spans.
+
+    This test must not manually add the second span — it relies entirely on the detector.
+    """
+    from experiment.transform import apply_minimization
+
+    doc = "Account holder: Aarav Sharma. Transfer to Aarav Sharma."
+
+    detector = SensitiveDataDetector()  # presidio+regex, finds both spans
+    fields, _ = detector.detect_in_text(doc, "REPRO-TRANSFORM")
+
+    plan_decisions = {
+        "person_name": {"action": "DROP", "reason": "Not needed for task", "confidence": 1.0}
+    }
+
+    minimized, removed_values = apply_minimization(doc, fields, plan_decisions, strict=True)
+
+    # Neither occurrence should remain in the minimized text
+    assert "Aarav Sharma" not in minimized, (
+        "At least one occurrence of the person name remained in minimized text"
+    )
+
+    # removed_values must account for both transformations
+    assert len(removed_values) >= 2, (
+        f"Expected at least 2 items in removed_values, got {len(removed_values)}"
+    )
+
+    # The replacement tokens must appear in the minimized text
+    assert "[REDACTED:PERSON_NAME]" in minimized
+
+
 if __name__ == "__main__":
     test_detector_scope_and_patterns()
     test_detector_recall_on_corpus()
@@ -295,5 +374,7 @@ if __name__ == "__main__":
     test_independent_detection_benchmarks()
     test_organization_classification_independent_of_doc_id()
     test_cif_and_enhanced_patterns()
+    test_repeated_name_both_occurrences_detected()
+    test_repeated_name_transformer_integration_with_actual_detector()
     print("\nAll detector tests and benchmarks passed successfully.")
 
