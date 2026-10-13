@@ -139,6 +139,7 @@ def run_smoke_test() -> Dict[str, Any]:
             "r0": r0_a,
             "r1": r1,
             "retries": retries,
+            "detected_fields": [{"id": f.id, "category": f.category} for f in fields],
         }
         eval_cases.append(case_record)
 

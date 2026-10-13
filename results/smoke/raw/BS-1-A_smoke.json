@@ -95,5 +95,79 @@
   "r1": {
     "food": 450.0
   },
-  "retries": 0
+  "retries": 0,
+  "detected_fields": [
+    {
+      "id": "BS-1-det-08",
+      "category": "person_name"
+    },
+    {
+      "id": "BS-1-det-05",
+      "category": "account_identifier"
+    },
+    {
+      "id": "BS-1-det-07",
+      "category": "internal_id"
+    },
+    {
+      "id": "BS-1-det-04",
+      "category": "contact"
+    },
+    {
+      "id": "BS-1-det-03",
+      "category": "internal_id"
+    },
+    {
+      "id": "BS-1-det-20",
+      "category": "transaction_date"
+    },
+    {
+      "id": "BS-1-det-21",
+      "category": "transaction_date"
+    },
+    {
+      "id": "BS-1-det-13",
+      "category": "transaction_date"
+    },
+    {
+      "id": "BS-1-det-01",
+      "category": "contact"
+    },
+    {
+      "id": "BS-1-det-14",
+      "category": "transaction_date"
+    },
+    {
+      "id": "BS-1-det-10",
+      "category": "merchant"
+    },
+    {
+      "id": "BS-1-det-11",
+      "category": "merchant"
+    },
+    {
+      "id": "BS-1-det-17",
+      "category": "transaction_date"
+    },
+    {
+      "id": "BS-1-det-09",
+      "category": "counterparty_name"
+    },
+    {
+      "id": "BS-1-det-02",
+      "category": "contact"
+    },
+    {
+      "id": "BS-1-det-18",
+      "category": "transaction_date"
+    },
+    {
+      "id": "BS-1-det-12",
+      "category": "merchant"
+    },
+    {
+      "id": "BS-1-det-19",
+      "category": "transaction_date"
+    }
+  ]
 }

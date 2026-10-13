@@ -97,5 +97,27 @@
     "basic": 55000.0,
     "net": 87450.0
   },
-  "retries": 0
+  "retries": 0,
+  "detected_fields": [
+    {
+      "id": "PS-1-det-04",
+      "category": "person_name"
+    },
+    {
+      "id": "PS-1-det-05",
+      "category": "transaction_date"
+    },
+    {
+      "id": "PS-1-det-01",
+      "category": "contact"
+    },
+    {
+      "id": "PS-1-det-03",
+      "category": "account_identifier"
+    },
+    {
+      "id": "PS-1-det-07",
+      "category": "transaction_date"
+    }
+  ]
 }

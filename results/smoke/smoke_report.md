@@ -11,7 +11,7 @@
 - Total Cases: 4
 - Preserved Cases: 4 (100.0%)
 - Unstable Cases: 0
-- Sensitive Field Reduction: 82.8%
+- Sensitive Field Reduction: 65.0%
 - Trap Check Pass Rate: 100.0%
 - Detection Mode: presidio+regex
 - Detection Recall (on smoke docs): 57.1%

@@ -7,17 +7,48 @@
   ],
   "metrics": {
     "total_cases_evaluated": 4,
-    "preserved_cases": 4,
+    "stable_cases": 4,
     "unstable_cases": 0,
+    "unstable_cases_list": [],
+    "unevaluable_cases": 0,
+    "unevaluable_cases_list": [],
+    "preserved_cases": 4,
     "answer_preservation": 1.0,
-    "sensitive_field_reduction": 0.8281,
-    "detection_recall": 0.5714,
+    "sensitive_field_reduction": 0.65,
+    "sensitive_field_reduction_status": "measured",
+    "total_sensitive_instances": 55,
+    "retained_sensitive_instances": 19.25,
+    "decision_consistency": null,
+    "decision_consistency_status": "not_measured: repeated plans across 3 runs not provided",
+    "consistent_decisions_count": 0,
+    "consistency_eligible_decisions": 0,
+    "trap_cases_evaluated": 1,
+    "trap_cases_passed": 1,
+    "trap_pairs_evaluated": 1,
+    "trap_pairs_passed": 1,
     "trap_check_rate": 1.0,
-    "decision_consistency": 1.0,
-    "over_redaction_rate": 0.0,
-    "under_redaction_rate": 0.1111,
+    "trap_check_mode": "pairwise",
     "label_agreement_rate": 1.0,
+    "label_agreements_count": 16,
+    "label_agreement_eligible": 16,
+    "over_redaction_rate": 0.0,
+    "over_redactions_count": 0,
+    "over_redaction_eligible": 8,
+    "under_redaction_rate": 0.0,
+    "under_redactions_count": 0,
+    "under_redaction_eligible": 8,
     "ambiguous_labels_count": 1,
+    "detection_recall": 0.5714,
+    "detection_span_recall": null,
+    "detection_precision": null,
+    "detection_false_positives": null,
+    "failure_counts": {
+      "comparison error": 0,
+      "detection miss": 0,
+      "ambiguous label": 0,
+      "unattributed": 0,
+      "planner error": 0
+    },
     "failures": []
   },
   "eval_cases": [
@@ -118,7 +149,81 @@
       "r1": {
         "food": 450.0
       },
-      "retries": 0
+      "retries": 0,
+      "detected_fields": [
+        {
+          "id": "BS-1-det-08",
+          "category": "person_name"
+        },
+        {
+          "id": "BS-1-det-05",
+          "category": "account_identifier"
+        },
+        {
+          "id": "BS-1-det-07",
+          "category": "internal_id"
+        },
+        {
+          "id": "BS-1-det-04",
+          "category": "contact"
+        },
+        {
+          "id": "BS-1-det-03",
+          "category": "internal_id"
+        },
+        {
+          "id": "BS-1-det-20",
+          "category": "transaction_date"
+        },
+        {
+          "id": "BS-1-det-21",
+          "category": "transaction_date"
+        },
+        {
+          "id": "BS-1-det-13",
+          "category": "transaction_date"
+        },
+        {
+          "id": "BS-1-det-01",
+          "category": "contact"
+        },
+        {
+          "id": "BS-1-det-14",
+          "category": "transaction_date"
+        },
+        {
+          "id": "BS-1-det-10",
+          "category": "merchant"
+        },
+        {
+          "id": "BS-1-det-11",
+          "category": "merchant"
+        },
+        {
+          "id": "BS-1-det-17",
+          "category": "transaction_date"
+        },
+        {
+          "id": "BS-1-det-09",
+          "category": "counterparty_name"
+        },
+        {
+          "id": "BS-1-det-02",
+          "category": "contact"
+        },
+        {
+          "id": "BS-1-det-18",
+          "category": "transaction_date"
+        },
+        {
+          "id": "BS-1-det-12",
+          "category": "merchant"
+        },
+        {
+          "id": "BS-1-det-19",
+          "category": "transaction_date"
+        }
+      ]
     },
     {
       "case_id": "BS-1-C",
@@ -219,7 +324,81 @@
         "is_mine": true,
         "matches_owner": true
       },
-      "retries": 0
+      "retries": 0,
+      "detected_fields": [
+        {
+          "id": "BS-1-det-08",
+          "category": "person_name"
+        },
+        {
+          "id": "BS-1-det-05",
+          "category": "account_identifier"
+        },
+        {
+          "id": "BS-1-det-07",
+          "category": "internal_id"
+        },
+        {
+          "id": "BS-1-det-04",
+          "category": "contact"
+        },
+        {
+          "id": "BS-1-det-03",
+          "category": "internal_id"
+        },
+        {
+          "id": "BS-1-det-20",
+          "category": "transaction_date"
+        },
+        {
+          "id": "BS-1-det-21",
+          "category": "transaction_date"
+        },
+        {
+          "id": "BS-1-det-13",
+          "category": "transaction_date"
+        },
+        {
+          "id": "BS-1-det-01",
+          "category": "contact"
+        },
+        {
+          "id": "BS-1-det-14",
+          "category": "transaction_date"
+        },
+        {
+          "id": "BS-1-det-10",
+          "category": "merchant"
+        },
+        {
+          "id": "BS-1-det-11",
+          "category": "merchant"
+        },
+        {
+          "id": "BS-1-det-17",
+          "category": "transaction_date"
+        },
+        {
+          "id": "BS-1-det-09",
+          "category": "counterparty_name"
+        },
+        {
+          "id": "BS-1-det-02",
+          "category": "contact"
+        },
+        {
+          "id": "BS-1-det-18",
+          "category": "transaction_date"
+        },
+        {
+          "id": "BS-1-det-12",
+          "category": "merchant"
+        },
+        {
+          "id": "BS-1-det-19",
+          "category": "transaction_date"
+        }
+      ]
     },
     {
       "case_id": "CC-1-B",
@@ -318,7 +497,65 @@
       "r1": {
         "balance": 32450.0
       },
-      "retries": 0
+      "retries": 0,
+      "detected_fields": [
+        {
+          "id": "CC-1-det-05",
+          "category": "person_name"
+        },
+        {
+          "id": "CC-1-det-02",
+          "category": "account_identifier"
+        },
+        {
+          "id": "CC-1-det-04",
+          "category": "internal_id"
+        },
+        {
+          "id": "CC-1-det-01",
+          "category": "contact"
+        },
+        {
+          "id": "CC-1-det-09",
+          "category": "person_name"
+        },
+        {
+          "id": "CC-1-det-10",
+          "category": "transaction_date"
+        },
+        {
+          "id": "CC-1-det-15",
+          "category": "transaction_date"
+        },
+        {
+          "id": "CC-1-det-16",
+          "category": "transaction_date"
+        },
+        {
+          "id": "CC-1-det-11",
+          "category": "transaction_date"
+        },
+        {
+          "id": "CC-1-det-06",
+          "category": "merchant"
+        },
+        {
+          "id": "CC-1-det-12",
+          "category": "transaction_date"
+        },
+        {
+          "id": "CC-1-det-13",
+          "category": "transaction_date"
+        },
+        {
+          "id": "CC-1-det-14",
+          "category": "transaction_date"
+        },
+        {
+          "id": "CC-1-det-07",
+          "category": "transaction_date"
+        }
+      ]
     },
     {
       "case_id": "PS-1-B",
@@ -419,7 +656,29 @@
         "basic": 55000.0,
         "net": 87450.0
       },
-      "retries": 0
+      "retries": 0,
+      "detected_fields": [
+        {
+          "id": "PS-1-det-04",
+          "category": "person_name"
+        },
+        {
+          "id": "PS-1-det-05",
+          "category": "transaction_date"
+        },
+        {
+          "id": "PS-1-det-01",
+          "category": "contact"
+        },
+        {
+          "id": "PS-1-det-03",
+          "category": "account_identifier"
+        },
+        {
+          "id": "PS-1-det-07",
+          "category": "transaction_date"
+        }
+      ]
     }
   ]
 }

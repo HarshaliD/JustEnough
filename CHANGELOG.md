@@ -43,4 +43,22 @@ All modifications to repository files are logged chronologically below, structur
 - `[2026-10-13 01:45:00 IST]` Created comprehensive project documentation with problem statement, comparison table, example walk-through, Mermaid pipeline flowchart, taxonomy table, and embedded architecture banner.
 - `[2026-10-13 01:49:00 IST]` Streamlined document per instructions by staging out temporary sections for future release.
 
+### `eval/metrics.py`
+- `[2026-10-13 05:40:00 IST]` Built a reliable ground-truth loader (`load_ground_truth`) that correctly reads our full benchmark labels file (`cases -> case_id -> labels -> category`) and catches invalid or missing files early instead of failing silently.
+- `[2026-10-13 05:40:00 IST]` Fixed answer preservation scoring to separate unstable AI baselines and unevaluable cases so they don't unfairly skew the accuracy score.
+- `[2026-10-13 05:40:00 IST]` Replaced rough category counts with an instance-based privacy reduction score that measures actual sensitive values removed (accounting for partial masking, generalization, and pseudonymization) and penalizes data leaks.
+- `[2026-10-13 05:40:00 IST]` Removed hardcoded 100% decision consistency and replaced it with real calculations across repeated AI runs (reporting "not measured" if repeated runs are not provided).
+- `[2026-10-13 05:40:00 IST]` Updated ground-truth scoring (agreement, over-redaction, under-redaction) to ignore fields that do not exist in the document (`present: false`) and properly exclude ambiguous labels from agreement scoring.
+- `[2026-10-13 05:40:00 IST]` Added pairwise trap checks to verify that identity is kept when genuinely needed (trap tasks) and minimized when not needed (standard tasks) for the same document.
+- `[2026-10-13 05:40:00 IST]` Implemented clear failure attribution sorting failures into four clear causes: detection miss, planner error, ambiguous label, or comparison error.
+
+### `eval/smoke_runner.py`
+- `[2026-10-13 05:40:00 IST]` Updated smoke runner records to pass safe field detection tags (category and ID only, zero sensitive data) so the smoke test can calculate real instance-based data reduction.
+
+### `tests/test_eval.py`
+- `[2026-10-13 05:40:00 IST]` Added 9 comprehensive automated tests verifying ground-truth loading, error handling for bad label files, unstable baseline separation, multi-run consistency, instance reduction, pairwise trap checks, and failure attribution (all 11 tests passing).
+
+### `docs/eval.md`
+- `[2026-10-13 05:40:00 IST]` Documented the evaluation system architecture, explaining how answers are compared, how metrics are calculated, what limitations exist, and how to interpret scores.
+
 ---
