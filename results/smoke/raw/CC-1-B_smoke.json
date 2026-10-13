@@ -5,7 +5,7 @@
   "is_trap": false,
   "is_unstable": false,
   "is_preserved": true,
-  "match_reason": "field_balance_match",
+  "match_reason": "numeric_within_tolerance",
   "plan_decisions": {
     "account_identifier": {
       "action": "DROP",

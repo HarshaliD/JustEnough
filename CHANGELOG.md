@@ -61,4 +61,17 @@ All modifications to repository files are logged chronologically below, structur
 ### `docs/eval.md`
 - `[2026-10-13 05:40:00 IST]` Documented the evaluation system architecture, explaining how answers are compared, how metrics are calculated, what limitations exist, and how to interpret scores.
 
+### `schemas/answer_schemas.json`
+- `[2026-10-13 06:40:00 IST]` Created the canonical answer schemas file covering all 17 task answer formats, with full definitions for Phase 1 schemas (verdicts, balances, totals, spending, cashflow, salary, usage, top transactions, payment due, bill summary) so AI answers have a consistent structure to compare against.
+
+### `eval/comparators.py`
+- `[2026-10-13 06:40:00 IST]` Fixed a critical bug in identity checks where 'False' verdicts were mistakenly ignored or overwritten due to boolean truthiness logic.
+- `[2026-10-13 06:40:00 IST]` Added smart numeric list comparison that sorts transactions by amount and compares each pair within a 0.5% tolerance regardless of order.
+- `[2026-10-13 06:40:00 IST]` Added date normalization that recognizes multiple date formats (e.g. '2026-09-20' and '20-Sep-2026') strictly for billing and payment due dates without altering other text.
+- `[2026-10-13 06:40:00 IST]` Implemented deterministic comparison rules for all 11 Phase 1 task schemas, making AI answer evaluation predictable and automated.
+
+### `tests/test_eval.py`
+- `[2026-10-13 05:40:00 IST]` Added 9 comprehensive automated tests verifying ground-truth loading, error handling for bad label files, unstable baseline separation, multi-run consistency, instance reduction, pairwise trap checks, and failure attribution (all 11 tests passing).
+- `[2026-10-13 06:40:00 IST]` Added automated test suites verifying all 17 answer schema definitions and all 11 Phase 1 comparators, testing both matches and mismatches across numbers, dates, lists, and negative identity verdicts (all 13 eval tests passing).
+
 ---

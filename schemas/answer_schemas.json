@@ -1,0 +1,273 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "JustEnough Canonical Answer Schemas",
+  "version": "1.0",
+  "description": "Defines canonical structured answer schemas for tasks across the 10 synthetic document types.",
+  "schemas": {
+    "identity_check": {
+      "type": "object",
+      "description": "Verification of whether a document belongs to or identifies the specified user/account.",
+      "properties": {
+        "is_mine": {
+          "type": "boolean",
+          "description": "Primary verdict: true if the document identifies the claimed owner, false otherwise."
+        },
+        "matches_owner": {
+          "type": "boolean",
+          "description": "Alternative verdict key for ownership matching tasks."
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "reasoning": {
+          "type": "string"
+        }
+      },
+      "anyOf": [
+        {"required": ["is_mine"]},
+        {"required": ["matches_owner"]}
+      ],
+      "additionalProperties": true
+    },
+    "balance_summary": {
+      "type": "object",
+      "description": "Total outstanding account or credit card balance.",
+      "properties": {
+        "total_balance": {
+          "type": "number",
+          "description": "Total outstanding balance amount."
+        },
+        "balance": {
+          "type": "number",
+          "description": "Alternative balance key."
+        },
+        "currency": {
+          "type": "string",
+          "default": "INR"
+        }
+      },
+      "anyOf": [
+        {"required": ["total_balance"]},
+        {"required": ["balance"]}
+      ],
+      "additionalProperties": true
+    },
+    "transaction_total": {
+      "type": "object",
+      "description": "Total sum for a specific transaction category or rail (e.g. UPI spend).",
+      "properties": {
+        "total_amount": {
+          "type": "number",
+          "description": "Aggregated transaction total amount."
+        },
+        "upi_total": {
+          "type": "number",
+          "description": "Alternative key for UPI transaction total."
+        },
+        "total": {
+          "type": "number",
+          "description": "Generic total key."
+        },
+        "currency": {
+          "type": "string",
+          "default": "INR"
+        }
+      },
+      "anyOf": [
+        {"required": ["total_amount"]},
+        {"required": ["upi_total"]},
+        {"required": ["total"]}
+      ],
+      "additionalProperties": true
+    },
+    "deduction_summary": {
+      "type": "object",
+      "description": "Total salary or statutory deductions.",
+      "properties": {
+        "total_deductions": {
+          "type": "number",
+          "description": "Total statutory or payslip deductions amount."
+        },
+        "total": {
+          "type": "number",
+          "description": "Generic total key."
+        },
+        "currency": {
+          "type": "string",
+          "default": "INR"
+        }
+      },
+      "anyOf": [
+        {"required": ["total_deductions"]},
+        {"required": ["total"]}
+      ],
+      "additionalProperties": true
+    },
+    "spending_summary": {
+      "type": "object",
+      "description": "Spending breakdown categorized by merchant/expense type.",
+      "properties": {
+        "categories": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "total_spending": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": true
+    },
+    "cashflow_summary": {
+      "type": "object",
+      "description": "Monthly statement inflow and outflow totals.",
+      "properties": {
+        "total_inflow": {
+          "type": "number",
+          "description": "Total credits / deposits received."
+        },
+        "total_outflow": {
+          "type": "number",
+          "description": "Total debits / withdrawals spent."
+        },
+        "net_cashflow": {
+          "type": "number",
+          "description": "Net difference (inflow - outflow)."
+        }
+      },
+      "required": ["total_inflow", "total_outflow"],
+      "additionalProperties": true
+    },
+    "salary_summary": {
+      "type": "object",
+      "description": "Summary of salary components and earnings.",
+      "properties": {
+        "basic": {
+          "type": "number"
+        },
+        "gross_salary": {
+          "type": "number"
+        },
+        "total_deductions": {
+          "type": "number"
+        },
+        "net_salary": {
+          "type": "number"
+        },
+        "net": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": true
+    },
+    "usage_summary": {
+      "type": "object",
+      "description": "Utility bill consumption and charges breakdown.",
+      "properties": {
+        "billed_consumption": {
+          "type": "number",
+          "description": "Billed units consumed (e.g. kWh)."
+        },
+        "total_charges": {
+          "type": "number",
+          "description": "Total charges payable for the consumption."
+        },
+        "unit": {
+          "type": "string",
+          "default": "kWh"
+        }
+      },
+      "required": ["billed_consumption", "total_charges"],
+      "additionalProperties": true
+    },
+    "top_transactions": {
+      "description": "Top largest transactions or purchases by amount.",
+      "oneOf": [
+        {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "amount": {
+                "type": "number"
+              },
+              "description": {
+                "type": "string"
+              }
+            },
+            "required": ["amount"]
+          }
+        }
+      ]
+    },
+    "payment_due": {
+      "type": "object",
+      "description": "Payment amount due and due date for billing statement.",
+      "properties": {
+        "amount_due": {
+          "type": "number",
+          "description": "Total amount due for payment."
+        },
+        "due_date": {
+          "type": "string",
+          "description": "Payment due date in YYYY-MM-DD or readable date format."
+        },
+        "minimum_amount_due": {
+          "type": "number",
+          "description": "Minimum payment amount required."
+        }
+      },
+      "required": ["amount_due", "due_date"],
+      "additionalProperties": true
+    },
+    "bill_summary": {
+      "type": "object",
+      "description": "Total payable bill amount and due date for utility or service bill.",
+      "properties": {
+        "bill_amount": {
+          "type": "number",
+          "description": "Total bill amount payable."
+        },
+        "due_date": {
+          "type": "string",
+          "description": "Due date for payment."
+        }
+      },
+      "required": ["bill_amount", "due_date"],
+      "additionalProperties": true
+    },
+    "agreement_terms": {
+      "type": "object",
+      "description": "Phase 2 schema: Rent agreement key terms (rent, deposit, notice period)."
+    },
+    "key_values_summary": {
+      "type": "object",
+      "description": "Phase 2 schema: Clinical diagnostic/insurance key findings and coverage."
+    },
+    "salary_explanation": {
+      "type": "object",
+      "description": "Phase 3 rubric schema: Explanation of salary difference/take-home change."
+    },
+    "clause_summary": {
+      "type": "object",
+      "description": "Phase 3 rubric schema: Summary of legal/rent agreement clauses."
+    },
+    "document_summary": {
+      "type": "object",
+      "description": "Phase 3 rubric schema: Summary of insurance/diagnostic clinical report."
+    },
+    "suspicious_transactions": {
+      "type": "object",
+      "description": "Phase 3 rubric schema: Flagged unusual/suspicious transactions and reasons."
+    }
+  }
+}

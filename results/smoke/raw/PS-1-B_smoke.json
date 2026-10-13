@@ -5,7 +5,7 @@
   "is_trap": false,
   "is_unstable": false,
   "is_preserved": true,
-  "match_reason": "dict_keys_and_values_matched",
+  "match_reason": "salary_summary_matched",
   "plan_decisions": {
     "account_identifier": {
       "action": "DROP",

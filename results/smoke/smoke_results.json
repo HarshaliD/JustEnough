@@ -43,11 +43,11 @@
     "detection_precision": null,
     "detection_false_positives": null,
     "failure_counts": {
-      "comparison error": 0,
-      "detection miss": 0,
       "ambiguous label": 0,
+      "comparison error": 0,
+      "planner error": 0,
       "unattributed": 0,
-      "planner error": 0
+      "detection miss": 0
     },
     "failures": []
   },
@@ -59,7 +59,7 @@
       "is_trap": false,
       "is_unstable": false,
       "is_preserved": true,
-      "match_reason": "dict_keys_and_values_matched",
+      "match_reason": "spending_summary_matched",
       "plan_decisions": {
         "account_identifier": {
           "action": "DROP",
@@ -407,7 +407,7 @@
       "is_trap": false,
       "is_unstable": false,
       "is_preserved": true,
-      "match_reason": "field_balance_match",
+      "match_reason": "numeric_within_tolerance",
       "plan_decisions": {
         "account_identifier": {
           "action": "DROP",
@@ -564,7 +564,7 @@
       "is_trap": false,
       "is_unstable": false,
       "is_preserved": true,
-      "match_reason": "dict_keys_and_values_matched",
+      "match_reason": "salary_summary_matched",
       "plan_decisions": {
         "account_identifier": {
           "action": "DROP",

@@ -392,6 +392,142 @@ def test_failure_attribution_and_missing_evidence():
     assert counts["unattributed"] == 1
 
 
+def test_load_answer_schemas():
+    """Verifies that schemas/answer_schemas.json loads cleanly and defines all 17 schema IDs."""
+    from eval.comparators import load_answer_schemas
+
+    schemas = load_answer_schemas()
+    assert len(schemas) == 17, f"Expected 17 schemas, got {len(schemas)}"
+
+    phase1_schemas = [
+        "identity_check", "balance_summary", "transaction_total", "deduction_summary",
+        "spending_summary", "cashflow_summary", "salary_summary", "usage_summary",
+        "top_transactions", "payment_due", "bill_summary",
+    ]
+    for s_id in phase1_schemas:
+        assert s_id in schemas, f"Phase 1 schema '{s_id}' missing in schemas/answer_schemas.json"
+        assert "type" in schemas[s_id] or "oneOf" in schemas[s_id] or "anyOf" in schemas[s_id]
+
+
+def test_phase1_deterministic_comparators():
+    """Direct tests for matching and non-matching outputs for all 11 Phase 1 schemas."""
+    from eval.comparators import compare_answers
+
+    # 1. identity_check: True match, False match, mismatch, and no-truthiness-fallback check
+    # 1a. True == True
+    match, _ = compare_answers({"is_mine": True}, {"is_mine": True}, "identity_check")
+    assert match is True
+    # 1b. False == False (explicit False identity verdict)
+    match_false, reason = compare_answers({"is_mine": False}, {"is_mine": False}, "identity_check")
+    assert match_false is True, f"Failed on False == False identity verdict: {reason}"
+    # 1c. True != False
+    mismatch, _ = compare_answers({"is_mine": True}, {"is_mine": False}, "identity_check")
+    assert mismatch is False
+    # 1d. Ensure False is not overridden by truthiness fallback when multiple keys exist
+    # R0 has is_mine=False (explicit boolean); R1 has is_mine=True -> must be False mismatch
+    mismatch_bug, _ = compare_answers({"is_mine": False, "matches_owner": True}, {"is_mine": True}, "identity_check")
+    assert mismatch_bug is False
+
+    # 2. balance_summary: tolerance match & out-of-tolerance mismatch
+    match, _ = compare_answers({"total_balance": 32450.0}, {"balance": 32550.0}, "balance_summary")
+    assert match is True  # ~0.3% diff <= 0.5%
+    mismatch, _ = compare_answers({"total_balance": 32450.0}, {"total_balance": 33000.0}, "balance_summary")
+    assert mismatch is False
+
+    # 3. transaction_total: tolerance match & mismatch
+    match, _ = compare_answers({"total_amount": 1450.0}, {"upi_total": 1455.0}, "transaction_total")
+    assert match is True  # ~0.34% diff <= 0.5%
+    mismatch, _ = compare_answers({"total_amount": 1450.0}, {"total_amount": 1800.0}, "transaction_total")
+    assert mismatch is False
+
+    # 4. deduction_summary: tolerance match & mismatch
+    match, _ = compare_answers({"total_deductions": 11800.0}, {"total": 11800.0}, "deduction_summary")
+    assert match is True
+    mismatch, _ = compare_answers({"total_deductions": 11800.0}, {"total_deductions": 10000.0}, "deduction_summary")
+    assert mismatch is False
+
+    # 5. spending_summary: case-insensitive keys, numeric tolerance, category mismatch
+    r0_spend = {"food": 450.0, "travel": 1200.0}
+    r1_spend = {"Food": 451.0, "TRAVEL": 1200.0}
+    match, _ = compare_answers(r0_spend, r1_spend, "spending_summary")
+    assert match is True
+    mismatch_key, _ = compare_answers({"food": 450.0}, {"groceries": 450.0}, "spending_summary")
+    assert mismatch_key is False
+    mismatch_val, _ = compare_answers({"food": 450.0}, {"food": 550.0}, "spending_summary")
+    assert mismatch_val is False
+
+    # 6. cashflow_summary: inflow & outflow tolerance, mismatch
+    r0_cash = {"total_inflow": 50000.0, "total_outflow": 30000.0}
+    r1_cash = {"inflow": 50100.0, "outflow": 30050.0}
+    match, _ = compare_answers(r0_cash, r1_cash, "cashflow_summary")
+    assert match is True
+    mismatch, _ = compare_answers(r0_cash, {"total_inflow": 45000.0, "total_outflow": 30000.0}, "cashflow_summary")
+    assert mismatch is False
+
+    # 7. salary_summary: components match & mismatch
+    r0_sal = {"basic": 55000.0, "net": 87450.0}
+    r1_sal = {"Basic": 55100.0, "Net": 87450.0}
+    match, _ = compare_answers(r0_sal, r1_sal, "salary_summary")
+    assert match is True
+    mismatch, _ = compare_answers(r0_sal, {"basic": 60000.0, "net": 87450.0}, "salary_summary")
+    assert mismatch is False
+
+    # 8. usage_summary: units & charges tolerance, mismatch
+    r0_use = {"billed_consumption": 420.0, "total_charges": 4180.0}
+    r1_use = {"units": 421.0, "total_amount": 4190.0}
+    match, _ = compare_answers(r0_use, r1_use, "usage_summary")
+    assert match is True
+    mismatch, _ = compare_answers(r0_use, {"billed_consumption": 300.0, "total_charges": 4180.0}, "usage_summary")
+    assert mismatch is False
+
+    # 9. top_transactions: numeric lists order-insensitive descending, tolerance, length mismatch
+    r0_top = [18500.0, 12400.0, 9500.0]
+    r1_top = [12400.0, 18550.0, 9520.0]  # different order, within 0.5% tolerance
+    match, _ = compare_answers(r0_top, r1_top, "top_transactions")
+    assert match is True
+    # Object list format with amount
+    match_objs, _ = compare_answers(
+        [{"amount": 18500.0, "desc": "laptop"}, {"amount": 12400.0, "desc": "flight"}],
+        [{"amount": 18500.0}, {"amount": 12400.0}],
+        "top_transactions"
+    )
+    assert match_objs is True
+    mismatch, _ = compare_answers([18500.0, 12400.0], [18500.0, 10000.0], "top_transactions")
+    assert mismatch is False
+
+    # 10. payment_due: amount tolerance & ISO date normalization vs DD-Mon-YYYY
+    r0_due = {"amount_due": 48920.0, "due_date": "2026-09-20"}
+    r1_due = {"total_due": 48950.0, "payment_due_date": "20-Sep-2026"}
+    match, _ = compare_answers(r0_due, r1_due, "payment_due")
+    assert match is True
+    # Date mismatch
+    mismatch_date, _ = compare_answers(
+        {"amount_due": 48920.0, "due_date": "2026-09-20"},
+        {"amount_due": 48920.0, "due_date": "2026-09-25"},
+        "payment_due"
+    )
+    assert mismatch_date is False
+    # Amount mismatch
+    mismatch_amt, _ = compare_answers(
+        {"amount_due": 48920.0, "due_date": "2026-09-20"},
+        {"amount_due": 40000.0, "due_date": "2026-09-20"},
+        "payment_due"
+    )
+    assert mismatch_amt is False
+
+    # 11. bill_summary: bill_amount tolerance & date normalization
+    r0_bill = {"bill_amount": 4180.0, "due_date": "2026-09-25"}
+    r1_bill = {"total_amount": 4185.0, "due_date": "25-Sep-2026"}
+    match, _ = compare_answers(r0_bill, r1_bill, "bill_summary")
+    assert match is True
+    mismatch_date, _ = compare_answers(
+        {"bill_amount": 4180.0, "due_date": "2026-09-25"},
+        {"bill_amount": 4180.0, "due_date": "2026-10-25"},
+        "bill_summary"
+    )
+    assert mismatch_date is False
+
+
 if __name__ == "__main__":
     test_comparators()
     test_smoke_runner_isolation()
@@ -404,4 +540,6 @@ if __name__ == "__main__":
     test_zero_eligible_denominators()
     test_trap_and_matching_nontrap_pairwise_check()
     test_failure_attribution_and_missing_evidence()
+    test_load_answer_schemas()
+    test_phase1_deterministic_comparators()
     print("\nAll evaluator regression tests passed successfully.")
