@@ -19,6 +19,8 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
 import jsonschema
+import logging
+import time
 from dotenv import load_dotenv
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -26,6 +28,7 @@ PLAN_SCHEMA_PATH = PROJECT_ROOT / "schemas" / "plan.schema.json"
 
 # Load project-root .env reliably
 load_dotenv(PROJECT_ROOT / ".env")
+logger = logging.getLogger("justenough.planner")
 
 with open(PLAN_SCHEMA_PATH, "r", encoding="utf-8") as f:
     PLAN_SCHEMA = json.load(f)
@@ -193,26 +196,35 @@ class MinimizationPlanner:
         live_client: Optional[Any] = None,
         model_name: Optional[str] = None
     ):
-        self.model_name = model_name or os.environ.get("JUSTENOUGH_MODEL", "gemini-flash-latest")
+        self.model_name = model_name or os.environ.get("JUSTENOUGH_MODEL", "gemini-3.6-flash")
         self.is_live = live_mode or (live_client is not None)
         self.mock_client = MockPlannerClient()
         self.live_client = live_client
+        self._mode = "mock"
 
         if self.is_live and self.live_client is None:
             api_key = os.environ.get("GEMINI_API_KEY")
             if not api_key:
                 raise ValueError("Cannot initialize live planner: GEMINI_API_KEY not found in environment or project .env file.")
 
-            import google.generativeai as genai
-            genai.configure(api_key=api_key)
-            self.live_client = genai.GenerativeModel(
-                model_name=self.model_name,
-                system_instruction=SYSTEM_PROMPT,
-                generation_config={
-                    "temperature": 0,
-                    "response_mime_type": "application/json"
-                }
-            )
+            try:
+                from google import genai
+                self._client = genai.Client()
+                self._mode = "google.genai"
+            except ImportError:
+                import google.generativeai as genai
+                genai.configure(api_key=api_key)
+                self.live_client = genai.GenerativeModel(
+                    model_name=self.model_name,
+                    system_instruction=SYSTEM_PROMPT,
+                    generation_config={
+                        "temperature": 0,
+                        "response_mime_type": "application/json"
+                    }
+                )
+                self._mode = "google.generativeai"
+
+            logger.info("[LIVE PLANNER READY] Model: %s | SDK: %s", self.model_name, self._mode)
 
     def build_prompt(
         self,
@@ -334,8 +346,26 @@ class MinimizationPlanner:
 
         # Up to 1 retry on validation / API failure
         for attempt in range(2):
+            t0 = time.monotonic()
+            logger.info(
+                "[LIVE PLANNER] Calling Gemini %s (attempt %d/2) | Case: %s",
+                self.model_name, attempt + 1, case_id
+            )
             try:
-                response = self.live_client.generate_content(prompt)
+                if self._mode == "google.genai":
+                    response = self._client.models.generate_content(
+                        model=self.model_name,
+                        contents=prompt,
+                        config={
+                            "temperature": 0.0,
+                            "response_mime_type": "application/json",
+                            "system_instruction": SYSTEM_PROMPT,
+                        },
+                    )
+                else:
+                    response = self.live_client.generate_content(prompt)
+
+                elapsed_ms = (time.monotonic() - t0) * 1000
                 if not response or not hasattr(response, "text") or not response.text:
                     raise RuntimeError("Gemini returned an empty or null response.")
 
@@ -351,14 +381,21 @@ class MinimizationPlanner:
 
                 parsed_plan = json.loads(raw_text)
                 if self.validate_plan_schema(parsed_plan, case_id):
+                    logger.info(
+                        "[LIVE PLANNER SUCCESS] Plan validated in %.0fms | Decisions: %d | Unsure: %d",
+                        elapsed_ms, len(parsed_plan.get("decisions", {})), len(parsed_plan.get("unsure", []))
+                    )
                     plan = parsed_plan
                     break
                 else:
                     last_error = f"Schema validation failed on attempt {attempt + 1}"
+                    logger.warning("[LIVE PLANNER] Attempt %d failed schema validation: %s", attempt + 1, last_error)
                     retries += 1
             except Exception as e:
+                elapsed_ms = (time.monotonic() - t0) * 1000
                 err_type = type(e).__name__
-                last_error = f"Gemini API call failed ({err_type}): {str(e)[:100]}"
+                last_error = f"Gemini API call failed ({err_type}): {str(e)[:150]}"
+                logger.error("[LIVE PLANNER ERROR] Attempt %d failed after %.0fms: %s", attempt + 1, elapsed_ms, last_error)
                 retries += 1
 
         if plan is None:

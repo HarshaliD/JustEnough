@@ -1,0 +1,30 @@
+================================================================================
+                       HDFC BANK - ACCOUNT STATEMENT                  
+================================================================================
+Account Holder Name: Priya Nair
+Permanent Acct No:   ABCDE1234F (PAN)
+Account Number:      50100234891024
+Customer ID:         CUST992014
+Registered Mobile:   +91-9876543210
+Registered Email:    priya.nair@example.com
+Communication Addr:  Flat 301, Palm Meadows, Whitefield, Bengaluru 560066
+Branch:              Whitefield Branch | IFSC: HDFC0001234
+Statement Period:    01-Oct-2026 to 15-Oct-2026
+--------------------------------------------------------------------------------
+Date         Description                        Debit (INR)   Credit (INR)    Balance (INR)
+--------------------------------------------------------------------------------
+2026-10-01   Salary Credit - Infosys Ltd                  -      125000.00       145000.00
+2026-10-03   UPI/Swiggy Bangalore/dinner             680.00              -       144320.00
+             Merchant: Swiggy Bangalore
+2026-10-05   UPI/Zomato Online/lunch                 420.00              -       143900.00
+             Merchant: Zomato
+2026-10-07   Transfer to Rohan Verma                2500.00              -       141400.00
+             Narration: Rent Split
+2026-10-10   Apollo Pharmacy Indiranagar             850.00              -       140550.00
+             Merchant: Apollo Pharmacy
+2026-10-12   Uber India Systems Pvt Ltd              340.00              -       140210.00
+             Merchant: Uber
+--------------------------------------------------------------------------------
+Closing Balance:                                                         140210.00
+================================================================================
+END OF STATEMENT - Synthetic test document generated for JustEnough demo.
