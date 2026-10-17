@@ -1,0 +1,122 @@
+{
+  "case_id": "UB-1-C",
+  "doc_id": "UB-1",
+  "task": "Is this utility bill associated with my address/account?",
+  "schema_id": "identity_check",
+  "is_trap": true,
+  "is_preserved": true,
+  "match_reason": "boolean_verdict_match",
+  "is_unstable": false,
+  "is_unevaluable": false,
+  "detected_fields": [
+    {
+      "id": "UB-1-det-02",
+      "category": "account_identifier",
+      "confidence": 0.95
+    },
+    {
+      "id": "UB-1-det-04",
+      "category": "person_name",
+      "confidence": 0.95
+    },
+    {
+      "id": "UB-1-det-01",
+      "category": "contact",
+      "confidence": 0.95
+    }
+  ],
+  "instances_total": 3,
+  "instances_retained": 0.0,
+  "plan_decisions": {
+    "account_identifier": {
+      "action": "DROP",
+      "reason": "Default minimization.",
+      "confidence": 0.85
+    },
+    "government_id": {
+      "action": "DROP",
+      "reason": "Default minimization.",
+      "confidence": 0.85
+    },
+    "person_name": {
+      "action": "DROP",
+      "reason": "Default minimization.",
+      "confidence": 0.85
+    },
+    "counterparty_name": {
+      "action": "DROP",
+      "reason": "Default minimization.",
+      "confidence": 0.85
+    },
+    "address": {
+      "action": "DROP",
+      "reason": "Default minimization.",
+      "confidence": 0.85
+    },
+    "contact": {
+      "action": "DROP",
+      "reason": "Default minimization.",
+      "confidence": 0.85
+    },
+    "date_of_birth": {
+      "action": "DROP",
+      "reason": "Default minimization.",
+      "confidence": 0.85
+    },
+    "internal_id": {
+      "action": "DROP",
+      "reason": "Default minimization.",
+      "confidence": 0.85
+    },
+    "employer": {
+      "action": "DROP",
+      "reason": "Default minimization.",
+      "confidence": 0.85
+    },
+    "merchant": {
+      "action": "DROP",
+      "reason": "Default minimization.",
+      "confidence": 0.85
+    },
+    "amount": {
+      "action": "DROP",
+      "reason": "Default minimization.",
+      "confidence": 0.85
+    },
+    "balance": {
+      "action": "DROP",
+      "reason": "Default minimization.",
+      "confidence": 0.85
+    },
+    "transaction_date": {
+      "action": "DROP",
+      "reason": "Default minimization.",
+      "confidence": 0.85
+    },
+    "salary_component": {
+      "action": "DROP",
+      "reason": "Default minimization.",
+      "confidence": 0.85
+    },
+    "medical_value": {
+      "action": "DROP",
+      "reason": "Default minimization.",
+      "confidence": 0.85
+    },
+    "clause_text": {
+      "action": "DROP",
+      "reason": "Default minimization.",
+      "confidence": 0.85
+    }
+  },
+  "policy_violations": [],
+  "removed_values_leaked": [],
+  "r0_answer": {
+    "is_mine": true,
+    "matches_owner": true
+  },
+  "r1_answer": {
+    "is_mine": true,
+    "matches_owner": true
+  }
+}

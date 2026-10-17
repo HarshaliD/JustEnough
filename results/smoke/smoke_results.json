@@ -14,10 +14,10 @@
     "unevaluable_cases_list": [],
     "preserved_cases": 4,
     "answer_preservation": 1.0,
-    "sensitive_field_reduction": 0.65,
+    "sensitive_field_reduction": 0.8583,
     "sensitive_field_reduction_status": "measured",
-    "total_sensitive_instances": 55,
-    "retained_sensitive_instances": 19.25,
+    "total_sensitive_instances": 30,
+    "retained_sensitive_instances": 4.25,
     "decision_consistency": null,
     "decision_consistency_status": "not_measured: repeated plans across 3 runs not provided",
     "consistent_decisions_count": 0,
@@ -38,15 +38,15 @@
     "under_redactions_count": 0,
     "under_redaction_eligible": 8,
     "ambiguous_labels_count": 1,
-    "detection_recall": 0.5714,
+    "detection_recall": 0.5,
     "detection_span_recall": null,
     "detection_precision": null,
     "detection_false_positives": null,
     "failure_counts": {
-      "ambiguous label": 0,
-      "comparison error": 0,
       "planner error": 0,
+      "ambiguous label": 0,
       "unattributed": 0,
+      "comparison error": 0,
       "detection miss": 0
     },
     "failures": []
@@ -172,24 +172,8 @@
           "category": "internal_id"
         },
         {
-          "id": "BS-1-det-20",
-          "category": "transaction_date"
-        },
-        {
-          "id": "BS-1-det-21",
-          "category": "transaction_date"
-        },
-        {
-          "id": "BS-1-det-13",
-          "category": "transaction_date"
-        },
-        {
           "id": "BS-1-det-01",
           "category": "contact"
-        },
-        {
-          "id": "BS-1-det-14",
-          "category": "transaction_date"
         },
         {
           "id": "BS-1-det-10",
@@ -200,10 +184,6 @@
           "category": "merchant"
         },
         {
-          "id": "BS-1-det-17",
-          "category": "transaction_date"
-        },
-        {
           "id": "BS-1-det-09",
           "category": "counterparty_name"
         },
@@ -212,16 +192,8 @@
           "category": "contact"
         },
         {
-          "id": "BS-1-det-18",
-          "category": "transaction_date"
-        },
-        {
           "id": "BS-1-det-12",
           "category": "merchant"
-        },
-        {
-          "id": "BS-1-det-19",
-          "category": "transaction_date"
         }
       ]
     },
@@ -347,24 +319,8 @@
           "category": "internal_id"
         },
         {
-          "id": "BS-1-det-20",
-          "category": "transaction_date"
-        },
-        {
-          "id": "BS-1-det-21",
-          "category": "transaction_date"
-        },
-        {
-          "id": "BS-1-det-13",
-          "category": "transaction_date"
-        },
-        {
           "id": "BS-1-det-01",
           "category": "contact"
-        },
-        {
-          "id": "BS-1-det-14",
-          "category": "transaction_date"
         },
         {
           "id": "BS-1-det-10",
@@ -375,10 +331,6 @@
           "category": "merchant"
         },
         {
-          "id": "BS-1-det-17",
-          "category": "transaction_date"
-        },
-        {
           "id": "BS-1-det-09",
           "category": "counterparty_name"
         },
@@ -387,16 +339,8 @@
           "category": "contact"
         },
         {
-          "id": "BS-1-det-18",
-          "category": "transaction_date"
-        },
-        {
           "id": "BS-1-det-12",
           "category": "merchant"
-        },
-        {
-          "id": "BS-1-det-19",
-          "category": "transaction_date"
         }
       ]
     },
@@ -516,44 +460,8 @@
           "category": "contact"
         },
         {
-          "id": "CC-1-det-09",
-          "category": "person_name"
-        },
-        {
-          "id": "CC-1-det-10",
-          "category": "transaction_date"
-        },
-        {
-          "id": "CC-1-det-15",
-          "category": "transaction_date"
-        },
-        {
-          "id": "CC-1-det-16",
-          "category": "transaction_date"
-        },
-        {
-          "id": "CC-1-det-11",
-          "category": "transaction_date"
-        },
-        {
           "id": "CC-1-det-06",
           "category": "merchant"
-        },
-        {
-          "id": "CC-1-det-12",
-          "category": "transaction_date"
-        },
-        {
-          "id": "CC-1-det-13",
-          "category": "transaction_date"
-        },
-        {
-          "id": "CC-1-det-14",
-          "category": "transaction_date"
-        },
-        {
-          "id": "CC-1-det-07",
-          "category": "transaction_date"
         }
       ]
     },
@@ -663,20 +571,12 @@
           "category": "person_name"
         },
         {
-          "id": "PS-1-det-05",
-          "category": "transaction_date"
-        },
-        {
           "id": "PS-1-det-01",
           "category": "contact"
         },
         {
           "id": "PS-1-det-03",
           "category": "account_identifier"
-        },
-        {
-          "id": "PS-1-det-07",
-          "category": "transaction_date"
         }
       ]
     }

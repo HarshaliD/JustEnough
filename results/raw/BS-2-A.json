@@ -1,0 +1,156 @@
+{
+  "case_id": "BS-2-A",
+  "doc_id": "BS-2",
+  "task": "What were my three largest expenses?",
+  "schema_id": "top_transactions",
+  "is_trap": false,
+  "is_preserved": true,
+  "match_reason": "numeric_list_matched",
+  "is_unstable": false,
+  "is_unevaluable": false,
+  "detected_fields": [
+    {
+      "id": "BS-2-det-07",
+      "category": "person_name",
+      "confidence": 0.95
+    },
+    {
+      "id": "BS-2-det-04",
+      "category": "account_identifier",
+      "confidence": 0.95
+    },
+    {
+      "id": "BS-2-det-06",
+      "category": "internal_id",
+      "confidence": 0.95
+    },
+    {
+      "id": "BS-2-det-03",
+      "category": "contact",
+      "confidence": 0.95
+    },
+    {
+      "id": "BS-2-det-02",
+      "category": "internal_id",
+      "confidence": 0.95
+    },
+    {
+      "id": "BS-2-det-08",
+      "category": "counterparty_name",
+      "confidence": 0.95
+    },
+    {
+      "id": "BS-2-det-01",
+      "category": "contact",
+      "confidence": 0.95
+    }
+  ],
+  "instances_total": 7,
+  "instances_retained": 0.0,
+  "plan_decisions": {
+    "account_identifier": {
+      "action": "DROP",
+      "reason": "Not required for spending summary.",
+      "confidence": 0.9
+    },
+    "government_id": {
+      "action": "DROP",
+      "reason": "Not required for spending summary.",
+      "confidence": 0.9
+    },
+    "person_name": {
+      "action": "DROP",
+      "reason": "Not required for spending summary.",
+      "confidence": 0.9
+    },
+    "counterparty_name": {
+      "action": "DROP",
+      "reason": "Not required for spending summary.",
+      "confidence": 0.9
+    },
+    "address": {
+      "action": "DROP",
+      "reason": "Not required for spending summary.",
+      "confidence": 0.9
+    },
+    "contact": {
+      "action": "DROP",
+      "reason": "Not required for spending summary.",
+      "confidence": 0.9
+    },
+    "date_of_birth": {
+      "action": "DROP",
+      "reason": "Not required for spending summary.",
+      "confidence": 0.9
+    },
+    "internal_id": {
+      "action": "DROP",
+      "reason": "Not required for spending summary.",
+      "confidence": 0.9
+    },
+    "employer": {
+      "action": "DROP",
+      "reason": "Not required for spending summary.",
+      "confidence": 0.9
+    },
+    "merchant": {
+      "action": "KEEP",
+      "reason": "Required for spending summary.",
+      "confidence": 0.95
+    },
+    "amount": {
+      "action": "KEEP",
+      "reason": "Required for spending summary.",
+      "confidence": 0.95
+    },
+    "balance": {
+      "action": "DROP",
+      "reason": "Not required for spending summary.",
+      "confidence": 0.9
+    },
+    "transaction_date": {
+      "action": "KEEP",
+      "reason": "Required for spending summary.",
+      "confidence": 0.95
+    },
+    "salary_component": {
+      "action": "DROP",
+      "reason": "Not required for spending summary.",
+      "confidence": 0.9
+    },
+    "medical_value": {
+      "action": "DROP",
+      "reason": "Not required for spending summary.",
+      "confidence": 0.9
+    },
+    "clause_text": {
+      "action": "DROP",
+      "reason": "Not required for spending summary.",
+      "confidence": 0.9
+    }
+  },
+  "policy_violations": [],
+  "removed_values_leaked": [],
+  "r0_answer": [
+    {
+      "amount": 3450.0
+    },
+    {
+      "amount": 2500.0
+    },
+    {
+      "amount": 1280.0
+    }
+  ],
+  "r1_answer": [
+    {
+      "amount": 3450.0
+    },
+    {
+      "amount": 2500.0
+    },
+    {
+      "amount": 1280.0
+    }
+  ]
+}

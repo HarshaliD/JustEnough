@@ -286,15 +286,15 @@ export default function SensitivityHeatmap({ originalText, detectedFields }) {
   return (
     <div className="space-y-4 animate-fade-in-up">
       {/* Legend & Filter Controls */}
-      <div className="flex flex-wrap gap-2 items-center justify-between pb-1 border-b border-slate-100">
+      <div className="flex flex-wrap gap-2 items-center justify-between pb-1 border-b border-slate-100 dark:border-slate-800">
         <div className="flex flex-wrap gap-2 items-center">
-          <Eye className="w-4 h-4 text-blue-600 shrink-0" />
-          <span className="text-xs font-bold text-slate-800 mr-1">PII Sensitivity Classification:</span>
+          <Eye className="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0" />
+          <span className="text-xs font-bold text-slate-800 dark:text-slate-200 mr-1">PII Sensitivity Classification:</span>
           {[
-            { tier: 1, label: '🔴 Policy Floor (Govt ID / Acct)', bg: 'bg-rose-50 hover:bg-rose-100', border: 'border-rose-300 text-rose-800', count: tierStats[1] },
-            { tier: 2, label: '🟠 High (Names, Contacts, Org)', bg: 'bg-orange-50 hover:bg-orange-100', border: 'border-orange-300 text-orange-800', count: tierStats[2] },
-            { tier: 3, label: '🟡 Contextual (Merchants, Dates)', bg: 'bg-amber-50 hover:bg-amber-100', border: 'border-amber-300 text-amber-800', count: tierStats[3] },
-            { tier: 4, label: '🟢 Task-Essential (Amounts, Balance)', bg: 'bg-emerald-50 hover:bg-emerald-100', border: 'border-emerald-300 text-emerald-800', count: tierStats[4] },
+            { tier: 1, label: '🔴 Policy Floor (Govt ID / Acct)', bg: 'bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/40 dark:hover:bg-rose-900/50', border: 'border-rose-300 dark:border-rose-800 text-rose-800 dark:text-rose-200', count: tierStats[1] },
+            { tier: 2, label: '🟠 High (Names, Contacts, Org)', bg: 'bg-orange-50 hover:bg-orange-100 dark:bg-orange-950/40 dark:hover:bg-orange-900/50', border: 'border-orange-300 dark:border-orange-800 text-orange-800 dark:text-orange-200', count: tierStats[2] },
+            { tier: 3, label: '🟡 Contextual (Merchants, Dates)', bg: 'bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/40 dark:hover:bg-amber-900/50', border: 'border-amber-300 dark:border-amber-800 text-amber-800 dark:text-amber-200', count: tierStats[3] },
+            { tier: 4, label: '🟢 Task-Essential (Amounts, Balance)', bg: 'bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/40 dark:hover:bg-emerald-900/50', border: 'border-emerald-300 dark:border-emerald-800 text-emerald-800 dark:text-emerald-200', count: tierStats[4] },
           ].map((item) => {
             const isSelected = filterTier === item.tier;
             return (
@@ -309,7 +309,7 @@ export default function SensitivityHeatmap({ originalText, detectedFields }) {
                 }`}
               >
                 <span>{item.label}</span>
-                <span className="font-mono text-[10px] px-1.5 py-0.2 rounded-full bg-white/80 border border-slate-200">
+                <span className="font-mono text-[10px] px-1.5 py-0.2 rounded-full bg-white/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200">
                   {item.count}
                 </span>
               </button>
@@ -321,7 +321,7 @@ export default function SensitivityHeatmap({ originalText, detectedFields }) {
           <button
             type="button"
             onClick={() => setFilterTier(null)}
-            className="text-xs font-semibold text-blue-600 hover:text-blue-800 underline"
+            className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 underline"
           >
             Clear Filter
           </button>
@@ -366,39 +366,40 @@ export default function SensitivityHeatmap({ originalText, detectedFields }) {
 
       {/* Live Field Inspector Bar (Hover Information) */}
       <div
+        id="heatmap-inspector"
         className={`p-3.5 sm:p-4 rounded-xl border transition-all duration-200 ${
           hoveredField
-            ? 'bg-blue-50/90 border-blue-300 shadow-sm'
-            : 'bg-slate-50 border-slate-200'
+            ? 'bg-blue-50/90 border-blue-300 dark:!bg-[#070e1c] dark:!border-blue-600/70 shadow-sm'
+            : 'bg-slate-50 border-slate-200 dark:!bg-[#070c16] dark:!border-slate-800'
         }`}
       >
         {hoveredField ? (
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
             <div className="space-y-1">
               <div className="flex items-center gap-2">
-                <span className="font-bold text-slate-900 text-sm">
-                  Detected Field: <span className="font-mono bg-white px-2 py-0.5 rounded border border-slate-300 text-blue-700">"{hoveredField.content}"</span>
+                <span className="font-bold text-slate-900 dark:text-white text-sm">
+                  Detected Field: <span className="font-mono bg-white dark:bg-[#0f172a] px-2 py-0.5 rounded border border-slate-300 dark:border-slate-700 text-blue-700 dark:text-blue-400 font-bold">"{hoveredField.content}"</span>
                 </span>
-                <span className="text-[11px] font-semibold text-slate-600 bg-white px-2 py-0.5 rounded-full border border-slate-200">
+                <span className="text-[11px] font-semibold text-slate-600 dark:text-slate-300 bg-white dark:bg-[#0f172a] px-2 py-0.5 rounded-full border border-slate-200 dark:border-slate-700">
                   {(TIER_STYLES[hoveredField.category] || DEFAULT_STYLE).tierName}
                 </span>
               </div>
-              <p className="text-[11px] text-slate-600 font-medium">
-                <strong>Detection Pattern:</strong> {hoveredField.rule || `Matched ${hoveredField.category} pattern`}
+              <p className="text-[11px] text-slate-600 dark:text-slate-300 font-medium">
+                <strong className="text-slate-800 dark:text-slate-200">Detection Pattern:</strong> {hoveredField.rule || `Matched ${hoveredField.category} pattern`}
               </p>
             </div>
 
             <div className="flex flex-wrap sm:flex-nowrap items-center gap-2.5 shrink-0">
               <div className="text-right">
-                <div className="text-[10px] text-slate-500 uppercase font-semibold">Skeleton Placeholder</div>
-                <div className="font-mono text-xs font-bold text-slate-800 bg-white px-2 py-0.5 rounded border border-slate-300">
+                <div className="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-semibold">Skeleton Placeholder</div>
+                <div className="font-mono text-xs font-bold text-slate-800 dark:text-slate-100 bg-white dark:bg-[#0f172a] px-2 py-0.5 rounded border border-slate-300 dark:border-slate-700">
                   {hoveredField.placeholder || `[${hoveredField.category.toUpperCase()}]`}
                 </div>
               </div>
               {hoveredField.confidence && (
                 <div className="text-right">
-                  <div className="text-[10px] text-slate-500 uppercase font-semibold">Confidence</div>
-                  <div className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                  <div className="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-semibold">Confidence</div>
+                  <div className="text-xs font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-200 dark:border-emerald-800">
                     {Math.round(hoveredField.confidence * 100)}%
                   </div>
                 </div>
@@ -406,10 +407,10 @@ export default function SensitivityHeatmap({ originalText, detectedFields }) {
             </div>
           </div>
         ) : (
-          <div className="flex items-center gap-2 text-xs text-slate-500">
-            <Info className="w-4 h-4 text-blue-600 shrink-0" />
+          <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+            <Info className="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0" />
             <span>
-              <strong>Live Heatmap Inspector:</strong> Hover your cursor over any highlighted text above to inspect its classification tier, pattern rule, and skeleton placeholder.
+              <strong className="text-slate-700 dark:text-slate-200">Live Heatmap Inspector:</strong> Hover your cursor over any highlighted text above to inspect its classification tier, pattern rule, and skeleton placeholder.
             </span>
           </div>
         )}

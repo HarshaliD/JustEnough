@@ -1,0 +1,122 @@
+{
+  "case_id": "RA-1-C",
+  "doc_id": "RA-1",
+  "task": "Is this agreement between me and the stated landlord?",
+  "schema_id": "identity_check",
+  "is_trap": true,
+  "is_preserved": true,
+  "match_reason": "boolean_verdict_match",
+  "is_unstable": false,
+  "is_unevaluable": false,
+  "detected_fields": [
+    {
+      "id": "RA-1-det-03",
+      "category": "person_name",
+      "confidence": 0.95
+    },
+    {
+      "id": "RA-1-det-01",
+      "category": "contact",
+      "confidence": 0.95
+    },
+    {
+      "id": "RA-1-det-04",
+      "category": "person_name",
+      "confidence": 0.95
+    }
+  ],
+  "instances_total": 3,
+  "instances_retained": 0.0,
+  "plan_decisions": {
+    "account_identifier": {
+      "action": "DROP",
+      "reason": "Not required for agreement terms.",
+      "confidence": 0.9
+    },
+    "government_id": {
+      "action": "DROP",
+      "reason": "Not required for agreement terms.",
+      "confidence": 0.9
+    },
+    "person_name": {
+      "action": "DROP",
+      "reason": "Not required for agreement terms.",
+      "confidence": 0.9
+    },
+    "counterparty_name": {
+      "action": "DROP",
+      "reason": "Not required for agreement terms.",
+      "confidence": 0.9
+    },
+    "address": {
+      "action": "DROP",
+      "reason": "Not required for agreement terms.",
+      "confidence": 0.9
+    },
+    "contact": {
+      "action": "DROP",
+      "reason": "Not required for agreement terms.",
+      "confidence": 0.9
+    },
+    "date_of_birth": {
+      "action": "DROP",
+      "reason": "Not required for agreement terms.",
+      "confidence": 0.9
+    },
+    "internal_id": {
+      "action": "DROP",
+      "reason": "Not required for agreement terms.",
+      "confidence": 0.9
+    },
+    "employer": {
+      "action": "DROP",
+      "reason": "Not required for agreement terms.",
+      "confidence": 0.9
+    },
+    "merchant": {
+      "action": "DROP",
+      "reason": "Not required for agreement terms.",
+      "confidence": 0.9
+    },
+    "amount": {
+      "action": "KEEP",
+      "reason": "Required to summarize tenancy covenant.",
+      "confidence": 0.95
+    },
+    "balance": {
+      "action": "DROP",
+      "reason": "Not required for agreement terms.",
+      "confidence": 0.9
+    },
+    "transaction_date": {
+      "action": "KEEP",
+      "reason": "Required to summarize tenancy covenant.",
+      "confidence": 0.95
+    },
+    "salary_component": {
+      "action": "DROP",
+      "reason": "Not required for agreement terms.",
+      "confidence": 0.9
+    },
+    "medical_value": {
+      "action": "DROP",
+      "reason": "Not required for agreement terms.",
+      "confidence": 0.9
+    },
+    "clause_text": {
+      "action": "KEEP",
+      "reason": "Required to summarize tenancy covenant.",
+      "confidence": 0.95
+    }
+  },
+  "policy_violations": [],
+  "removed_values_leaked": [],
+  "r0_answer": {
+    "is_mine": true,
+    "matches_owner": true
+  },
+  "r1_answer": {
+    "is_mine": true,
+    "matches_owner": true
+  }
+}

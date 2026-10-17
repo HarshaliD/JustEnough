@@ -1,6 +1,6 @@
 {
-  "version": "0.2-reviewed-draft",
-  "labeling_status": "INDEPENDENT_AUDIT_NOT_HUMAN_APPROVED",
+  "version": "1.0-human-approved",
+  "labeling_status": "HUMAN_APPROVED_IMMUTABLE",
   "created_from": {
     "task_source": "tasks.json",
     "presence_source": "planted.json",

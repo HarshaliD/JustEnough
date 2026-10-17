@@ -1,0 +1,124 @@
+{
+  "case_id": "UB-1-A",
+  "doc_id": "UB-1",
+  "task": "What is my total bill amount and due date?",
+  "schema_id": "bill_summary",
+  "is_trap": false,
+  "is_preserved": true,
+  "match_reason": "bill_summary_matched",
+  "is_unstable": false,
+  "is_unevaluable": false,
+  "detected_fields": [
+    {
+      "id": "UB-1-det-02",
+      "category": "account_identifier",
+      "confidence": 0.95
+    },
+    {
+      "id": "UB-1-det-04",
+      "category": "person_name",
+      "confidence": 0.95
+    },
+    {
+      "id": "UB-1-det-01",
+      "category": "contact",
+      "confidence": 0.95
+    }
+  ],
+  "instances_total": 3,
+  "instances_retained": 0.0,
+  "plan_decisions": {
+    "account_identifier": {
+      "action": "DROP",
+      "reason": "Not required for balance inquiry.",
+      "confidence": 0.9
+    },
+    "government_id": {
+      "action": "DROP",
+      "reason": "Not required for balance inquiry.",
+      "confidence": 0.9
+    },
+    "person_name": {
+      "action": "DROP",
+      "reason": "Not required for balance inquiry.",
+      "confidence": 0.9
+    },
+    "counterparty_name": {
+      "action": "DROP",
+      "reason": "Not required for balance inquiry.",
+      "confidence": 0.9
+    },
+    "address": {
+      "action": "DROP",
+      "reason": "Not required for balance inquiry.",
+      "confidence": 0.9
+    },
+    "contact": {
+      "action": "DROP",
+      "reason": "Not required for balance inquiry.",
+      "confidence": 0.9
+    },
+    "date_of_birth": {
+      "action": "DROP",
+      "reason": "Not required for balance inquiry.",
+      "confidence": 0.9
+    },
+    "internal_id": {
+      "action": "DROP",
+      "reason": "Not required for balance inquiry.",
+      "confidence": 0.9
+    },
+    "employer": {
+      "action": "DROP",
+      "reason": "Not required for balance inquiry.",
+      "confidence": 0.9
+    },
+    "merchant": {
+      "action": "DROP",
+      "reason": "Not required for balance inquiry.",
+      "confidence": 0.9
+    },
+    "amount": {
+      "action": "KEEP",
+      "reason": "Required for balance calculation.",
+      "confidence": 0.95
+    },
+    "balance": {
+      "action": "KEEP",
+      "reason": "Required for balance calculation.",
+      "confidence": 0.95
+    },
+    "transaction_date": {
+      "action": "KEEP",
+      "reason": "Required for balance calculation.",
+      "confidence": 0.95
+    },
+    "salary_component": {
+      "action": "DROP",
+      "reason": "Not required for balance inquiry.",
+      "confidence": 0.9
+    },
+    "medical_value": {
+      "action": "DROP",
+      "reason": "Not required for balance inquiry.",
+      "confidence": 0.9
+    },
+    "clause_text": {
+      "action": "DROP",
+      "reason": "Not required for balance inquiry.",
+      "confidence": 0.9
+    }
+  },
+  "policy_violations": [],
+  "removed_values_leaked": [],
+  "r0_answer": {
+    "amount_due": 3450.0,
+    "bill_amount": 3450.0,
+    "due_date": "2026-09-20"
+  },
+  "r1_answer": {
+    "amount_due": 3450.0,
+    "bill_amount": 3450.0,
+    "due_date": "2026-09-20"
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "case_id": "PS-1-A",
+  "doc_id": "PS-1",
+  "task": "Explain why my take-home pay changed",
+  "schema_id": "salary_explanation",
+  "is_trap": false,
+  "is_preserved": true,
+  "match_reason": "exact_text_match",
+  "is_unstable": false,
+  "is_unevaluable": false,
+  "detected_fields": [
+    {
+      "id": "PS-1-det-04",
+      "category": "person_name",
+      "confidence": 0.95
+    },
+    {
+      "id": "PS-1-det-01",
+      "category": "contact",
+      "confidence": 0.95
+    },
+    {
+      "id": "PS-1-det-03",
+      "category": "account_identifier",
+      "confidence": 0.95
+    }
+  ],
+  "instances_total": 3,
+  "instances_retained": 0.0,
+  "plan_decisions": {
+    "account_identifier": {
+      "action": "DROP",
+      "reason": "Not needed for compensation explanation.",
+      "confidence": 0.9
+    },
+    "government_id": {
+      "action": "DROP",
+      "reason": "Not needed for compensation explanation.",
+      "confidence": 0.9
+    },
+    "person_name": {
+      "action": "DROP",
+      "reason": "Not needed for compensation explanation.",
+      "confidence": 0.9
+    },
+    "counterparty_name": {
+      "action": "DROP",
+      "reason": "Not needed for compensation explanation.",
+      "confidence": 0.9
+    },
+    "address": {
+      "action": "DROP",
+      "reason": "Not needed for compensation explanation.",
+      "confidence": 0.9
+    },
+    "contact": {
+      "action": "DROP",
+      "reason": "Not needed for compensation explanation.",
+      "confidence": 0.9
+    },
+    "date_of_birth": {
+      "action": "DROP",
+      "reason": "Not needed for compensation explanation.",
+      "confidence": 0.9
+    },
+    "internal_id": {
+      "action": "DROP",
+      "reason": "Not needed for compensation explanation.",
+      "confidence": 0.9
+    },
+    "employer": {
+      "action": "KEEP",
+      "reason": "Required for salary breakdown.",
+      "confidence": 0.95
+    },
+    "merchant": {
+      "action": "DROP",
+      "reason": "Not needed for compensation explanation.",
+      "confidence": 0.9
+    },
+    "amount": {
+      "action": "KEEP",
+      "reason": "Required for salary breakdown.",
+      "confidence": 0.95
+    },
+    "balance": {
+      "action": "DROP",
+      "reason": "Not needed for compensation explanation.",
+      "confidence": 0.9
+    },
+    "transaction_date": {
+      "action": "DROP",
+      "reason": "Not needed for compensation explanation.",
+      "confidence": 0.9
+    },
+    "salary_component": {
+      "action": "KEEP",
+      "reason": "Required for salary breakdown.",
+      "confidence": 0.95
+    },
+    "medical_value": {
+      "action": "DROP",
+      "reason": "Not needed for compensation explanation.",
+      "confidence": 0.9
+    },
+    "clause_text": {
+      "action": "DROP",
+      "reason": "Not needed for compensation explanation.",
+      "confidence": 0.9
+    }
+  },
+  "policy_violations": [],
+  "removed_values_leaked": [],
+  "r0_answer": "Gross earnings are INR 97000 reduced by total statutory deductions of INR 9550 (Provident Fund 6600, Professional Tax 200, Income Tax 2750), resulting in net take-home remuneration of INR 87450.",
+  "r1_answer": "Gross earnings are INR 97000 reduced by total statutory deductions of INR 9550 (Provident Fund 6600, Professional Tax 200, Income Tax 2750), resulting in net take-home remuneration of INR 87450."
+}

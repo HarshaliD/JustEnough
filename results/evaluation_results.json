@@ -1,0 +1,4004 @@
+{
+  "timestamp": "2026-10-16T07:47:38Z",
+  "live_mode": false,
+  "seeds": [
+    20261009,
+    20261010,
+    20261011
+  ],
+  "total_cases_evaluated": 30,
+  "metrics": {
+    "total_cases_evaluated": 30,
+    "stable_cases": 30,
+    "unstable_cases": 0,
+    "unstable_cases_list": [],
+    "unevaluable_cases": 0,
+    "unevaluable_cases_list": [],
+    "preserved_cases": 29,
+    "answer_preservation": 0.9667,
+    "sensitive_field_reduction": 0.8997,
+    "sensitive_field_reduction_status": "measured",
+    "total_sensitive_instances": 147,
+    "retained_sensitive_instances": 14.75,
+    "decision_consistency": 1.0,
+    "decision_consistency_status": "measured",
+    "consistent_decisions_count": 480,
+    "consistency_eligible_decisions": 480,
+    "trap_cases_evaluated": 10,
+    "trap_cases_passed": 8,
+    "trap_pairs_evaluated": 10,
+    "trap_pairs_passed": 8,
+    "trap_check_rate": 0.8,
+    "trap_check_mode": "pairwise",
+    "label_agreement_rate": 0.8528,
+    "label_agreements_count": 197,
+    "label_agreement_eligible": 231,
+    "over_redaction_rate": 0.4222,
+    "over_redactions_count": 19,
+    "over_redaction_eligible": 45,
+    "under_redaction_rate": 0.0806,
+    "under_redactions_count": 15,
+    "under_redaction_eligible": 186,
+    "ambiguous_labels_count": 42,
+    "detection_recall": null,
+    "detection_span_recall": null,
+    "detection_precision": null,
+    "detection_false_positives": null,
+    "failure_counts": {
+      "unattributed": 1,
+      "detection miss": 0,
+      "planner error": 0,
+      "comparison error": 0,
+      "ambiguous label": 0
+    },
+    "failures": [
+      {
+        "case_id": "UB-1-B",
+        "failure_type": "unattributed",
+        "evidence": "missing_consumption_units"
+      }
+    ]
+  },
+  "detection_evaluation": {
+    "span_recall": 0.4396,
+    "category_recall": 0.4286,
+    "precision": 0.7959,
+    "total_planted": 91,
+    "total_detected": 49
+  },
+  "cases": [
+    {
+      "case_id": "BS-1-A",
+      "doc_id": "BS-1",
+      "task": "Summarize my spending by category",
+      "schema_id": "spending_summary",
+      "is_trap": false,
+      "is_preserved": true,
+      "match_reason": "spending_summary_matched",
+      "is_unstable": false,
+      "is_unevaluable": false,
+      "detected_fields": [
+        {
+          "id": "BS-1-det-08",
+          "category": "person_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-1-det-05",
+          "category": "account_identifier",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-1-det-07",
+          "category": "internal_id",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-1-det-04",
+          "category": "contact",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-1-det-03",
+          "category": "internal_id",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-1-det-01",
+          "category": "contact",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-1-det-10",
+          "category": "merchant",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-1-det-11",
+          "category": "merchant",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-1-det-09",
+          "category": "counterparty_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-1-det-02",
+          "category": "contact",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-1-det-12",
+          "category": "merchant",
+          "confidence": 0.95
+        }
+      ],
+      "instances_total": 11,
+      "instances_retained": 3.0,
+      "plan_decisions": {
+        "account_identifier": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "government_id": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "person_name": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "counterparty_name": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "address": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "contact": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "date_of_birth": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "internal_id": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "employer": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "merchant": {
+          "action": "KEEP",
+          "reason": "Required for spending summary.",
+          "confidence": 0.95
+        },
+        "amount": {
+          "action": "KEEP",
+          "reason": "Required for spending summary.",
+          "confidence": 0.95
+        },
+        "balance": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "transaction_date": {
+          "action": "KEEP",
+          "reason": "Required for spending summary.",
+          "confidence": 0.95
+        },
+        "salary_component": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "medical_value": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "clause_text": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        }
+      },
+      "policy_violations": [],
+      "removed_values_leaked": [],
+      "r0_answer": {
+        "food": 450.0,
+        "transfers": 1200.0,
+        "pharmacy": 620.0
+      },
+      "r1_answer": {
+        "food": 450.0,
+        "transfers": 1200.0,
+        "pharmacy": 620.0
+      }
+    },
+    {
+      "case_id": "BS-1-B",
+      "doc_id": "BS-1",
+      "task": "Find suspicious transactions",
+      "schema_id": "suspicious_transactions",
+      "is_trap": false,
+      "is_preserved": true,
+      "match_reason": "exact_text_match",
+      "is_unstable": false,
+      "is_unevaluable": false,
+      "detected_fields": [
+        {
+          "id": "BS-1-det-08",
+          "category": "person_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-1-det-05",
+          "category": "account_identifier",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-1-det-07",
+          "category": "internal_id",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-1-det-04",
+          "category": "contact",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-1-det-03",
+          "category": "internal_id",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-1-det-01",
+          "category": "contact",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-1-det-10",
+          "category": "merchant",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-1-det-11",
+          "category": "merchant",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-1-det-09",
+          "category": "counterparty_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-1-det-02",
+          "category": "contact",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-1-det-12",
+          "category": "merchant",
+          "confidence": 0.95
+        }
+      ],
+      "instances_total": 11,
+      "instances_retained": 0.0,
+      "plan_decisions": {
+        "account_identifier": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "government_id": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "person_name": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "counterparty_name": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "address": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "contact": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "date_of_birth": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "internal_id": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "employer": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "merchant": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "amount": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "balance": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "transaction_date": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "salary_component": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "medical_value": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "clause_text": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        }
+      },
+      "policy_violations": [],
+      "removed_values_leaked": [],
+      "r0_answer": "No fraudulent transactions identified. Transactions consist of Swiggy food INR 450, Priya Patel transfer INR 1200, and Apollo Pharmacy INR 620.",
+      "r1_answer": "No fraudulent transactions identified. Transactions consist of Swiggy food INR 450, Priya Patel transfer INR 1200, and Apollo Pharmacy INR 620."
+    },
+    {
+      "case_id": "BS-1-C",
+      "doc_id": "BS-1",
+      "task": "Is this statement mine?",
+      "schema_id": "identity_check",
+      "is_trap": true,
+      "is_preserved": true,
+      "match_reason": "boolean_verdict_match",
+      "is_unstable": false,
+      "is_unevaluable": false,
+      "detected_fields": [
+        {
+          "id": "BS-1-det-08",
+          "category": "person_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-1-det-05",
+          "category": "account_identifier",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-1-det-07",
+          "category": "internal_id",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-1-det-04",
+          "category": "contact",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-1-det-03",
+          "category": "internal_id",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-1-det-01",
+          "category": "contact",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-1-det-10",
+          "category": "merchant",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-1-det-11",
+          "category": "merchant",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-1-det-09",
+          "category": "counterparty_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-1-det-02",
+          "category": "contact",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-1-det-12",
+          "category": "merchant",
+          "confidence": 0.95
+        }
+      ],
+      "instances_total": 11,
+      "instances_retained": 1.25,
+      "plan_decisions": {
+        "account_identifier": {
+          "action": "MASK_PARTIAL",
+          "reason": "Verifying account ownership via last digits.",
+          "confidence": 0.9
+        },
+        "government_id": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "person_name": {
+          "action": "KEEP",
+          "reason": "Task requires verifying identity against document.",
+          "confidence": 0.95
+        },
+        "counterparty_name": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "address": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "contact": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "date_of_birth": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "internal_id": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "employer": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "merchant": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "amount": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "balance": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "transaction_date": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "salary_component": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "medical_value": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "clause_text": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        }
+      },
+      "policy_violations": [],
+      "removed_values_leaked": [],
+      "r0_answer": {
+        "is_mine": true,
+        "matches_owner": true
+      },
+      "r1_answer": {
+        "is_mine": true,
+        "matches_owner": true
+      }
+    },
+    {
+      "case_id": "BS-2-A",
+      "doc_id": "BS-2",
+      "task": "What were my three largest expenses?",
+      "schema_id": "top_transactions",
+      "is_trap": false,
+      "is_preserved": true,
+      "match_reason": "numeric_list_matched",
+      "is_unstable": false,
+      "is_unevaluable": false,
+      "detected_fields": [
+        {
+          "id": "BS-2-det-07",
+          "category": "person_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-2-det-04",
+          "category": "account_identifier",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-2-det-06",
+          "category": "internal_id",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-2-det-03",
+          "category": "contact",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-2-det-02",
+          "category": "internal_id",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-2-det-08",
+          "category": "counterparty_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-2-det-01",
+          "category": "contact",
+          "confidence": 0.95
+        }
+      ],
+      "instances_total": 7,
+      "instances_retained": 0.0,
+      "plan_decisions": {
+        "account_identifier": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "government_id": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "person_name": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "counterparty_name": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "address": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "contact": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "date_of_birth": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "internal_id": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "employer": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "merchant": {
+          "action": "KEEP",
+          "reason": "Required for spending summary.",
+          "confidence": 0.95
+        },
+        "amount": {
+          "action": "KEEP",
+          "reason": "Required for spending summary.",
+          "confidence": 0.95
+        },
+        "balance": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "transaction_date": {
+          "action": "KEEP",
+          "reason": "Required for spending summary.",
+          "confidence": 0.95
+        },
+        "salary_component": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "medical_value": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "clause_text": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        }
+      },
+      "policy_violations": [],
+      "removed_values_leaked": [],
+      "r0_answer": [
+        {
+          "amount": 3450.0
+        },
+        {
+          "amount": 2500.0
+        },
+        {
+          "amount": 1280.0
+        }
+      ],
+      "r1_answer": [
+        {
+          "amount": 3450.0
+        },
+        {
+          "amount": 2500.0
+        },
+        {
+          "amount": 1280.0
+        }
+      ]
+    },
+    {
+      "case_id": "BS-2-B",
+      "doc_id": "BS-2",
+      "task": "How much did I spend on UPI transactions?",
+      "schema_id": "transaction_total",
+      "is_trap": false,
+      "is_preserved": true,
+      "match_reason": "numeric_within_tolerance",
+      "is_unstable": false,
+      "is_unevaluable": false,
+      "detected_fields": [
+        {
+          "id": "BS-2-det-07",
+          "category": "person_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-2-det-04",
+          "category": "account_identifier",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-2-det-06",
+          "category": "internal_id",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-2-det-03",
+          "category": "contact",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-2-det-02",
+          "category": "internal_id",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-2-det-08",
+          "category": "counterparty_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-2-det-01",
+          "category": "contact",
+          "confidence": 0.95
+        }
+      ],
+      "instances_total": 7,
+      "instances_retained": 0.0,
+      "plan_decisions": {
+        "account_identifier": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "government_id": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "person_name": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "counterparty_name": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "address": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "contact": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "date_of_birth": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "internal_id": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "employer": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "merchant": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "amount": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "balance": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "transaction_date": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "salary_component": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "medical_value": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "clause_text": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        }
+      },
+      "policy_violations": [],
+      "removed_values_leaked": [],
+      "r0_answer": {
+        "total_amount": 2500.0,
+        "upi_total": 2500.0
+      },
+      "r1_answer": {
+        "total_amount": 2500.0,
+        "upi_total": 2500.0
+      }
+    },
+    {
+      "case_id": "BS-2-C",
+      "doc_id": "BS-2",
+      "task": "Is this statement associated with my account?",
+      "schema_id": "identity_check",
+      "is_trap": true,
+      "is_preserved": true,
+      "match_reason": "boolean_verdict_match",
+      "is_unstable": false,
+      "is_unevaluable": false,
+      "detected_fields": [
+        {
+          "id": "BS-2-det-07",
+          "category": "person_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-2-det-04",
+          "category": "account_identifier",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-2-det-06",
+          "category": "internal_id",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-2-det-03",
+          "category": "contact",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-2-det-02",
+          "category": "internal_id",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-2-det-08",
+          "category": "counterparty_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-2-det-01",
+          "category": "contact",
+          "confidence": 0.95
+        }
+      ],
+      "instances_total": 7,
+      "instances_retained": 1.25,
+      "plan_decisions": {
+        "account_identifier": {
+          "action": "MASK_PARTIAL",
+          "reason": "Verifying account ownership via last digits.",
+          "confidence": 0.9
+        },
+        "government_id": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "person_name": {
+          "action": "KEEP",
+          "reason": "Task requires verifying identity against document.",
+          "confidence": 0.95
+        },
+        "counterparty_name": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "address": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "contact": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "date_of_birth": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "internal_id": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "employer": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "merchant": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "amount": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "balance": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "transaction_date": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "salary_component": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "medical_value": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "clause_text": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        }
+      },
+      "policy_violations": [],
+      "removed_values_leaked": [],
+      "r0_answer": {
+        "is_mine": true,
+        "matches_owner": true
+      },
+      "r1_answer": {
+        "is_mine": true,
+        "matches_owner": true
+      }
+    },
+    {
+      "case_id": "BS-3-A",
+      "doc_id": "BS-3",
+      "task": "Summarize my monthly inflow and outflow",
+      "schema_id": "cashflow_summary",
+      "is_trap": false,
+      "is_preserved": true,
+      "match_reason": "cashflow_summary_matched",
+      "is_unstable": false,
+      "is_unevaluable": false,
+      "detected_fields": [
+        {
+          "id": "BS-3-det-07",
+          "category": "person_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-3-det-04",
+          "category": "account_identifier",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-3-det-06",
+          "category": "internal_id",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-3-det-03",
+          "category": "contact",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-3-det-02",
+          "category": "internal_id",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-3-det-08",
+          "category": "counterparty_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-3-det-01",
+          "category": "contact",
+          "confidence": 0.95
+        }
+      ],
+      "instances_total": 7,
+      "instances_retained": 0.0,
+      "plan_decisions": {
+        "account_identifier": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "government_id": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "person_name": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "counterparty_name": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "address": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "contact": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "date_of_birth": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "internal_id": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "employer": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "merchant": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "amount": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "balance": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "transaction_date": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "salary_component": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "medical_value": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "clause_text": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        }
+      },
+      "policy_violations": [],
+      "removed_values_leaked": [],
+      "r0_answer": {
+        "inflow": 65000.0,
+        "outflow": 10299.0
+      },
+      "r1_answer": {
+        "inflow": 65000.0,
+        "outflow": 10299.0
+      }
+    },
+    {
+      "case_id": "BS-3-B",
+      "doc_id": "BS-3",
+      "task": "Which transactions look unusual and why?",
+      "schema_id": "suspicious_transactions",
+      "is_trap": false,
+      "is_preserved": true,
+      "match_reason": "exact_text_match",
+      "is_unstable": false,
+      "is_unevaluable": false,
+      "detected_fields": [
+        {
+          "id": "BS-3-det-07",
+          "category": "person_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-3-det-04",
+          "category": "account_identifier",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-3-det-06",
+          "category": "internal_id",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-3-det-03",
+          "category": "contact",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-3-det-02",
+          "category": "internal_id",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-3-det-08",
+          "category": "counterparty_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-3-det-01",
+          "category": "contact",
+          "confidence": 0.95
+        }
+      ],
+      "instances_total": 7,
+      "instances_retained": 0.0,
+      "plan_decisions": {
+        "account_identifier": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "government_id": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "person_name": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "counterparty_name": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "address": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "contact": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "date_of_birth": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "internal_id": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "employer": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "merchant": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "amount": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "balance": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "transaction_date": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "salary_component": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "medical_value": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "clause_text": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        }
+      },
+      "policy_violations": [],
+      "removed_values_leaked": [],
+      "r0_answer": "Unusual outgoing expenses include an ATM cash withdrawal of INR 5000 and Amazon e-commerce spend of INR 3499 against a salary inflow of INR 65000.",
+      "r1_answer": "Unusual outgoing expenses include an ATM cash withdrawal of INR 5000 and Amazon e-commerce spend of INR 3499 against a salary inflow of INR 65000."
+    },
+    {
+      "case_id": "BS-3-C",
+      "doc_id": "BS-3",
+      "task": "Does the account holder name match the stated owner?",
+      "schema_id": "identity_check",
+      "is_trap": true,
+      "is_preserved": true,
+      "match_reason": "boolean_verdict_match",
+      "is_unstable": false,
+      "is_unevaluable": false,
+      "detected_fields": [
+        {
+          "id": "BS-3-det-07",
+          "category": "person_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-3-det-04",
+          "category": "account_identifier",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-3-det-06",
+          "category": "internal_id",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-3-det-03",
+          "category": "contact",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-3-det-02",
+          "category": "internal_id",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-3-det-08",
+          "category": "counterparty_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "BS-3-det-01",
+          "category": "contact",
+          "confidence": 0.95
+        }
+      ],
+      "instances_total": 7,
+      "instances_retained": 1.25,
+      "plan_decisions": {
+        "account_identifier": {
+          "action": "MASK_PARTIAL",
+          "reason": "Verifying account ownership via last digits.",
+          "confidence": 0.9
+        },
+        "government_id": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "person_name": {
+          "action": "KEEP",
+          "reason": "Task requires verifying identity against document.",
+          "confidence": 0.95
+        },
+        "counterparty_name": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "address": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "contact": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "date_of_birth": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "internal_id": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "employer": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "merchant": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "amount": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "balance": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "transaction_date": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "salary_component": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "medical_value": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "clause_text": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        }
+      },
+      "policy_violations": [],
+      "removed_values_leaked": [],
+      "r0_answer": {
+        "is_mine": true,
+        "matches_owner": true
+      },
+      "r1_answer": {
+        "is_mine": true,
+        "matches_owner": true
+      }
+    },
+    {
+      "case_id": "CC-1-A",
+      "doc_id": "CC-1",
+      "task": "Summarize my credit-card spending by category",
+      "schema_id": "spending_summary",
+      "is_trap": false,
+      "is_preserved": true,
+      "match_reason": "spending_summary_matched",
+      "is_unstable": false,
+      "is_unevaluable": false,
+      "detected_fields": [
+        {
+          "id": "CC-1-det-05",
+          "category": "person_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "CC-1-det-02",
+          "category": "account_identifier",
+          "confidence": 0.95
+        },
+        {
+          "id": "CC-1-det-04",
+          "category": "internal_id",
+          "confidence": 0.95
+        },
+        {
+          "id": "CC-1-det-01",
+          "category": "contact",
+          "confidence": 0.95
+        },
+        {
+          "id": "CC-1-det-06",
+          "category": "merchant",
+          "confidence": 0.95
+        }
+      ],
+      "instances_total": 5,
+      "instances_retained": 1.0,
+      "plan_decisions": {
+        "account_identifier": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "government_id": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "person_name": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "counterparty_name": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "address": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "contact": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "date_of_birth": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "internal_id": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "employer": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "merchant": {
+          "action": "KEEP",
+          "reason": "Required for spending summary.",
+          "confidence": 0.95
+        },
+        "amount": {
+          "action": "KEEP",
+          "reason": "Required for spending summary.",
+          "confidence": 0.95
+        },
+        "balance": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "transaction_date": {
+          "action": "KEEP",
+          "reason": "Required for spending summary.",
+          "confidence": 0.95
+        },
+        "salary_component": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "medical_value": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "clause_text": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        }
+      },
+      "policy_violations": [],
+      "removed_values_leaked": [],
+      "r0_answer": {
+        "food": 450.0
+      },
+      "r1_answer": {
+        "food": 450.0
+      }
+    },
+    {
+      "case_id": "CC-1-B",
+      "doc_id": "CC-1",
+      "task": "What is my total outstanding balance?",
+      "schema_id": "balance_summary",
+      "is_trap": false,
+      "is_preserved": true,
+      "match_reason": "numeric_within_tolerance",
+      "is_unstable": false,
+      "is_unevaluable": false,
+      "detected_fields": [
+        {
+          "id": "CC-1-det-05",
+          "category": "person_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "CC-1-det-02",
+          "category": "account_identifier",
+          "confidence": 0.95
+        },
+        {
+          "id": "CC-1-det-04",
+          "category": "internal_id",
+          "confidence": 0.95
+        },
+        {
+          "id": "CC-1-det-01",
+          "category": "contact",
+          "confidence": 0.95
+        },
+        {
+          "id": "CC-1-det-06",
+          "category": "merchant",
+          "confidence": 0.95
+        }
+      ],
+      "instances_total": 5,
+      "instances_retained": 0.0,
+      "plan_decisions": {
+        "account_identifier": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        },
+        "government_id": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        },
+        "person_name": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        },
+        "counterparty_name": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        },
+        "address": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        },
+        "contact": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        },
+        "date_of_birth": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        },
+        "internal_id": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        },
+        "employer": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        },
+        "merchant": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        },
+        "amount": {
+          "action": "KEEP",
+          "reason": "Required for balance calculation.",
+          "confidence": 0.95
+        },
+        "balance": {
+          "action": "KEEP",
+          "reason": "Required for balance calculation.",
+          "confidence": 0.95
+        },
+        "transaction_date": {
+          "action": "KEEP",
+          "reason": "Required for balance calculation.",
+          "confidence": 0.95
+        },
+        "salary_component": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        },
+        "medical_value": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        },
+        "clause_text": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        }
+      },
+      "policy_violations": [],
+      "removed_values_leaked": [],
+      "r0_answer": {
+        "total_balance": 82730.0,
+        "balance": 82730.0
+      },
+      "r1_answer": {
+        "total_balance": 82730.0,
+        "balance": 82730.0
+      }
+    },
+    {
+      "case_id": "CC-1-C",
+      "doc_id": "CC-1",
+      "task": "Is this credit-card statement mine?",
+      "schema_id": "identity_check",
+      "is_trap": true,
+      "is_preserved": true,
+      "match_reason": "boolean_verdict_match",
+      "is_unstable": false,
+      "is_unevaluable": false,
+      "detected_fields": [
+        {
+          "id": "CC-1-det-05",
+          "category": "person_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "CC-1-det-02",
+          "category": "account_identifier",
+          "confidence": 0.95
+        },
+        {
+          "id": "CC-1-det-04",
+          "category": "internal_id",
+          "confidence": 0.95
+        },
+        {
+          "id": "CC-1-det-01",
+          "category": "contact",
+          "confidence": 0.95
+        },
+        {
+          "id": "CC-1-det-06",
+          "category": "merchant",
+          "confidence": 0.95
+        }
+      ],
+      "instances_total": 5,
+      "instances_retained": 1.25,
+      "plan_decisions": {
+        "account_identifier": {
+          "action": "MASK_PARTIAL",
+          "reason": "Verifying account ownership via last digits.",
+          "confidence": 0.9
+        },
+        "government_id": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "person_name": {
+          "action": "KEEP",
+          "reason": "Task requires verifying identity against document.",
+          "confidence": 0.95
+        },
+        "counterparty_name": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "address": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "contact": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "date_of_birth": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "internal_id": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "employer": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "merchant": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "amount": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "balance": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "transaction_date": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "salary_component": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "medical_value": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "clause_text": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        }
+      },
+      "policy_violations": [],
+      "removed_values_leaked": [],
+      "r0_answer": {
+        "is_mine": true,
+        "matches_owner": true
+      },
+      "r1_answer": {
+        "is_mine": true,
+        "matches_owner": true
+      }
+    },
+    {
+      "case_id": "CC-2-A",
+      "doc_id": "CC-2",
+      "task": "Identify my largest purchases this period",
+      "schema_id": "top_transactions",
+      "is_trap": false,
+      "is_preserved": true,
+      "match_reason": "numeric_list_matched",
+      "is_unstable": false,
+      "is_unevaluable": false,
+      "detected_fields": [
+        {
+          "id": "CC-2-det-05",
+          "category": "person_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "CC-2-det-02",
+          "category": "account_identifier",
+          "confidence": 0.95
+        },
+        {
+          "id": "CC-2-det-04",
+          "category": "internal_id",
+          "confidence": 0.95
+        },
+        {
+          "id": "CC-2-det-01",
+          "category": "contact",
+          "confidence": 0.95
+        },
+        {
+          "id": "CC-2-det-06",
+          "category": "merchant",
+          "confidence": 0.95
+        }
+      ],
+      "instances_total": 5,
+      "instances_retained": 1.0,
+      "plan_decisions": {
+        "account_identifier": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "government_id": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "person_name": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "counterparty_name": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "address": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "contact": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "date_of_birth": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "internal_id": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "employer": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "merchant": {
+          "action": "KEEP",
+          "reason": "Required for spending summary.",
+          "confidence": 0.95
+        },
+        "amount": {
+          "action": "KEEP",
+          "reason": "Required for spending summary.",
+          "confidence": 0.95
+        },
+        "balance": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "transaction_date": {
+          "action": "KEEP",
+          "reason": "Required for spending summary.",
+          "confidence": 0.95
+        },
+        "salary_component": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "medical_value": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        },
+        "clause_text": {
+          "action": "DROP",
+          "reason": "Not required for spending summary.",
+          "confidence": 0.9
+        }
+      },
+      "policy_violations": [],
+      "removed_values_leaked": [],
+      "r0_answer": [
+        {
+          "amount": 14500.0
+        },
+        {
+          "amount": 7800.0
+        }
+      ],
+      "r1_answer": [
+        {
+          "amount": 14500.0
+        },
+        {
+          "amount": 7800.0
+        }
+      ]
+    },
+    {
+      "case_id": "CC-2-B",
+      "doc_id": "CC-2",
+      "task": "How much do I need to pay and by when?",
+      "schema_id": "payment_due",
+      "is_trap": false,
+      "is_preserved": true,
+      "match_reason": "payment_due_matched",
+      "is_unstable": false,
+      "is_unevaluable": false,
+      "detected_fields": [
+        {
+          "id": "CC-2-det-05",
+          "category": "person_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "CC-2-det-02",
+          "category": "account_identifier",
+          "confidence": 0.95
+        },
+        {
+          "id": "CC-2-det-04",
+          "category": "internal_id",
+          "confidence": 0.95
+        },
+        {
+          "id": "CC-2-det-01",
+          "category": "contact",
+          "confidence": 0.95
+        },
+        {
+          "id": "CC-2-det-06",
+          "category": "merchant",
+          "confidence": 0.95
+        }
+      ],
+      "instances_total": 5,
+      "instances_retained": 0.0,
+      "plan_decisions": {
+        "account_identifier": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "government_id": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "person_name": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "counterparty_name": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "address": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "contact": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "date_of_birth": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "internal_id": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "employer": {
+          "action": "KEEP",
+          "reason": "Required for salary breakdown.",
+          "confidence": 0.95
+        },
+        "merchant": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "amount": {
+          "action": "KEEP",
+          "reason": "Required for salary breakdown.",
+          "confidence": 0.95
+        },
+        "balance": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "transaction_date": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "salary_component": {
+          "action": "KEEP",
+          "reason": "Required for salary breakdown.",
+          "confidence": 0.95
+        },
+        "medical_value": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "clause_text": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        }
+      },
+      "policy_violations": [],
+      "removed_values_leaked": [],
+      "r0_answer": {
+        "amount_due": 3450.0,
+        "bill_amount": 3450.0,
+        "due_date": "2026-09-20"
+      },
+      "r1_answer": {
+        "amount_due": 3450.0,
+        "bill_amount": 3450.0,
+        "due_date": "2026-09-20"
+      }
+    },
+    {
+      "case_id": "CC-2-C",
+      "doc_id": "CC-2",
+      "task": "Does the cardholder information match the owner?",
+      "schema_id": "identity_check",
+      "is_trap": true,
+      "is_preserved": true,
+      "match_reason": "boolean_verdict_match",
+      "is_unstable": false,
+      "is_unevaluable": false,
+      "detected_fields": [
+        {
+          "id": "CC-2-det-05",
+          "category": "person_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "CC-2-det-02",
+          "category": "account_identifier",
+          "confidence": 0.95
+        },
+        {
+          "id": "CC-2-det-04",
+          "category": "internal_id",
+          "confidence": 0.95
+        },
+        {
+          "id": "CC-2-det-01",
+          "category": "contact",
+          "confidence": 0.95
+        },
+        {
+          "id": "CC-2-det-06",
+          "category": "merchant",
+          "confidence": 0.95
+        }
+      ],
+      "instances_total": 5,
+      "instances_retained": 1.25,
+      "plan_decisions": {
+        "account_identifier": {
+          "action": "MASK_PARTIAL",
+          "reason": "Verifying account ownership via last digits.",
+          "confidence": 0.9
+        },
+        "government_id": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "person_name": {
+          "action": "KEEP",
+          "reason": "Task requires verifying identity against document.",
+          "confidence": 0.95
+        },
+        "counterparty_name": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "address": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "contact": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "date_of_birth": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "internal_id": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "employer": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "merchant": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "amount": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "balance": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "transaction_date": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "salary_component": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "medical_value": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "clause_text": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        }
+      },
+      "policy_violations": [],
+      "removed_values_leaked": [],
+      "r0_answer": {
+        "is_mine": true,
+        "matches_owner": true
+      },
+      "r1_answer": {
+        "is_mine": true,
+        "matches_owner": true
+      }
+    },
+    {
+      "case_id": "PS-1-A",
+      "doc_id": "PS-1",
+      "task": "Explain why my take-home pay changed",
+      "schema_id": "salary_explanation",
+      "is_trap": false,
+      "is_preserved": true,
+      "match_reason": "exact_text_match",
+      "is_unstable": false,
+      "is_unevaluable": false,
+      "detected_fields": [
+        {
+          "id": "PS-1-det-04",
+          "category": "person_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "PS-1-det-01",
+          "category": "contact",
+          "confidence": 0.95
+        },
+        {
+          "id": "PS-1-det-03",
+          "category": "account_identifier",
+          "confidence": 0.95
+        }
+      ],
+      "instances_total": 3,
+      "instances_retained": 0.0,
+      "plan_decisions": {
+        "account_identifier": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "government_id": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "person_name": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "counterparty_name": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "address": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "contact": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "date_of_birth": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "internal_id": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "employer": {
+          "action": "KEEP",
+          "reason": "Required for salary breakdown.",
+          "confidence": 0.95
+        },
+        "merchant": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "amount": {
+          "action": "KEEP",
+          "reason": "Required for salary breakdown.",
+          "confidence": 0.95
+        },
+        "balance": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "transaction_date": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "salary_component": {
+          "action": "KEEP",
+          "reason": "Required for salary breakdown.",
+          "confidence": 0.95
+        },
+        "medical_value": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "clause_text": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        }
+      },
+      "policy_violations": [],
+      "removed_values_leaked": [],
+      "r0_answer": "Gross earnings are INR 97000 reduced by total statutory deductions of INR 9550 (Provident Fund 6600, Professional Tax 200, Income Tax 2750), resulting in net take-home remuneration of INR 87450.",
+      "r1_answer": "Gross earnings are INR 97000 reduced by total statutory deductions of INR 9550 (Provident Fund 6600, Professional Tax 200, Income Tax 2750), resulting in net take-home remuneration of INR 87450."
+    },
+    {
+      "case_id": "PS-1-B",
+      "doc_id": "PS-1",
+      "task": "Summarize my salary components and deductions",
+      "schema_id": "salary_summary",
+      "is_trap": false,
+      "is_preserved": true,
+      "match_reason": "salary_summary_matched",
+      "is_unstable": false,
+      "is_unevaluable": false,
+      "detected_fields": [
+        {
+          "id": "PS-1-det-04",
+          "category": "person_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "PS-1-det-01",
+          "category": "contact",
+          "confidence": 0.95
+        },
+        {
+          "id": "PS-1-det-03",
+          "category": "account_identifier",
+          "confidence": 0.95
+        }
+      ],
+      "instances_total": 3,
+      "instances_retained": 0.0,
+      "plan_decisions": {
+        "account_identifier": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "government_id": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "person_name": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "counterparty_name": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "address": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "contact": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "date_of_birth": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "internal_id": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "employer": {
+          "action": "KEEP",
+          "reason": "Required for salary breakdown.",
+          "confidence": 0.95
+        },
+        "merchant": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "amount": {
+          "action": "KEEP",
+          "reason": "Required for salary breakdown.",
+          "confidence": 0.95
+        },
+        "balance": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "transaction_date": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "salary_component": {
+          "action": "KEEP",
+          "reason": "Required for salary breakdown.",
+          "confidence": 0.95
+        },
+        "medical_value": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "clause_text": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        }
+      },
+      "policy_violations": [],
+      "removed_values_leaked": [],
+      "r0_answer": {
+        "gross_salary": 97000.0,
+        "net_salary": 87450.0,
+        "total_deductions": 9550.0
+      },
+      "r1_answer": {
+        "gross_salary": 97000.0,
+        "net_salary": 87450.0,
+        "total_deductions": 9550.0
+      }
+    },
+    {
+      "case_id": "PS-1-C",
+      "doc_id": "PS-1",
+      "task": "Is this payslip associated with me?",
+      "schema_id": "identity_check",
+      "is_trap": true,
+      "is_preserved": true,
+      "match_reason": "boolean_verdict_match",
+      "is_unstable": false,
+      "is_unevaluable": false,
+      "detected_fields": [
+        {
+          "id": "PS-1-det-04",
+          "category": "person_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "PS-1-det-01",
+          "category": "contact",
+          "confidence": 0.95
+        },
+        {
+          "id": "PS-1-det-03",
+          "category": "account_identifier",
+          "confidence": 0.95
+        }
+      ],
+      "instances_total": 3,
+      "instances_retained": 1.25,
+      "plan_decisions": {
+        "account_identifier": {
+          "action": "MASK_PARTIAL",
+          "reason": "Verifying account ownership via last digits.",
+          "confidence": 0.9
+        },
+        "government_id": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "person_name": {
+          "action": "KEEP",
+          "reason": "Task requires verifying identity against document.",
+          "confidence": 0.95
+        },
+        "counterparty_name": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "address": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "contact": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "date_of_birth": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "internal_id": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "employer": {
+          "action": "KEEP",
+          "reason": "Required for salary breakdown.",
+          "confidence": 0.95
+        },
+        "merchant": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "amount": {
+          "action": "KEEP",
+          "reason": "Required for salary breakdown.",
+          "confidence": 0.95
+        },
+        "balance": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "transaction_date": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "salary_component": {
+          "action": "KEEP",
+          "reason": "Required for salary breakdown.",
+          "confidence": 0.95
+        },
+        "medical_value": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "clause_text": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        }
+      },
+      "policy_violations": [],
+      "removed_values_leaked": [],
+      "r0_answer": {
+        "is_mine": true,
+        "matches_owner": true
+      },
+      "r1_answer": {
+        "is_mine": true,
+        "matches_owner": true
+      }
+    },
+    {
+      "case_id": "PS-2-A",
+      "doc_id": "PS-2",
+      "task": "What changed between my gross salary and take-home pay?",
+      "schema_id": "salary_explanation",
+      "is_trap": false,
+      "is_preserved": true,
+      "match_reason": "dict_keys_and_values_matched",
+      "is_unstable": false,
+      "is_unevaluable": false,
+      "detected_fields": [
+        {
+          "id": "PS-2-det-04",
+          "category": "person_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "PS-2-det-01",
+          "category": "contact",
+          "confidence": 0.95
+        },
+        {
+          "id": "PS-2-det-03",
+          "category": "account_identifier",
+          "confidence": 0.95
+        }
+      ],
+      "instances_total": 3,
+      "instances_retained": 0.0,
+      "plan_decisions": {
+        "account_identifier": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "government_id": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "person_name": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "counterparty_name": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "address": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "contact": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "date_of_birth": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "internal_id": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "employer": {
+          "action": "KEEP",
+          "reason": "Required for salary breakdown.",
+          "confidence": 0.95
+        },
+        "merchant": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "amount": {
+          "action": "KEEP",
+          "reason": "Required for salary breakdown.",
+          "confidence": 0.95
+        },
+        "balance": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "transaction_date": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "salary_component": {
+          "action": "KEEP",
+          "reason": "Required for salary breakdown.",
+          "confidence": 0.95
+        },
+        "medical_value": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "clause_text": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        }
+      },
+      "policy_violations": [],
+      "removed_values_leaked": [],
+      "r0_answer": {
+        "gross_salary": 97000.0,
+        "net_salary": 87450.0,
+        "total_deductions": 9550.0
+      },
+      "r1_answer": {
+        "gross_salary": 97000.0,
+        "net_salary": 87450.0,
+        "total_deductions": 9550.0
+      }
+    },
+    {
+      "case_id": "PS-2-B",
+      "doc_id": "PS-2",
+      "task": "What were my total deductions?",
+      "schema_id": "deduction_summary",
+      "is_trap": false,
+      "is_preserved": true,
+      "match_reason": "numeric_within_tolerance",
+      "is_unstable": false,
+      "is_unevaluable": false,
+      "detected_fields": [
+        {
+          "id": "PS-2-det-04",
+          "category": "person_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "PS-2-det-01",
+          "category": "contact",
+          "confidence": 0.95
+        },
+        {
+          "id": "PS-2-det-03",
+          "category": "account_identifier",
+          "confidence": 0.95
+        }
+      ],
+      "instances_total": 3,
+      "instances_retained": 0.0,
+      "plan_decisions": {
+        "account_identifier": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "government_id": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "person_name": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "counterparty_name": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "address": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "contact": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "date_of_birth": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "internal_id": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "employer": {
+          "action": "KEEP",
+          "reason": "Required for salary breakdown.",
+          "confidence": 0.95
+        },
+        "merchant": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "amount": {
+          "action": "KEEP",
+          "reason": "Required for salary breakdown.",
+          "confidence": 0.95
+        },
+        "balance": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "transaction_date": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "salary_component": {
+          "action": "KEEP",
+          "reason": "Required for salary breakdown.",
+          "confidence": 0.95
+        },
+        "medical_value": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        },
+        "clause_text": {
+          "action": "DROP",
+          "reason": "Not needed for compensation explanation.",
+          "confidence": 0.9
+        }
+      },
+      "policy_violations": [],
+      "removed_values_leaked": [],
+      "r0_answer": {
+        "total_deductions": 9550.0,
+        "total": 9550.0
+      },
+      "r1_answer": {
+        "total_deductions": 9550.0,
+        "total": 9550.0
+      }
+    },
+    {
+      "case_id": "PS-2-C",
+      "doc_id": "PS-2",
+      "task": "Does the employee information identify me as the employee?",
+      "schema_id": "identity_check",
+      "is_trap": true,
+      "is_preserved": true,
+      "match_reason": "boolean_verdict_match",
+      "is_unstable": false,
+      "is_unevaluable": false,
+      "detected_fields": [
+        {
+          "id": "PS-2-det-04",
+          "category": "person_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "PS-2-det-01",
+          "category": "contact",
+          "confidence": 0.95
+        },
+        {
+          "id": "PS-2-det-03",
+          "category": "account_identifier",
+          "confidence": 0.95
+        }
+      ],
+      "instances_total": 3,
+      "instances_retained": 1.25,
+      "plan_decisions": {
+        "account_identifier": {
+          "action": "MASK_PARTIAL",
+          "reason": "Verifying account ownership via last digits.",
+          "confidence": 0.9
+        },
+        "government_id": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "person_name": {
+          "action": "KEEP",
+          "reason": "Task requires verifying identity against document.",
+          "confidence": 0.95
+        },
+        "counterparty_name": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "address": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "contact": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "date_of_birth": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "internal_id": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "employer": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "merchant": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "amount": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "balance": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "transaction_date": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "salary_component": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "medical_value": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "clause_text": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        }
+      },
+      "policy_violations": [],
+      "removed_values_leaked": [],
+      "r0_answer": {
+        "is_mine": true,
+        "matches_owner": true
+      },
+      "r1_answer": {
+        "is_mine": true,
+        "matches_owner": true
+      }
+    },
+    {
+      "case_id": "RA-1-A",
+      "doc_id": "RA-1",
+      "task": "Summarize the key terms of my rent agreement",
+      "schema_id": "clause_summary",
+      "is_trap": false,
+      "is_preserved": true,
+      "match_reason": "exact_text_match",
+      "is_unstable": false,
+      "is_unevaluable": false,
+      "detected_fields": [
+        {
+          "id": "RA-1-det-03",
+          "category": "person_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "RA-1-det-01",
+          "category": "contact",
+          "confidence": 0.95
+        },
+        {
+          "id": "RA-1-det-04",
+          "category": "person_name",
+          "confidence": 0.95
+        }
+      ],
+      "instances_total": 3,
+      "instances_retained": 0.0,
+      "plan_decisions": {
+        "account_identifier": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "government_id": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "person_name": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "counterparty_name": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "address": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "contact": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "date_of_birth": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "internal_id": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "employer": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "merchant": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "amount": {
+          "action": "KEEP",
+          "reason": "Required to summarize tenancy covenant.",
+          "confidence": 0.95
+        },
+        "balance": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "transaction_date": {
+          "action": "KEEP",
+          "reason": "Required to summarize tenancy covenant.",
+          "confidence": 0.95
+        },
+        "salary_component": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "medical_value": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "clause_text": {
+          "action": "KEEP",
+          "reason": "Required to summarize tenancy covenant.",
+          "confidence": 0.95
+        }
+      },
+      "policy_violations": [],
+      "removed_values_leaked": [],
+      "r0_answer": "The tenancy agreement stipulates a monthly rent of INR 38000 due by the 5th, a refundable security deposit of INR 114000, an 11-month lock-in period, and a 1-month notice period.",
+      "r1_answer": "The tenancy agreement stipulates a monthly rent of INR 38000 due by the 5th, a refundable security deposit of INR 114000, an 11-month lock-in period, and a 1-month notice period."
+    },
+    {
+      "case_id": "RA-1-B",
+      "doc_id": "RA-1",
+      "task": "What is the rent amount, deposit, and notice period?",
+      "schema_id": "agreement_terms",
+      "is_trap": false,
+      "is_preserved": true,
+      "match_reason": "exact_text_match",
+      "is_unstable": false,
+      "is_unevaluable": false,
+      "detected_fields": [
+        {
+          "id": "RA-1-det-03",
+          "category": "person_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "RA-1-det-01",
+          "category": "contact",
+          "confidence": 0.95
+        },
+        {
+          "id": "RA-1-det-04",
+          "category": "person_name",
+          "confidence": 0.95
+        }
+      ],
+      "instances_total": 3,
+      "instances_retained": 0.0,
+      "plan_decisions": {
+        "account_identifier": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "government_id": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "person_name": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "counterparty_name": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "address": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "contact": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "date_of_birth": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "internal_id": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "employer": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "merchant": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "amount": {
+          "action": "KEEP",
+          "reason": "Required to summarize tenancy covenant.",
+          "confidence": 0.95
+        },
+        "balance": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "transaction_date": {
+          "action": "KEEP",
+          "reason": "Required to summarize tenancy covenant.",
+          "confidence": 0.95
+        },
+        "salary_component": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "medical_value": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "clause_text": {
+          "action": "KEEP",
+          "reason": "Required to summarize tenancy covenant.",
+          "confidence": 0.95
+        }
+      },
+      "policy_violations": [],
+      "removed_values_leaked": [],
+      "r0_answer": "Summary and facts extracted from document.",
+      "r1_answer": "Summary and facts extracted from document."
+    },
+    {
+      "case_id": "RA-1-C",
+      "doc_id": "RA-1",
+      "task": "Is this agreement between me and the stated landlord?",
+      "schema_id": "identity_check",
+      "is_trap": true,
+      "is_preserved": true,
+      "match_reason": "boolean_verdict_match",
+      "is_unstable": false,
+      "is_unevaluable": false,
+      "detected_fields": [
+        {
+          "id": "RA-1-det-03",
+          "category": "person_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "RA-1-det-01",
+          "category": "contact",
+          "confidence": 0.95
+        },
+        {
+          "id": "RA-1-det-04",
+          "category": "person_name",
+          "confidence": 0.95
+        }
+      ],
+      "instances_total": 3,
+      "instances_retained": 0.0,
+      "plan_decisions": {
+        "account_identifier": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "government_id": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "person_name": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "counterparty_name": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "address": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "contact": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "date_of_birth": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "internal_id": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "employer": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "merchant": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "amount": {
+          "action": "KEEP",
+          "reason": "Required to summarize tenancy covenant.",
+          "confidence": 0.95
+        },
+        "balance": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "transaction_date": {
+          "action": "KEEP",
+          "reason": "Required to summarize tenancy covenant.",
+          "confidence": 0.95
+        },
+        "salary_component": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "medical_value": {
+          "action": "DROP",
+          "reason": "Not required for agreement terms.",
+          "confidence": 0.9
+        },
+        "clause_text": {
+          "action": "KEEP",
+          "reason": "Required to summarize tenancy covenant.",
+          "confidence": 0.95
+        }
+      },
+      "policy_violations": [],
+      "removed_values_leaked": [],
+      "r0_answer": {
+        "is_mine": true,
+        "matches_owner": true
+      },
+      "r1_answer": {
+        "is_mine": true,
+        "matches_owner": true
+      }
+    },
+    {
+      "case_id": "UB-1-A",
+      "doc_id": "UB-1",
+      "task": "What is my total bill amount and due date?",
+      "schema_id": "bill_summary",
+      "is_trap": false,
+      "is_preserved": true,
+      "match_reason": "bill_summary_matched",
+      "is_unstable": false,
+      "is_unevaluable": false,
+      "detected_fields": [
+        {
+          "id": "UB-1-det-02",
+          "category": "account_identifier",
+          "confidence": 0.95
+        },
+        {
+          "id": "UB-1-det-04",
+          "category": "person_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "UB-1-det-01",
+          "category": "contact",
+          "confidence": 0.95
+        }
+      ],
+      "instances_total": 3,
+      "instances_retained": 0.0,
+      "plan_decisions": {
+        "account_identifier": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        },
+        "government_id": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        },
+        "person_name": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        },
+        "counterparty_name": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        },
+        "address": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        },
+        "contact": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        },
+        "date_of_birth": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        },
+        "internal_id": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        },
+        "employer": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        },
+        "merchant": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        },
+        "amount": {
+          "action": "KEEP",
+          "reason": "Required for balance calculation.",
+          "confidence": 0.95
+        },
+        "balance": {
+          "action": "KEEP",
+          "reason": "Required for balance calculation.",
+          "confidence": 0.95
+        },
+        "transaction_date": {
+          "action": "KEEP",
+          "reason": "Required for balance calculation.",
+          "confidence": 0.95
+        },
+        "salary_component": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        },
+        "medical_value": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        },
+        "clause_text": {
+          "action": "DROP",
+          "reason": "Not required for balance inquiry.",
+          "confidence": 0.9
+        }
+      },
+      "policy_violations": [],
+      "removed_values_leaked": [],
+      "r0_answer": {
+        "amount_due": 3450.0,
+        "bill_amount": 3450.0,
+        "due_date": "2026-09-20"
+      },
+      "r1_answer": {
+        "amount_due": 3450.0,
+        "bill_amount": 3450.0,
+        "due_date": "2026-09-20"
+      }
+    },
+    {
+      "case_id": "UB-1-B",
+      "doc_id": "UB-1",
+      "task": "Summarize my usage and charges",
+      "schema_id": "usage_summary",
+      "is_trap": false,
+      "is_preserved": false,
+      "match_reason": "missing_consumption_units",
+      "is_unstable": false,
+      "is_unevaluable": false,
+      "detected_fields": [
+        {
+          "id": "UB-1-det-02",
+          "category": "account_identifier",
+          "confidence": 0.95
+        },
+        {
+          "id": "UB-1-det-04",
+          "category": "person_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "UB-1-det-01",
+          "category": "contact",
+          "confidence": 0.95
+        }
+      ],
+      "instances_total": 3,
+      "instances_retained": 0.0,
+      "plan_decisions": {
+        "account_identifier": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "government_id": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "person_name": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "counterparty_name": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "address": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "contact": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "date_of_birth": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "internal_id": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "employer": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "merchant": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "amount": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "balance": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "transaction_date": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "salary_component": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "medical_value": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "clause_text": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        }
+      },
+      "policy_violations": [],
+      "removed_values_leaked": [],
+      "r0_answer": {
+        "consumption_units": 340.0,
+        "total_charges": 2890.0
+      },
+      "r1_answer": {
+        "consumption_units": 340.0,
+        "total_charges": 2890.0
+      }
+    },
+    {
+      "case_id": "UB-1-C",
+      "doc_id": "UB-1",
+      "task": "Is this utility bill associated with my address/account?",
+      "schema_id": "identity_check",
+      "is_trap": true,
+      "is_preserved": true,
+      "match_reason": "boolean_verdict_match",
+      "is_unstable": false,
+      "is_unevaluable": false,
+      "detected_fields": [
+        {
+          "id": "UB-1-det-02",
+          "category": "account_identifier",
+          "confidence": 0.95
+        },
+        {
+          "id": "UB-1-det-04",
+          "category": "person_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "UB-1-det-01",
+          "category": "contact",
+          "confidence": 0.95
+        }
+      ],
+      "instances_total": 3,
+      "instances_retained": 0.0,
+      "plan_decisions": {
+        "account_identifier": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "government_id": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "person_name": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "counterparty_name": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "address": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "contact": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "date_of_birth": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "internal_id": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "employer": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "merchant": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "amount": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "balance": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "transaction_date": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "salary_component": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "medical_value": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "clause_text": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        }
+      },
+      "policy_violations": [],
+      "removed_values_leaked": [],
+      "r0_answer": {
+        "is_mine": true,
+        "matches_owner": true
+      },
+      "r1_answer": {
+        "is_mine": true,
+        "matches_owner": true
+      }
+    },
+    {
+      "case_id": "IL-1-A",
+      "doc_id": "IL-1",
+      "task": "Summarize the important information in this document",
+      "schema_id": "document_summary",
+      "is_trap": false,
+      "is_preserved": true,
+      "match_reason": "exact_text_match",
+      "is_unstable": false,
+      "is_unevaluable": false,
+      "detected_fields": [
+        {
+          "id": "IL-1-det-03",
+          "category": "person_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "IL-1-det-01",
+          "category": "contact",
+          "confidence": 0.95
+        }
+      ],
+      "instances_total": 2,
+      "instances_retained": 0.0,
+      "plan_decisions": {
+        "account_identifier": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "government_id": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "person_name": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "counterparty_name": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "address": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "contact": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "date_of_birth": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "internal_id": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "employer": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "merchant": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "amount": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "balance": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "transaction_date": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "salary_component": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "medical_value": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "clause_text": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        }
+      },
+      "policy_violations": [],
+      "removed_values_leaked": [],
+      "r0_answer": "Patient has uncontrolled Type 2 Diabetes Mellitus with fasting blood sugar 168 mg/dL and HbA1c 8.4%. Total incurred investigation bill is INR 6500, with a 24-month pre-existing condition waiting period.",
+      "r1_answer": "Patient has uncontrolled Type 2 Diabetes Mellitus with fasting blood sugar 168 mg/dL and HbA1c 8.4%. Total incurred investigation bill is INR 6500, with a 24-month pre-existing condition waiting period."
+    },
+    {
+      "case_id": "IL-1-B",
+      "doc_id": "IL-1",
+      "task": "What are the main values, amounts, or coverage/details I should know?",
+      "schema_id": "key_values_summary",
+      "is_trap": false,
+      "is_preserved": true,
+      "match_reason": "exact_text_match",
+      "is_unstable": false,
+      "is_unevaluable": false,
+      "detected_fields": [
+        {
+          "id": "IL-1-det-03",
+          "category": "person_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "IL-1-det-01",
+          "category": "contact",
+          "confidence": 0.95
+        }
+      ],
+      "instances_total": 2,
+      "instances_retained": 0.0,
+      "plan_decisions": {
+        "account_identifier": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "government_id": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "person_name": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "counterparty_name": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "address": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "contact": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "date_of_birth": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "internal_id": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "employer": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "merchant": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "amount": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "balance": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "transaction_date": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "salary_component": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "medical_value": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "clause_text": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        }
+      },
+      "policy_violations": [],
+      "removed_values_leaked": [],
+      "r0_answer": "Summary and facts extracted from document.",
+      "r1_answer": "Summary and facts extracted from document."
+    },
+    {
+      "case_id": "IL-1-C",
+      "doc_id": "IL-1",
+      "task": "Is this document associated with me?",
+      "schema_id": "identity_check",
+      "is_trap": true,
+      "is_preserved": true,
+      "match_reason": "boolean_verdict_match",
+      "is_unstable": false,
+      "is_unevaluable": false,
+      "detected_fields": [
+        {
+          "id": "IL-1-det-03",
+          "category": "person_name",
+          "confidence": 0.95
+        },
+        {
+          "id": "IL-1-det-01",
+          "category": "contact",
+          "confidence": 0.95
+        }
+      ],
+      "instances_total": 2,
+      "instances_retained": 1.0,
+      "plan_decisions": {
+        "account_identifier": {
+          "action": "MASK_PARTIAL",
+          "reason": "Verifying account ownership via last digits.",
+          "confidence": 0.9
+        },
+        "government_id": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "person_name": {
+          "action": "KEEP",
+          "reason": "Task requires verifying identity against document.",
+          "confidence": 0.95
+        },
+        "counterparty_name": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "address": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "contact": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "date_of_birth": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "internal_id": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "employer": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "merchant": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "amount": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "balance": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "transaction_date": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "salary_component": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "medical_value": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        },
+        "clause_text": {
+          "action": "DROP",
+          "reason": "Default minimization.",
+          "confidence": 0.85
+        }
+      },
+      "policy_violations": [],
+      "removed_values_leaked": [],
+      "r0_answer": {
+        "is_mine": true,
+        "matches_owner": true
+      },
+      "r1_answer": {
+        "is_mine": true,
+        "matches_owner": true
+      }
+    }
+  ]
+}

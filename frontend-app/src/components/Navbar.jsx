@@ -1,7 +1,7 @@
 import React from 'react';
-import { Shield, Sparkles, Server, Zap, ExternalLink } from 'lucide-react';
+import { Shield, Sparkles, Server, Zap, ExternalLink, Sun, Moon, HelpCircle } from 'lucide-react';
 
-export default function Navbar({ backendStatus, liveMode, setLiveMode }) {
+export default function Navbar({ backendStatus, liveMode, setLiveMode, theme, toggleTheme, onOpenHelp }) {
   return (
     <header className="sticky top-0 z-50 backdrop-blur-md bg-white/95 border-b border-slate-200/90 shadow-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
@@ -26,7 +26,7 @@ export default function Navbar({ backendStatus, liveMode, setLiveMode }) {
         </div>
 
         {/* Status & Controls */}
-        <div className="flex items-center gap-3 sm:gap-4">
+        <div className="flex items-center gap-2.5 sm:gap-3">
           {/* Backend Status indicator */}
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-xs">
             <span
@@ -74,6 +74,38 @@ export default function Navbar({ backendStatus, liveMode, setLiveMode }) {
               Live Gemini
             </button>
           </div>
+
+          {/* Theme Toggle Button (Light / Pure Black Dark) */}
+          <button
+            type="button"
+            onClick={toggleTheme}
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold border transition-all duration-150 cursor-pointer active:scale-95 bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-slate-200 dark:border-slate-800"
+            title={theme === 'dark' ? 'Switch to Light Theme' : 'Switch to Pure Black Dark Theme'}
+            aria-label="Toggle theme"
+          >
+            {theme === 'dark' ? (
+              <>
+                <Sun className="w-3.5 h-3.5 text-amber-400" />
+                <span className="hidden sm:inline font-medium">Light</span>
+              </>
+            ) : (
+              <>
+                <Moon className="w-3.5 h-3.5 text-slate-600" />
+                <span className="hidden sm:inline font-medium">Dark</span>
+              </>
+            )}
+          </button>
+
+          {/* How It Works / Help Guide Button */}
+          <button
+            type="button"
+            onClick={onOpenHelp}
+            className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-700 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400 bg-slate-100 hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 transition-all duration-150 cursor-pointer active:scale-95"
+            title="Learn how JustEnough works & help guide"
+          >
+            <HelpCircle className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+            <span className="hidden sm:inline">How It Works</span>
+          </button>
 
           {/* Swagger docs link */}
           <a

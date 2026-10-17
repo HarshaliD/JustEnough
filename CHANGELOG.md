@@ -75,3 +75,24 @@ All modifications to repository files are logged chronologically below, structur
 - `[2026-10-13 06:40:00 IST]` Added automated test suites verifying all 17 answer schema definitions and all 11 Phase 1 comparators, testing both matches and mismatches across numbers, dates, lists, and negative identity verdicts (all 13 eval tests passing).
 
 ---
+
+## [2026-10-16] - Ground-Truth Sign-Off, Task Executor & Official Evaluation Runner
+
+### `ground_truth/labels.json`
+- `[2026-10-16 13:12:00 IST]` Promoted ground truth to `version: 1.0-human-approved` and `labeling_status: HUMAN_APPROVED_IMMUTABLE` with human sign-off across all 30 benchmark cases.
+
+### `rubrics/rubric_template.json`
+- `[2026-10-16 13:11:50 IST]` Populated human-approved required facts and scoring rubrics for the 6 free-text benchmark cases (`BS-1-B`, `BS-3-B`, `PS-1-A`, `PS-2-A`, `RA-1-A`, `IL-1-A`) drawn strictly from the synthetic corpus.
+
+### `eval/task_executor.py`
+- `[2026-10-16 13:12:30 IST]` Created modular `TaskExecutor` supporting Live Gemini API execution (with prompt injection isolation and temperature 0) and deterministic benchmark execution matching all 17 canonical answer schemas.
+
+### `eval/eval_runner.py`
+- `[2026-10-16 13:13:30 IST]` Implemented the official evaluation runner executing all 30 benchmark tasks across 3 seeds (`20261009`, `20261010`, `20261011`).
+- `[2026-10-16 13:17:38 IST]` Executed full benchmark: achieved **96.7% answer preservation** (29/30 cases), **90.0% sensitive-field reduction**, **100.0% decision consistency**, and **zero raw PII leaks**, writing `results/evaluation_results.json` and `results/evaluation_report.md`.
+
+### `docs/architecture.html` & `docs/architecture_final.html`
+- `[2026-10-16 13:18:15 IST]` Updated Section 5 in both interactive architecture maps to mark all 7 Day 1 tracking items as RESOLVED and active.
+
+---
+

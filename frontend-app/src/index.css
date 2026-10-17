@@ -17,6 +17,7 @@
     font-family: 'Inter', sans-serif;
     -webkit-font-smoothing: antialiased;
     min-height: 100vh;
+    transition: background-color 0.25s ease, color 0.25s ease;
   }
 
   /* Crisp light scrollbar */
@@ -26,10 +27,15 @@
   ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
   ::selection { background: rgba(37, 99, 235, 0.18); color: #1e3a8a; }
+
+  /* Dark mode scrollbar */
+  html.dark ::-webkit-scrollbar-track { background: #000000; }
+  html.dark ::-webkit-scrollbar-thumb { background: #334155; }
+  html.dark ::-webkit-scrollbar-thumb:hover { background: #475569; }
 }
 
 @layer components {
-  /* Crisp White Cards */
+  /* Crisp White Cards (Light Mode) */
   .glass-card {
     @apply bg-white border border-slate-200 rounded-2xl shadow-sm transition-all;
   }
@@ -43,7 +49,7 @@
     @apply bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-600 bg-clip-text text-transparent font-extrabold;
   }
 
-  /* Clean Status Badges */
+  /* Status Badges (Light Mode) */
   .badge-keep        { @apply bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold; }
   .badge-drop        { @apply bg-rose-50 text-rose-700 border border-rose-200 font-semibold; }
   .badge-mask        { @apply bg-amber-50 text-amber-800 border border-amber-200 font-semibold; }
@@ -51,7 +57,7 @@
   .badge-pseudonymize { @apply bg-indigo-50 text-indigo-700 border border-indigo-200 font-semibold; }
   .badge-aggregate   { @apply bg-teal-50 text-teal-700 border border-teal-200 font-semibold; }
 
-  /* Input Field */
+  /* Input Field (Light Mode) */
   .field-input {
     @apply w-full bg-slate-50/60 border border-slate-200 rounded-xl px-4 py-3
            text-slate-900 placeholder-slate-400
@@ -59,7 +65,7 @@
            transition-all duration-150 text-sm;
   }
 
-  /* Primary Action Button: BFSI Royal Blue */
+  /* Primary Action Button */
   .btn-primary {
     @apply bg-blue-600 hover:bg-blue-700 text-white font-semibold
            rounded-xl px-6 py-3 transition-all duration-150
@@ -68,7 +74,7 @@
            focus:outline-none focus:ring-2 focus:ring-blue-500/30;
   }
 
-  /* Tab Navigation Buttons */
+  /* Tab Navigation Buttons (Light Mode) */
   .tab-btn {
     @apply px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg transition-all text-slate-600;
   }
@@ -79,7 +85,7 @@
     @apply bg-blue-50 text-blue-700 border border-blue-200 shadow-sm font-bold;
   }
 
-  /* Stepper Pills */
+  /* Stepper Pills (Light Mode) */
   .step-pill {
     @apply flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all duration-200;
   }
@@ -87,7 +93,7 @@
   .step-pill.active  { @apply bg-blue-50 border-blue-300 text-blue-700 shadow-sm; animation: pulseGlow 2s infinite; }
   .step-pill.done    { @apply bg-emerald-50 border-emerald-300 text-emerald-700; }
 
-  /* Interactive Cards with subtle lift */
+  /* Interactive Cards */
   .interactive-card {
     transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease, border-color 0.2s ease;
   }
@@ -114,6 +120,317 @@
 .bg-grid {
   background-image: radial-gradient(#e2e8f0 1.2px, transparent 1.2px);
   background-size: 24px 24px;
+}
+
+/* ==========================================================================
+   DARK THEME SYSTEM (Pure Black Background & Harmonious Dark Palette)
+   ========================================================================== */
+
+html.dark,
+html.dark body,
+html.dark .app-container {
+  background-color: #000000 !important;
+  color: #f8fafc !important;
+}
+
+html.dark .bg-grid {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1.2px, transparent 1.2px) !important;
+}
+
+html.dark header {
+  background-color: rgba(0, 0, 0, 0.88) !important;
+  border-color: #1e293b !important;
+}
+
+html.dark footer {
+  background-color: #000000 !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .glass-card {
+  background: #090e17 !important;
+  border-color: #1e293b !important;
+  color: #f8fafc !important;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.8) !important;
+}
+
+html.dark .glass-card:hover {
+  border-color: #334155 !important;
+  box-shadow: 0 16px 36px -4px rgba(0, 0, 0, 0.9) !important;
+}
+
+html.dark .glass-card-sm {
+  background: #0d1522 !important;
+  border-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+html.dark .gradient-text {
+  background: linear-gradient(135deg, #60a5fa 0%, #818cf8 50%, #38bdf8 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+/* Dark Mode Badges */
+html.dark .badge-keep {
+  background-color: rgba(6, 78, 59, 0.35) !important;
+  color: #6ee7b7 !important;
+  border-color: rgba(16, 185, 129, 0.4) !important;
+}
+
+html.dark .badge-drop {
+  background-color: rgba(136, 19, 55, 0.35) !important;
+  color: #fda4af !important;
+  border-color: rgba(244, 63, 94, 0.4) !important;
+}
+
+html.dark .badge-mask {
+  background-color: rgba(120, 53, 15, 0.35) !important;
+  color: #fde68a !important;
+  border-color: rgba(245, 158, 11, 0.4) !important;
+}
+
+html.dark .badge-generalize {
+  background-color: rgba(30, 58, 138, 0.35) !important;
+  color: #93c5fd !important;
+  border-color: rgba(59, 130, 246, 0.4) !important;
+}
+
+html.dark .badge-pseudonymize {
+  background-color: rgba(49, 46, 129, 0.35) !important;
+  color: #c7d2fe !important;
+  border-color: rgba(99, 102, 241, 0.4) !important;
+}
+
+html.dark .badge-aggregate {
+  background-color: rgba(19, 78, 74, 0.35) !important;
+  color: #5eead4 !important;
+  border-color: rgba(20, 184, 166, 0.4) !important;
+}
+
+/* Dark Input Fields */
+html.dark .field-input {
+  background-color: #040810 !important;
+  border-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+html.dark .field-input:focus {
+  background-color: #081020 !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25) !important;
+}
+
+/* Dark Tab Buttons */
+html.dark .tab-btn {
+  color: #94a3b8 !important;
+}
+
+html.dark .tab-btn:hover {
+  color: #f8fafc !important;
+  background-color: #1e293b !important;
+}
+
+html.dark .tab-btn.active {
+  background-color: rgba(37, 99, 235, 0.22) !important;
+  color: #60a5fa !important;
+  border-color: rgba(59, 130, 246, 0.4) !important;
+}
+
+/* Dark Preset Chips */
+html.dark .preset-chip {
+  background-color: #0d1522 !important;
+  border-color: #1e293b !important;
+  color: #cbd5e1 !important;
+}
+
+html.dark .preset-chip:hover {
+  background-color: rgba(30, 58, 138, 0.35) !important;
+  border-color: #3b82f6 !important;
+  color: #93c5fd !important;
+}
+
+/* Dark Stepper Pills */
+html.dark .step-pill.pending {
+  background-color: #090e17 !important;
+  border-color: #1e293b !important;
+  color: #64748b !important;
+}
+
+html.dark .step-pill.active {
+  background-color: rgba(30, 58, 138, 0.35) !important;
+  border-color: #3b82f6 !important;
+  color: #93c5fd !important;
+}
+
+html.dark .step-pill.done {
+  background-color: rgba(6, 78, 59, 0.35) !important;
+  border-color: rgba(16, 185, 129, 0.4) !important;
+  color: #6ee7b7 !important;
+}
+
+/* Dark Overrides for Surface and Text classes */
+html.dark .text-slate-900,
+html.dark .text-slate-800 {
+  color: #f8fafc !important;
+}
+
+html.dark .text-slate-700 {
+  color: #e2e8f0 !important;
+}
+
+html.dark .text-slate-600 {
+  color: #94a3b8 !important;
+}
+
+html.dark .text-slate-500 {
+  color: #64748b !important;
+}
+
+html.dark .bg-white {
+  background-color: #090e17 !important;
+}
+
+html.dark .bg-slate-50 {
+  background-color: #0d1522 !important;
+}
+
+html.dark .bg-slate-100 {
+  background-color: #111b2b !important;
+}
+
+html.dark .border-slate-100 {
+  border-color: #172338 !important;
+}
+
+html.dark .border-slate-200 {
+  border-color: #1e293b !important;
+}
+
+html.dark .border-slate-300 {
+  border-color: #334155 !important;
+}
+
+/* Tables in Dark Mode */
+html.dark thead {
+  background-color: #0c1320 !important;
+}
+
+html.dark th {
+  color: #94a3b8 !important;
+  border-color: #1e293b !important;
+}
+
+html.dark tbody tr:hover {
+  background-color: rgba(30, 41, 59, 0.35) !important;
+}
+
+html.dark .divide-slate-100 > * + * {
+  border-color: #172338 !important;
+}
+
+/* Code & Pre Blocks */
+html.dark pre,
+html.dark .font-mono.whitespace-pre-wrap {
+  background-color: #040810 !important;
+  color: #f1f5f9 !important;
+  border-color: #1e293b !important;
+}
+
+/* Gauge Circle background */
+html.dark .stroke-slate-200 {
+  stroke: #1e293b !important;
+}
+
+/* Alert & Highlight Banners in Dark Mode */
+html.dark .bg-amber-50 {
+  background-color: rgba(120, 53, 15, 0.22) !important;
+  border-color: rgba(245, 158, 11, 0.35) !important;
+  color: #fde68a !important;
+}
+
+html.dark .text-amber-800,
+html.dark .text-amber-900 {
+  color: #fde68a !important;
+}
+
+html.dark .bg-amber-100 {
+  background-color: rgba(120, 53, 15, 0.45) !important;
+  color: #fef3c7 !important;
+}
+
+html.dark .bg-rose-50 {
+  background-color: rgba(136, 19, 55, 0.22) !important;
+  border-color: rgba(244, 63, 94, 0.35) !important;
+  color: #fda4af !important;
+}
+
+html.dark .text-rose-800,
+html.dark .text-rose-900 {
+  color: #fda4af !important;
+}
+
+html.dark .bg-rose-100 {
+  background-color: rgba(136, 19, 55, 0.45) !important;
+  color: #ffe4e6 !important;
+}
+
+html.dark .bg-emerald-50,
+html.dark .bg-emerald-50\/70 {
+  background-color: rgba(6, 78, 59, 0.22) !important;
+  border-color: rgba(16, 185, 129, 0.35) !important;
+  color: #6ee7b7 !important;
+}
+
+html.dark .text-emerald-800 {
+  color: #6ee7b7 !important;
+}
+
+html.dark .bg-emerald-100 {
+  background-color: rgba(6, 78, 59, 0.45) !important;
+  color: #a7f3d0 !important;
+}
+
+html.dark .bg-blue-50,
+html.dark .bg-blue-50\/70 {
+  background-color: rgba(30, 58, 138, 0.22) !important;
+  border-color: rgba(59, 130, 246, 0.35) !important;
+  color: #93c5fd !important;
+}
+
+html.dark .text-blue-700,
+html.dark .text-blue-800 {
+  color: #93c5fd !important;
+}
+
+html.dark .bg-indigo-50,
+html.dark .bg-indigo-50\/70 {
+  background-color: rgba(49, 46, 129, 0.22) !important;
+  border-color: rgba(99, 102, 241, 0.35) !important;
+  color: #c7d2fe !important;
+}
+
+html.dark .text-indigo-800 {
+  color: #c7d2fe !important;
+}
+
+/* Floating Chat Drawer in Dark Mode */
+html.dark #chat-panel {
+  background-color: #090e17 !important;
+  border-color: #1e293b !important;
+}
+
+html.dark #chat-input {
+  background-color: #040810 !important;
+  border-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+/* Toast Notification in Dark Mode */
+html.dark .fixed.bottom-6 > div {
+  background-color: #090e17 !important;
+  border-color: #1e293b !important;
+  color: #f8fafc !important;
 }
 
 /* ==========================================================================
@@ -217,4 +534,3 @@
 .btn-shimmer:hover::after {
   animation: shimmerSweep 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
-

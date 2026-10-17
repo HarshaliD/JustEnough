@@ -114,44 +114,8 @@
       "category": "contact"
     },
     {
-      "id": "CC-1-det-09",
-      "category": "person_name"
-    },
-    {
-      "id": "CC-1-det-10",
-      "category": "transaction_date"
-    },
-    {
-      "id": "CC-1-det-15",
-      "category": "transaction_date"
-    },
-    {
-      "id": "CC-1-det-16",
-      "category": "transaction_date"
-    },
-    {
-      "id": "CC-1-det-11",
-      "category": "transaction_date"
-    },
-    {
       "id": "CC-1-det-06",
       "category": "merchant"
-    },
-    {
-      "id": "CC-1-det-12",
-      "category": "transaction_date"
-    },
-    {
-      "id": "CC-1-det-13",
-      "category": "transaction_date"
-    },
-    {
-      "id": "CC-1-det-14",
-      "category": "transaction_date"
-    },
-    {
-      "id": "CC-1-det-07",
-      "category": "transaction_date"
     }
   ]
 }

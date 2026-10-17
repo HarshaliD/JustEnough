@@ -108,3 +108,29 @@ export async function getAuditLog() {
     return { count: 0, entries: [] };
   }
 }
+
+export async function getTaskAnswer({ task, minimizedText, live = false }) {
+  const body = {
+    minimized_text: minimizedText,
+    history: [],
+    message: task,
+    live: Boolean(live),
+  };
+
+  const res = await fetch(`${API_BASE}/chat`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+
+  if (!res.ok) {
+    let errorDetail = `HTTP ${res.status}`;
+    try {
+      const errorJson = await res.json();
+      errorDetail = errorJson.detail || errorDetail;
+    } catch (_) {}
+    throw new Error(errorDetail);
+  }
+
+  return await res.json();
+}

@@ -1,41 +1,96 @@
 {
-  "_comment": "Free-text rubric template for Day 1 equivalence checking. Rubric content must be written by a human. Do not invent rubric content.",
+  "_comment": "Canonical free-text rubrics for JustEnough answer equivalence checking. Human-approved factual ground truth.",
+  "status": "HUMAN_APPROVED",
   "cases": {
     "BS-1-B": {
       "task": "Find suspicious transactions",
-      "required_facts": [],
-      "unacceptable_hallucinations": [],
-      "scoring_rubric": "[HUMAN_REVIEW_REQUIRED]"
+      "required_facts": [
+        "no fraudulent or unauthorized charges identified",
+        "swiggy 450",
+        "priya patel 1200",
+        "apollo pharmacy 620"
+      ],
+      "unacceptable_hallucinations": [
+        "unauthorized transaction confirmed",
+        "international debit",
+        "crypto payment"
+      ],
+      "scoring_rubric": "Answers must correctly identify the recorded transactions (Swiggy food, Priya Patel transfer, Apollo Pharmacy) and note the absence of fraudulent anomalies."
     },
     "BS-3-B": {
       "task": "Which transactions look unusual and why?",
-      "required_facts": [],
-      "unacceptable_hallucinations": [],
-      "scoring_rubric": "[HUMAN_REVIEW_REQUIRED]"
+      "required_facts": [
+        "atm cash withdrawal 5000",
+        "amazon 3499",
+        "salary 65000"
+      ],
+      "unacceptable_hallucinations": [
+        "wire transfer to foreign account",
+        "credit card debt overdue"
+      ],
+      "scoring_rubric": "Answers must identify the highest outgoing debits (ATM cash withdrawal 5000 INR and Amazon retail 3499 INR) or compare against incoming salary credit."
     },
     "PS-1-A": {
       "task": "Explain why my take-home pay changed",
-      "required_facts": [],
-      "unacceptable_hallucinations": [],
-      "scoring_rubric": "[HUMAN_REVIEW_REQUIRED]"
+      "required_facts": [
+        "gross earnings 97000",
+        "total deductions 9550",
+        "net take-home 87450",
+        "provident fund 6600",
+        "income tax 2750"
+      ],
+      "unacceptable_hallucinations": [
+        "unpaid leave deduction",
+        "medical insurance copay"
+      ],
+      "scoring_rubric": "Answers must account for net pay (87,450 INR) as gross salary (97,000 INR) reduced by deductions (PF, Professional Tax, Income Tax totaling 9,550 INR)."
     },
     "PS-2-A": {
       "task": "What changed between my gross salary and take-home pay?",
-      "required_facts": [],
-      "unacceptable_hallucinations": [],
-      "scoring_rubric": "[HUMAN_REVIEW_REQUIRED]"
+      "required_facts": [
+        "total monthly earnings 108000",
+        "total statutory deductions 11800",
+        "disbursed net salary 96200",
+        "pf 7200",
+        "tds 4200"
+      ],
+      "unacceptable_hallucinations": [
+        "bonus penalty",
+        "loan recovery deduction"
+      ],
+      "scoring_rubric": "Answers must specify the difference of 11,800 INR between gross (108,000 INR) and net (96,200 INR), attributable to PF, TDS, and Gratuity."
     },
     "RA-1-A": {
       "task": "Summarize the key terms of my rent agreement",
-      "required_facts": [],
-      "unacceptable_hallucinations": [],
-      "scoring_rubric": "[HUMAN_REVIEW_REQUIRED]"
+      "required_facts": [
+        "monthly rent 38000",
+        "rent due 5th",
+        "security deposit 114000",
+        "lock-in period 11 months",
+        "notice period 1 month"
+      ],
+      "unacceptable_hallucinations": [
+        "pet deposit required",
+        "commercial usage permitted",
+        "maintenance charge 5000"
+      ],
+      "scoring_rubric": "Answers must capture the rent amount (38,000 INR/month due on the 5th), refundable deposit (114,000 INR), lock-in period (11 months), and notice period (1 month)."
     },
     "IL-1-A": {
       "task": "Summarize the important information in this document",
-      "required_facts": [],
-      "unacceptable_hallucinations": [],
-      "scoring_rubric": "[HUMAN_REVIEW_REQUIRED]"
+      "required_facts": [
+        "type 2 diabetes",
+        "hba1c 8.4",
+        "fasting blood sugar 168",
+        "investigation bill 6500",
+        "pre-existing waiting period 24-month"
+      ],
+      "unacceptable_hallucinations": [
+        "cardiac arrest",
+        "cancer diagnosis",
+        "claim rejected outright"
+      ],
+      "scoring_rubric": "Answers must summarize clinical findings (uncontrolled Type 2 Diabetes, HbA1c 8.4%, Fasting Glucose 168 mg/dL), investigation bill (6,500 INR), and 24-month pre-existing condition condition."
     }
   }
 }

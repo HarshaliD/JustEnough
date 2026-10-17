@@ -118,24 +118,8 @@
       "category": "internal_id"
     },
     {
-      "id": "BS-1-det-20",
-      "category": "transaction_date"
-    },
-    {
-      "id": "BS-1-det-21",
-      "category": "transaction_date"
-    },
-    {
-      "id": "BS-1-det-13",
-      "category": "transaction_date"
-    },
-    {
       "id": "BS-1-det-01",
       "category": "contact"
-    },
-    {
-      "id": "BS-1-det-14",
-      "category": "transaction_date"
     },
     {
       "id": "BS-1-det-10",
@@ -146,10 +130,6 @@
       "category": "merchant"
     },
     {
-      "id": "BS-1-det-17",
-      "category": "transaction_date"
-    },
-    {
       "id": "BS-1-det-09",
       "category": "counterparty_name"
     },
@@ -158,16 +138,8 @@
       "category": "contact"
     },
     {
-      "id": "BS-1-det-18",
-      "category": "transaction_date"
-    },
-    {
       "id": "BS-1-det-12",
       "category": "merchant"
-    },
-    {
-      "id": "BS-1-det-19",
-      "category": "transaction_date"
     }
   ]
 }

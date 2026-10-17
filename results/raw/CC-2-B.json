@@ -1,0 +1,134 @@
+{
+  "case_id": "CC-2-B",
+  "doc_id": "CC-2",
+  "task": "How much do I need to pay and by when?",
+  "schema_id": "payment_due",
+  "is_trap": false,
+  "is_preserved": true,
+  "match_reason": "payment_due_matched",
+  "is_unstable": false,
+  "is_unevaluable": false,
+  "detected_fields": [
+    {
+      "id": "CC-2-det-05",
+      "category": "person_name",
+      "confidence": 0.95
+    },
+    {
+      "id": "CC-2-det-02",
+      "category": "account_identifier",
+      "confidence": 0.95
+    },
+    {
+      "id": "CC-2-det-04",
+      "category": "internal_id",
+      "confidence": 0.95
+    },
+    {
+      "id": "CC-2-det-01",
+      "category": "contact",
+      "confidence": 0.95
+    },
+    {
+      "id": "CC-2-det-06",
+      "category": "merchant",
+      "confidence": 0.95
+    }
+  ],
+  "instances_total": 5,
+  "instances_retained": 0.0,
+  "plan_decisions": {
+    "account_identifier": {
+      "action": "DROP",
+      "reason": "Not needed for compensation explanation.",
+      "confidence": 0.9
+    },
+    "government_id": {
+      "action": "DROP",
+      "reason": "Not needed for compensation explanation.",
+      "confidence": 0.9
+    },
+    "person_name": {
+      "action": "DROP",
+      "reason": "Not needed for compensation explanation.",
+      "confidence": 0.9
+    },
+    "counterparty_name": {
+      "action": "DROP",
+      "reason": "Not needed for compensation explanation.",
+      "confidence": 0.9
+    },
+    "address": {
+      "action": "DROP",
+      "reason": "Not needed for compensation explanation.",
+      "confidence": 0.9
+    },
+    "contact": {
+      "action": "DROP",
+      "reason": "Not needed for compensation explanation.",
+      "confidence": 0.9
+    },
+    "date_of_birth": {
+      "action": "DROP",
+      "reason": "Not needed for compensation explanation.",
+      "confidence": 0.9
+    },
+    "internal_id": {
+      "action": "DROP",
+      "reason": "Not needed for compensation explanation.",
+      "confidence": 0.9
+    },
+    "employer": {
+      "action": "KEEP",
+      "reason": "Required for salary breakdown.",
+      "confidence": 0.95
+    },
+    "merchant": {
+      "action": "DROP",
+      "reason": "Not needed for compensation explanation.",
+      "confidence": 0.9
+    },
+    "amount": {
+      "action": "KEEP",
+      "reason": "Required for salary breakdown.",
+      "confidence": 0.95
+    },
+    "balance": {
+      "action": "DROP",
+      "reason": "Not needed for compensation explanation.",
+      "confidence": 0.9
+    },
+    "transaction_date": {
+      "action": "DROP",
+      "reason": "Not needed for compensation explanation.",
+      "confidence": 0.9
+    },
+    "salary_component": {
+      "action": "KEEP",
+      "reason": "Required for salary breakdown.",
+      "confidence": 0.95
+    },
+    "medical_value": {
+      "action": "DROP",
+      "reason": "Not needed for compensation explanation.",
+      "confidence": 0.9
+    },
+    "clause_text": {
+      "action": "DROP",
+      "reason": "Not needed for compensation explanation.",
+      "confidence": 0.9
+    }
+  },
+  "policy_violations": [],
+  "removed_values_leaked": [],
+  "r0_answer": {
+    "amount_due": 3450.0,
+    "bill_amount": 3450.0,
+    "due_date": "2026-09-20"
+  },
+  "r1_answer": {
+    "amount_due": 3450.0,
+    "bill_amount": 3450.0,
+    "due_date": "2026-09-20"
+  }
+}
