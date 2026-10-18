@@ -6,7 +6,7 @@
 [![Presidio](https://img.shields.io/badge/Detection-Presidio%20%2B%20Regex-orange.svg)](https://github.com/microsoft/presidio)
 [![Gemini](https://img.shields.io/badge/Planner-Google%20Gemini-8E75C2.svg)](https://deepmind.google/technologies/gemini/)
 [![Tests](https://img.shields.io/badge/Tests-25%20Passing-brightgreen.svg)]()
-[![Views](https://komarev.com/ghpvc/?username=HarshaliD-JustEnough&label=Views&color=brightgreen)](https://github.com/HarshaliD/JustEnough)
+[![Unique Visitors](https://raw.githubusercontent.com/HarshaliD/JustEnough/traffic-data/badge.svg)](https://github.com/HarshaliD/JustEnough)
 
 ![JustEnough Architecture and Why Overview](docs/images/justenough_overview.png)
 
